@@ -15,6 +15,7 @@ class statsQuery(discord.Client):
         if message.author == self.user:
             return
         if message.content == '/info':
+            await message.channel.send(f"TESTANDO")
             await message.channel.send(f"Iniciado em :{lastExec}")
 
             
