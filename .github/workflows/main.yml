@@ -9,13 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: send message
-      uses: appleboy/discord-action@master
-      with:
-        webhook_id: ${{ secrets.WEBHOOK_ID }}
-        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-        message: The ${{ github.event_name }} event triggered first step.
-
+  
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
       env:
@@ -26,6 +20,17 @@ jobs:
       with:
         source: "."
         target: "/home/brutalzinn/discord"
+
+    - name: Pegando data atual
+      run: |
+        export DATA=$(date '+%d-%m-%Y %H:%M:%S')
+
+    - name: Disparando notificação no Discord
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        message: The ${{ DATA }} event triggered first step.
 
     - name: Matando boberto
       uses: appleboy/ssh-action@master
@@ -58,13 +63,3 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: nohup python3 /home/brutalzinn/discord/bot.py > nohup.out 2> nohup.err < /dev/null &
     
-    - name: Pegando data atual
-      run: |
-        export DATA=$(date '+%d-%m-%Y %H:%M:%S')
-
-    - name: Disparando notificação no Discord
-      uses: fjogeleit/http-request-action@master
-      with:
-        url: ${{ secrets.DISCORD_URL }}
-        method: 'POST'
-        data: '{ "content": "Deploy de boberto foi um sucesso. - $DATA" }'        
