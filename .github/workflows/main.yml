@@ -54,8 +54,7 @@ jobs:
     
     - name: Pegando data atual
       run: |
-      export DATA=$(date '+%d-%m-%Y %H:%M:%S')
-
+        export DATA=$(date '+%d-%m-%Y %H:%M:%S')
 
     - name: Disparando notificação no Discord
       uses: fjogeleit/http-request-action@master
