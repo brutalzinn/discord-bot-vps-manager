@@ -52,9 +52,14 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: nohup python3 /home/brutalzinn/discord/bot.py > nohup.out 2> nohup.err < /dev/null &
     
+    - name: Pegando data atual
+      run: |
+      export DATA=$(date '+%d-%m-%Y %H:%M:%S')
+
+
     - name: Disparando notificação no Discord
       uses: fjogeleit/http-request-action@master
       with:
         url: ${{ secrets.DISCORD_URL }}
         method: 'POST'
-        data: '{ "content": "O rei tá na área!" }'        
+        data: '{ "content": "Deploy de boberto foi um sucesso. - $DATA" }'        
