@@ -1,0 +1,5 @@
+discord.py==1.7.3
+docker_py==1.10.6
+mcstatus==6.5.0
+psutil==5.8.0
+python-dotenv==0.19.2
