@@ -29,7 +29,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script_stop: true
-        script: 'sudo bash ./kill_boberto.sh'
+        script: 'sudo bash ./home/brutalzinn/discord/kill_boberto.sh'
 
     - name: Executando versão nova
       uses: appleboy/ssh-action@master
