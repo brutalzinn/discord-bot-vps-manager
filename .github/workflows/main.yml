@@ -21,11 +21,20 @@ jobs:
         source: "."
         target: "/home/brutalzinn/discord"
 
-    - name: Executing remote command
+    - name: Parando versão antiga
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: pkill -f bot.py; python3 /home/brutalzinn/discord/bot.py
+        script: pkill -f bot.py
+
+    - name: Executando versão nova
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: python3 /home/brutalzinn/discord/bot.py
