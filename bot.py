@@ -4,6 +4,8 @@ import discord
 from psutil._common import bytes2human
 from minecraft import MinecraftHandleCommand
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
 discordToken = os.getenv('DISCORD')
 lastExec = datetime.today()
 #precisa refatorar tudo isso.
