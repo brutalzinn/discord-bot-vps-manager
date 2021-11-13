@@ -1,4 +1,5 @@
 #!/bin/bash
+echo 'Matando o boberto...'
 pkill -f bot
 sleep 5
-echo 'Matando o boberto...'
+echo 'F Boberto'
