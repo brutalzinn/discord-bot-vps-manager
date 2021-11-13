@@ -40,8 +40,8 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: |
-          echo "DISCORD=$DISCORD_KEY" >/home/brutalzinn/discord/.env
+        envs: DISCORD_KEY
+        script: echo "DISCORD=$DISCORD_KEY" >/home/brutalzinn/discord/testando.txt
 
     - name: Executando versão nova
       uses: appleboy/ssh-action@master
