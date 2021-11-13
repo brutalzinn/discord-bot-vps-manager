@@ -4,6 +4,7 @@ def MinecraftHandleCommand(message):
     command = message[1]
     
     if 'status' in command:
+        
         try:
             server = MinecraftServer.lookup("127.0.0.1:25565")
             status = server.status()
