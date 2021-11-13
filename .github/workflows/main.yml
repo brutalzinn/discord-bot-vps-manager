@@ -8,18 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Parando versão antiga
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: pkill -f bot.py
-
     - uses: actions/checkout@v1
-    
+
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
       env:
@@ -38,4 +28,6 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: python3 /home/brutalzinn/discord/bot.py
+        script: |
+        pkill -f bot.py
+        python3 /home/brutalzinn/discord/bot.py
