@@ -9,6 +9,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: send message
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        message: The ${{ github.event_name }} event triggered first step.
 
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
