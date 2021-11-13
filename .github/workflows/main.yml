@@ -31,6 +31,15 @@ jobs:
         script_stop: true
         script: 'sudo bash /home/brutalzinn/discord/kill_boberto.sh'
 
+    - name: Adicionado chave do Discord
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: 'export DISCORD=${{ secrets.DISCORD }}'
+
     - name: Executando versão nova
       uses: appleboy/ssh-action@master
       with:
