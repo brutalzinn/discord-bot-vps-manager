@@ -2,7 +2,8 @@ from mcstatus import MinecraftServer
 from container_manager import list_container, start_container, stop_container
 from models.permissions.permission_handler import permission_handler
 def MinecraftHandleCommand(message, perm_handler: permission_handler):
-    command = message.content.split()[1]
+    command = message.content
+    args = message.content.split()[1]
     author = message.author
     if 'status' in command:
         
@@ -32,19 +33,19 @@ def MinecraftHandleCommand(message, perm_handler: permission_handler):
     if 'list' in command:
         return list_container()
     
-    if len(message) > 2:
+    if len(args) > 2:
         if 'stop' in command:
                 
-            if stop_container(message[2]):
-                return f"Parando servidor.. {message[2]}"
+            if stop_container(args[2]):
+                return f"Parando servidor.. {args[2]}"
             else:
-                return f"Ocorreu um erro ao parar servidor {message[2]} .."
+                return f"Ocorreu um erro ao parar servidor {args[2]} .."
 
         if 'start' in command:
                     
-            if start_container(message[2]):
-                return f"Iniciando servidor.. {message[2]}"
+            if start_container(args[2]):
+                return f"Iniciando servidor.. {args[2]}"
             else:
-                return f"Ocorreu um erro ao iniciar servidor {message[2]} .."
+                return f"Ocorreu um erro ao iniciar servidor {args[2]} .."
     else:
         return f"Informe o nome do servidor."

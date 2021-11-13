@@ -36,23 +36,23 @@ class statsQuery(discord.Client):
             
         print(f'canal:{channel} - autor:{author}')
         
-        if message.content == '/info':
+        if 'info' in message.content:
             await message.channel.send(f"TESTANDO")
             await message.channel.send(f"Iniciado em :{lastExec}")
             for group in self.private_channels:
                 print(group)
        
-        if message.content == '/ram':
+        if  'ram' in message.content:
             mem_usage = psutil.virtual_memory()
             total_mem = bytes2human(mem_usage[0])
             used_mem = bytes2human(mem_usage[3])
             await message.channel.send(used_mem + " de " + total_mem + " RAM usada.")
             
-        if 'minecraft' in message.content:
+        if  'minecraft' in message.content:
             response = MinecraftHandleCommand(message, perm_handler)
             await message.channel.send(response)
  
-        if message.content == '/cpu':
+        if 'cpu' in message.content:
             fetchCPU = psutil.cpu_freq()
             currCPU = str(fetchCPU[0]) 
             maxCPU = str(fetchCPU[2])
