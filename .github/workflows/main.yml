@@ -51,3 +51,10 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: nohup python3 /home/brutalzinn/discord/bot.py > nohup.out 2> nohup.err < /dev/null &
+    
+    - name: Disparando notificação no Discord
+      uses: fjogeleit/http-request-action@master
+      with:
+        url: ${{ secrets.DISCORD_URL }}
+        method: 'POST'
+        data: '{ "content": "O rei tá na área!" }'        
