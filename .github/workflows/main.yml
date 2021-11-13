@@ -31,12 +31,10 @@ jobs:
         script_stop: true
         script: 'sudo bash /home/brutalzinn/discord/kill_boberto.sh'
 
-    - name: Converter chave discord para chave de ambiente
-      env:
-        DISCORD_KEY: ${{ secrets.DISCORD }}
-
     - name: Adicionado chave do Discord
       uses: appleboy/ssh-action@master
+      env:
+        DISCORD_KEY: ${{ secrets.DISCORD }}
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
