@@ -1,6 +1,6 @@
 #!/bin/bash
-pkill -f bot.py &
+sudo pkill -f bot.py &
 cd /home/brutalzinn/discord/
-python3 bot.py &
+sudo python3 bot.py &
 echo 'Rodando o boberto...' &
 disown
