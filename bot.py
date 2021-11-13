@@ -9,7 +9,7 @@ discordToken = os.getenv('DISCORD')
 #precisa refatorar tudo isso.
 class statsQuery(discord.Client):
     async def on_ready(self):
-        print('Logged on as', self.user)
+        print('Logado como', self.user)
 
     async def on_message(self, message):
         if message.author == self.user:
@@ -20,6 +20,7 @@ class statsQuery(discord.Client):
             total_mem = bytes2human(mem_usage[0])
             used_mem = bytes2human(mem_usage[3])
             await message.channel.send(used_mem + " de " + total_mem + "RAM usada.")
+            
         if 'minecraft' in message.content:
             response = MinecraftHandleCommand(message.content.split())
             await message.channel.send(response)
