@@ -6,9 +6,8 @@ from minecraft import MinecraftHandleCommand
 from dotenv import load_dotenv
 load_dotenv()
 
-discordTokenFile = open("token.env")
-discordToken = discordTokenFile.read()
-discordTokenFile.close()
+discordToken = os.getenv('DISCORD')
+
 #precisa refatorar tudo isso.
 class statsQuery(discord.Client):
     async def on_ready(self):
