@@ -29,5 +29,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-        pkill -f bot.py
-        python3 /home/brutalzinn/discord/bot.py
+          pkill -f bot.py
+          python3 /home/brutalzinn/discord/bot.py
