@@ -5,9 +5,7 @@ from psutil._common import bytes2human
 from minecraft import MinecraftHandleCommand
 from dotenv import load_dotenv
 load_dotenv()
-
 discordToken = os.getenv('DISCORD')
-
 #precisa refatorar tudo isso.
 class statsQuery(discord.Client):
     async def on_ready(self):
