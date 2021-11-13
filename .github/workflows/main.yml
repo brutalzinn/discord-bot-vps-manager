@@ -8,8 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
 
+    - name: Parando versão antiga
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: pkill -f bot.py
+
+    - uses: actions/checkout@v1
+    
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
       env:
@@ -20,15 +30,6 @@ jobs:
       with:
         source: "."
         target: "/home/brutalzinn/discord"
-
-    - name: Parando versão antiga
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: pkill -f bot.py
 
     - name: Executando versão nova
       uses: appleboy/ssh-action@master
