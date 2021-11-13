@@ -51,4 +51,4 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script_stop: true
-        script: cd /home/brutalzinn/discord && sudo nohup python3 bot.py > nohup.out 2> nohup.err < /dev/null &
+        script: cd /home/brutalzinn/discord && sudo nohup python3 bot.py> nohup.out 2> nohup.err < /dev/null &
