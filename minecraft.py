@@ -23,13 +23,13 @@ def MinecraftHandleCommand(message):
             if stop_container(message[2]):
                 return f"Parando servidor.. {message[2]}"
             else:
-                return f"Ocorreu um erro ao parar {message[2]} servidor.."
+                return f"Ocorreu um erro ao parar servidor {message[2]} .."
 
         if 'start' in command:
                     
             if start_container(message[2]):
                 return f"Iniciando servidor.. {message[2]}"
             else:
-                return f"Ocorreu um erro ao iniciar {message[2]} servidor.."
+                return f"Ocorreu um erro ao iniciar servidor {message[2]} .."
     else:
         return f"Informe o nome do servidor."
