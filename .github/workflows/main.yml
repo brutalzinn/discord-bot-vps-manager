@@ -21,16 +21,6 @@ jobs:
         source: "."
         target: "/home/brutalzinn/discord"
 
-    - name: Matando boberto
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script_stop: true
-        script: nohup pkill -f bot > nohup.out 2> nohup.err < /dev/null &
-
     - name: Adicionado chave do Discord
       uses: appleboy/ssh-action@master
       env:
@@ -47,6 +37,21 @@ jobs:
           echo "DISCORD_TOKEN=$DISCORD_KEY" >/home/brutalzinn/discord/.env
           echo "DISCORD_URL=$DISCORD_URL" >>/home/brutalzinn/discord/.env
 
+    - name: Disparando notificação no Discord pré deploy
+      uses: appleboy/ssh-action@master
+      env:
+        DISCORD_URL: ${{ secrets.DISCORD_URL }}
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        envs: DISCORD_URL
+        script: |
+          DATA=$(date '+%d-%m-%Y %H:%M:%S') &&
+          CONTENT="Preparando para atualizar o boberto... - $DATA" &&
+          curl -X POST -H 'Content-Type: application/json' -d '{"content":"'"$CONTENT"'"}' $DISCORD_URL
+
     - name: Executando versão nova
       uses: appleboy/ssh-action@master
       with:
@@ -56,7 +61,8 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script_stop: true
         script: |
-          nohup python3 /home/brutalzinn/discord/bot.py > ./output.log 2>&1 &
+          cd /home/brutalzinn/discord
+          bash start_boberto.sh
 
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
