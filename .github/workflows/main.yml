@@ -50,6 +50,7 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
+        script_stop: true
         script: |
           nohup python3 /home/brutalzinn/discord/bot.py > ./output.log 2>&1 &
 
