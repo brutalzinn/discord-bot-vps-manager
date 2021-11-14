@@ -70,4 +70,4 @@ try:
     discord_notification(f'Boberto iniciado em {lastExec}')
     client.run(discordToken)
 except:
-    discord_notification(f'Boberto caiu na água em em {lastExec}')
+    discord_notification(f'Boberto caiu na água em {lastExec}')
