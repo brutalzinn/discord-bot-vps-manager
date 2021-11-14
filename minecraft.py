@@ -3,7 +3,7 @@ from container_manager import list_container, start_container, stop_container
 from models.permissions.permission_handler import permission_handler
 def MinecraftHandleCommand(message, perm_handler: permission_handler):
     command = message.content
-    args = message.content.split()[1]
+    args = message.content.split()
     author = message.author
     if 'status' in command:
         
