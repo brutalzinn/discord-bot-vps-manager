@@ -6,12 +6,13 @@ from minecraft import MinecraftHandleCommand
 from datetime import datetime
 from dotenv import load_dotenv
 from models.permissions.permission_handler import permission_handler
-
+import requests
 from models.permissions.permission_model import permission_model
 from models.permissions.permission_register import permission_register
 
 load_dotenv()
-discordToken = os.getenv('DISCORD')
+discordToken = os.getenv('DISCORD_TOKEN')
+discordUrl = os.getenv('DISCORD_URL')
 filename = 'whitelist.txt'
 alias = 'b!'
 lastExec = datetime.today()
@@ -59,6 +60,14 @@ class statsQuery(discord.Client):
             loadAvg = str(psutil.getloadavg())
             await message.channel.send("Velocidade de clock: " + currCPU[0:1] + "." + currCPU[1:2] + "Ghz" + " de " + maxCPU[0:1] + "." + maxCPU[1:2] + "Ghz")
             await message.channel.send("Carga média: " + loadAvg)
-            
+
+def discord_notification(message):   
+    myobj = {'content': message}
+    requests.post(discordUrl, data = myobj)
+    
 client = statsQuery()
-client.run(discordToken)
+try:
+    discord_notification(f'Boberto iniciado em {lastExec}')
+    client.run(discordToken)
+except:
+    discord_notification(f'Boberto caiu na água em em {lastExec}')
