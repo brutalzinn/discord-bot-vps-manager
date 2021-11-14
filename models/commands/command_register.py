@@ -1,4 +1,4 @@
-class register_model:
+class command_register:
     def __init__(self):
         self.allCommands = []
 
