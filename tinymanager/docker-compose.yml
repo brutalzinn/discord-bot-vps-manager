@@ -1,0 +1,34 @@
+version: "3"
+services:
+  filemanager:
+    build: .
+    ports:
+      - "3060:80"
+    container_name: boberto-file-manager
+    volumes:
+      - .files:/var/www/html/data
+
+  boberto-database:
+    container_name: boberto-database
+    image: postgres
+    restart: always
+    networks:
+      - default      
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: boberto
+    ports:
+      - "5432:5432"
+
+  boberto-pgadmin:
+    container_name: boberto-pgadmin
+    image: dpage/pgadmin4
+    networks:
+      - default      
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
