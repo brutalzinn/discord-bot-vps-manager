@@ -29,6 +29,9 @@ class Boberto(discord.Client):
 
         print(message.content.replace(alias,'').split())
         resposta = config.commands_handle.checkCommand(message.content.replace(alias,'').split(),author)  
+        if resposta is None:
+            await message.channel.send('Sem resposta.')
+            return
         await message.channel.send(resposta)
 
 def discord_notification(message):   
