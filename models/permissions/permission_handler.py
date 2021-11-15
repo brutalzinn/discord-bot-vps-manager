@@ -6,7 +6,6 @@ class permission_handler:
     def check_permission(self, author, nivel = 0):
         exists = False
         for obj in self.GetUsers:
-            print(f'{obj.discord_id}-{author}')
             if str(author) == obj.discord_id and nivel <= obj.nivel:
                 exists = True
                 break

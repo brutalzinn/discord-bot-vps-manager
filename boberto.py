@@ -24,7 +24,6 @@ class Boberto(discord.Client):
     async def on_message(self, message):
         if message.author == self.user: return
         if not alias in message.content: return
-        # channel = message.channel
         author = message.author
         resposta = config.commands_handle.checkCommand(message.content.replace(alias,'').split(),author)  
         if resposta is None:
