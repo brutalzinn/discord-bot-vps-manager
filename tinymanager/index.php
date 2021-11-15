@@ -14,20 +14,17 @@ define('VERSION', '2.4.6');
 //Application Title
 define('APP_TITLE', 'Boberto File Manager');
 
+
 // --- EDIT BELOW CONFIGURATION CAREFULLY ---
 
-// Auth with login/password
-// set true/false to enable/disable it
-// Is independent from IP white- and blacklisting
 $use_auth = false;
-
 // Login user name and password
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
 // Generate secure password hash - https://tinyfilemanager.github.io/docs/pwd.html
-$auth_users = array(
-    'admin' => '$2y$10$/K.hjNr84lLNDt8fTXjoI.DBp6PpeyoJ.mGwrrLuCZfAwfSAGqhOW', //admin@123
-    'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
-);
+// $auth_users = array(
+//     'admin' => '$2y$10$/K.hjNr84lLNDt8fTXjoI.DBp6PpeyoJ.mGwrrLuCZfAwfSAGqhOW', //admin@123
+//     'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
+// );
 
 // Readonly users
 // e.g. array('users', 'guest', ...)
@@ -210,9 +207,7 @@ if (defined('FM_EMBED')) {
     restore_error_handler();
 }
 
-if (empty($auth_users)) {
-    $use_auth = false;
-}
+
 
 $is_https = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)
     || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https';
@@ -268,54 +263,44 @@ if($ip_ruleset != 'OFF'){
     }
 }
 
-
-
-// echo the connection response
-// https://tinyfilemanager.github.io/docs/pwd.html
-
-// function validaUser(){
-//     $hostString = "host=host.docker.internal port=5432 dbname=boberto user=root password=root";
-//     $conn = pg_connect($hostString);
-//     $result = pg_query($conn,"SELECT * FROM usuario where Email = '".pg_escape_string($_POST['fm_usr'])."'");
-//     $login_check = pg_num_rows($result);
-//     if($login_check > 0){ 
-        
-//         echo "Login Successfully";    
-//     }else{
-        
-//         echo "Invalid Details";
-//     }
-//     if($rtn == '0'){
-//         //nenhum usuario foi encontrado
-//     }else{
-//         //Usuario encontrado
-//         //Você pode dar um fetch alguma coisa aqui para ver se ele está ou nao bloqueado;
-//         //E daqui mesmo da classe jogar os dados para dentro de uma sessao com o nome dele
-//         //e retornar true caso esteja tudo bem e redirecionar para a pagina de acesso.
-//     return true;
-//     }       
-// }
-// validaUser()
+function validar_usuario(){
+$host = getenv("HOST");
+$database = getenv("DATABASE");
+$user = getenv("USER");
+$password = getenv("PASSWORD");    
+$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
+$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+$result = pg_query($conn,"SELECT * FROM usuario WHERE email='".$_POST['fm_usr']."'");
+$row = pg_fetch_assoc($result);
+$login_check = pg_num_rows($result);
+if($login_check > 0){
+    return password_verify($_POST['fm_pwd'], $row['senha']);
+}else{
+    return false;
+}
+}
 // echo "teste"
 // Auth
 if ($use_auth) {
-    if (isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_ID]['logged']])) {
+    if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
+    //if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
         // Logged
     } elseif (isset($_POST['fm_usr'], $_POST['fm_pwd'])) {
         // Logging In
         sleep(1);
         if(function_exists('password_verify')) {
-            if (isset($auth_users[$_POST['fm_usr']]) && isset($_POST['fm_pwd']) && password_verify($_POST['fm_pwd'], $auth_users[$_POST['fm_usr']])) {
+            if (isset($_POST['fm_pwd']) && validar_usuario()) {
+           // if (isset($_POST['fm_usr']]) && isset($_POST['fm_pwd']) && validar_usuario()) {
                 $_SESSION[FM_SESSION_ID]['logged'] = $_POST['fm_usr'];
                 fm_set_msg(lng('You are logged in'));
                 fm_redirect(FM_SELF_URL . '?p=');
             } else {
                 unset($_SESSION[FM_SESSION_ID]['logged']);
-                fm_set_msg(lng('Login failed. Invalid username or password'), 'error');
+                fm_set_msg(lng('Falha ao efetuar login. nome de usuário ou senha inválidos'), 'error');
                 fm_redirect(FM_SELF_URL);
             }
         } else {
-            fm_set_msg(lng('password_hash not supported, Upgrade PHP version'), 'error');;
+            fm_set_msg(lng('password_hash não suportado, atualização da versão do PHP'), 'error');;
         }
     } else {
         // Form
