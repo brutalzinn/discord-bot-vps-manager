@@ -34,5 +34,4 @@ def list_container():
         for key, value in ports:
             finalPort = value[0]['HostPort']
         list.append({'name': item.name, 'status': item.status, 'port': f"{finalPort}"})
-    print(list)
     return list

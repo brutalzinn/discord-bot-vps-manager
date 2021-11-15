@@ -5,7 +5,6 @@ class command_handler:
         self.commands = command_reg.getCommands()
 
     def checkCommand(self, command,author):
-        print(f'comandos:{len(self.commands)}')
         for obj in self.commands:
           try:
             if not obj.optional_alias:  
