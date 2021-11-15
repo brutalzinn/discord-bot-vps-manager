@@ -23,9 +23,8 @@ load_all_modules_from_dir('comandos')
 class Boberto(discord.Client):
     async def on_message(self, message):
         if message.author == self.user: return
-        if not alias in message.content: return
-        
-        author = message.author.lower()
+        if not alias in message.content.lower(): return
+        author = str(message.author).lower()
         resposta = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(),author)  
         if resposta is None:
             await message.channel.send('Sem resposta.')
