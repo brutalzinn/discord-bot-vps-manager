@@ -272,12 +272,12 @@ $hostString = "host=localhost port=5432 dbname=boberto user=root password=root";
 $conn = pg_connect($hostString);
 
 // echo the connection response
-
-// $result = pg_query($conexao,"SELECT Email, Senha FROM usuario");
-// echo "<table>";
-// while($row=pg_fetch_assoc($result)){echo "<tr>";
-// echo "<td align='center' width='200'>" . $row['Email'] . "</td>";
-// echo "</tr>";}echo "</table>";
+// https://tinyfilemanager.github.io/docs/pwd.html
+$result = pg_query($conexao,"SELECT Email, Senha FROM usuario");
+echo "<table>";
+while($row=pg_fetch_assoc($result)){echo "<tr>";
+echo "<td align='center' width='200'>" . $row['Email'] . "</td>";
+echo "</tr>";}echo "</table>";
 // Auth
 if ($use_auth) {
     if (isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_ID]['logged']])) {

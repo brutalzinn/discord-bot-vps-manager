@@ -6,7 +6,7 @@ services:
       - "3060:80"
     container_name: boberto-file-manager
     volumes:
-      - .files:/var/www/html/data
+      - ./data:/var/www/html/data
 
   boberto-database:
     container_name: boberto-database
