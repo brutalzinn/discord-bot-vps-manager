@@ -67,7 +67,7 @@ jobs:
         script_stop: true
         script: |
           cd /home/brutalzinn/discord/boberto
-          bash start_boberto.sh
+          bash start.sh
 
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
