@@ -26,7 +26,6 @@ class Boberto(discord.Client):
         if not alias in message.content: return
         # channel = message.channel
         author = message.author
-
         print(message.content.replace(alias,'').split())
         resposta = config.commands_handle.checkCommand(message.content.replace(alias,'').split(),author)  
         if resposta is None:
