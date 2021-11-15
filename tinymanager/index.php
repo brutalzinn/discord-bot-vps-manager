@@ -146,7 +146,7 @@ if ( !defined( 'FM_SESSION_ID')) {
 $cfg = new FM_Config();
 
 // Default language
-$lang = isset($cfg->data['lang']) ? $cfg->data['lang'] : 'en';
+$lang = isset($cfg->data['lang']) ? $cfg->data['lang'] : 'pt';
 
 // Show or hide files and folders that starts with a dot
 $show_hidden_files = isset($cfg->data['show_hidden']) ? $cfg->data['show_hidden'] : true;
@@ -268,16 +268,35 @@ if($ip_ruleset != 'OFF'){
     }
 }
 
-$hostString = "host=localhost port=5432 dbname=boberto user=root password=root";
-$conn = pg_connect($hostString);
+
 
 // echo the connection response
 // https://tinyfilemanager.github.io/docs/pwd.html
-$result = pg_query($conexao,"SELECT Email, Senha FROM usuario");
-echo "<table>";
-while($row=pg_fetch_assoc($result)){echo "<tr>";
-echo "<td align='center' width='200'>" . $row['Email'] . "</td>";
-echo "</tr>";}echo "</table>";
+
+// function validaUser(){
+//     $hostString = "host=host.docker.internal port=5432 dbname=boberto user=root password=root";
+//     $conn = pg_connect($hostString);
+//     $result = pg_query($conn,"SELECT * FROM usuario where Email = '".pg_escape_string($_POST['fm_usr'])."'");
+//     $login_check = pg_num_rows($result);
+//     if($login_check > 0){ 
+        
+//         echo "Login Successfully";    
+//     }else{
+        
+//         echo "Invalid Details";
+//     }
+//     if($rtn == '0'){
+//         //nenhum usuario foi encontrado
+//     }else{
+//         //Usuario encontrado
+//         //Você pode dar um fetch alguma coisa aqui para ver se ele está ou nao bloqueado;
+//         //E daqui mesmo da classe jogar os dados para dentro de uma sessao com o nome dele
+//         //e retornar true caso esteja tudo bem e redirecionar para a pagina de acesso.
+//     return true;
+//     }       
+// }
+// validaUser()
+// echo "teste"
 // Auth
 if ($use_auth) {
     if (isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_ID]['logged']])) {

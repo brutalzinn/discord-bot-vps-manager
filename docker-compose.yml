@@ -6,26 +6,28 @@ services:
       - "3060:80"
     container_name: boberto-file-manager
     volumes:
-      - ./data:/var/www/html/data
+      - ./tinymanager:/var/www/html
 
   boberto-database:
     container_name: boberto-database
     image: postgres
     restart: always
     networks:
-      - default      
+      - default 
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: boberto
     ports:
       - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   boberto-pgadmin:
     container_name: boberto-pgadmin
     image: dpage/pgadmin4
     networks:
-      - default      
+      - default
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: root@root.com
