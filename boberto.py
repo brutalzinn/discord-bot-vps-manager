@@ -18,7 +18,6 @@ def load_all_modules_from_dir(dirname):
         if full_package_name not in sys.modules:
             module = importlib.import_module(full_package_name)
             module.register(config.commands_register)
-            print(module)
 load_all_modules_from_dir('comandos')
 
 class Boberto(discord.Client):
