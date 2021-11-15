@@ -1,4 +1,4 @@
 #!/bin/bash
-pkill -f bot
+pkill -f boberto
 sleep 20
-python3 -u bot.py >> error.log 2>&1 &
+python3 -u boberto.py >> error.log 2>&1 &
