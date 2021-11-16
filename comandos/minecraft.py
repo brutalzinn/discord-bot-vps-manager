@@ -3,7 +3,7 @@ from models.commands.command_register import command_register
 from container_manager import list_container, start_container, stop_container
 from mcstatus import MinecraftServer
 
-def status(args):
+async def status(command : command_model, message):
     try:
         server = MinecraftServer.lookup("127.0.0.1:25565")
         status = server.status()
@@ -11,20 +11,20 @@ def status(args):
     except(ConnectionRefusedError):
         return "O servidor está offline ou não responde."
     
-def list(args):
+async def list(command : command_model, message):
     return list_container()
 
-def stop(args):          
-    if stop_container(args[2]):
-        return f"Parando servidor.. {args[2]}"
+async def stop(command : command_model, message):          
+    if stop_container(command.args[2]):
+        return f"Parando servidor.. {command.args[2]}"
     else:
-        return f"Ocorreu um erro ao parar servidor {args[2]} .."
+        return f"Ocorreu um erro ao parar servidor {command.args[2]} .."
   
-def start(args):
-    if start_container(args[2]):
-        return f"Iniciando servidor.. {args[2]}"
+async def start(command : command_model, message):
+    if start_container(command.args[2]):
+        return f"Iniciando servidor.. {command.args[2]}"
     else:
-        return f"Ocorreu um erro ao iniciar servidor {args[2]} .."
+        return f"Ocorreu um erro ao iniciar servidor {command.args[2]} .."
 
 def register(commands : command_register):
   command_model(optional_alias='minecraft', alias='status',method=status, register=commands)

@@ -1,7 +1,8 @@
 from sys import flags
 import docker
-dockerClient = docker.from_env()
+#dockerClient = docker.from_env()
 def restart_container(servername):
+    return False
     try:
         dockerClient.api.restart(servername)
         return True
@@ -10,6 +11,7 @@ def restart_container(servername):
 
 
 def start_container(servername):
+    return False
     try:
         dockerClient.api.start(servername)
         return True
@@ -18,6 +20,7 @@ def start_container(servername):
 
 
 def stop_container(servername):
+    return False
     try:
         dockerClient.api.stop(servername)
         return True
@@ -25,6 +28,7 @@ def stop_container(servername):
         return False
     
 def list_container():
+    return False
     list = []
     containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
     for item in containerList:

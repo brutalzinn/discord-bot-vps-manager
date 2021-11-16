@@ -3,10 +3,11 @@ from models.commands.command_register import command_register
 from models.permissions.permission_handler import permission_handler
 from models.permissions.permission_model import permission_model
 from models.permissions.permission_register import permission_register
+import jwt_handler
 filename = 'whitelist.txt'
 perm_register = permission_register()
 perm_handler = permission_handler(perm_register)
-
+jwt = jwt_handler.Gerador_JWT()
 with open(filename) as file:
     for line in file:
         line_splited = line.rstrip().split(',')
@@ -15,6 +16,7 @@ with open(filename) as file:
         
 commands_register = command_register()
 commands_handle = command_handler(commands_register)
+
 
 
     

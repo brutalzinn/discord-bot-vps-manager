@@ -25,15 +25,27 @@ class Boberto(discord.Client):
         if message.author == self.user: return
         if not alias in message.content.lower(): return
         author = str(message.author).lower()
-        resposta = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(),author)  
-        if resposta is None:
-            await message.channel.send('Sem resposta.')
+        print(author)
+        comando = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(), author)                                                              
+        if comando is None:
+            await message.channel.send('Sem resposta.') 
             return
-        await message.channel.send(resposta)
+        resposta = await comando.execute(message)
+        if not comando.private:
+            await message.channel.send(resposta)
+            return
+        #user = await self.get_user_info('762397073315332096')
+        if isinstance(message.channel, discord.channel.DMChannel) and message.author != self.user:
+            await message.channel.send(resposta)
+
+        #await message.channel.send(f'Privada: {resposta}')
+        
+
+       
 
 def discord_notification(message):   
     myobj = {'content': message}
-    requests.post(discordUrl, data = myobj)
+  #  requests.post(discordUrl, data = myobj)
 client = Boberto()
 try:
     discord_notification(f'Boberto iniciado em {lastExec}')
