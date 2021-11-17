@@ -1,7 +1,9 @@
 <?php
+include __DIR__.'/vendor/autoload.php';
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-//Default Configuration
+
 $CONFIG = '{"lang":"pt","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false,"theme":"light"}';
 
 /**
@@ -151,8 +153,8 @@ $lang = isset($cfg->data['lang']) ? $cfg->data['lang'] : 'pt';
 $show_hidden_files = isset($cfg->data['show_hidden']) ? $cfg->data['show_hidden'] : true;
 
 // PHP error reporting - false = Turns off Errors, true = Turns on Errors
-$report_errors = isset($cfg->data['error_reporting']) ? $cfg->data['error_reporting'] : true;
-
+//$report_errors = isset($cfg->data['error_reporting']) ? $cfg->data['error_reporting'] : true;
+$report_errors = true;
 // Hide Permissions and Owner cols in file-listing
 $hide_Cols = isset($cfg->data['hide_Cols']) ? $cfg->data['hide_Cols'] : true;
 
@@ -283,13 +285,57 @@ if($login_check > 0){
 }
 // echo "teste"
 // Auth
+function authJWT (){
+try {   
+$key = getenv("JWT_SECRET");   
+$jwt = ''; 
+
+if(isset($_GET['user'])){
+$jwt = $_GET['user'];
+}
+
 
 $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+$discord_id = $decoded->payload->discord_id;
+print_r($decoded->payload->discord_id);
 
-print_r($decoded);
+$_SESSION[FM_SESSION_ID]['logged'] = 'discord_user';
+fm_set_msg(lng('You are logged in'));
+fm_redirect(FM_SELF_URL . '?p=');
+//fm_show_header_login();
+}
+catch (Exception $e) {
+// unset($_SESSION[FM_SESSION_ID]['logged']);
+// fm_set_msg(lng('Falha ao efetuar login. nome de usuário ou senha inválidos'), 'error');
+// fm_redirect(FM_SELF_URL);
+echo $e;
+}
+
+}
+
+// if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
+
+// }else{
+//     authJWT();
+// }
+authJWT();
+/*
+ NOTE: This will now be an object instead of an associative array. To get
+ an associative array, you will need to cast it as such:
+*/
 
 
-$use_auth = false;
+/**
+ * You can add a leeway to account for when there is a clock skew times between
+ * the signing and verifying servers. It is recommended that this leeway should
+ * not be bigger than a few minutes.
+ *
+ * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
+ */
+
+
+
+function teste ($use_auth){
 if ($use_auth) {
     if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
     //if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
@@ -373,7 +419,8 @@ if ($use_auth) {
         exit;
     }
 }
-
+}
+//teste(true);
 // update root path
 if ($use_auth && isset($_SESSION[FM_SESSION_ID]['logged'])) {
     $root_path = isset($directories_users[$_SESSION[FM_SESSION_ID]['logged']]) ? $directories_users[$_SESSION[FM_SESSION_ID]['logged']] : $root_path;

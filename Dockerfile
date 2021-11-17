@@ -1,4 +1,5 @@
 FROM php:7.4-fpm
+
 #https://www.ti-enxame.com/pt/docker/executando-composer-instala-dentro-de-um-dockerfile/833985041/
 RUN apt-get update && apt-get install -y libpq-dev
 RUN docker-php-ext-install pdo pdo_pgsql pgsql

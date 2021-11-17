@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS usuario
     "senha" text,
     "token" text,
     "refresh_token" text,
+    "whitelist" integer DEFAULT 0,
     "nivel" integer DEFAULT 0 NOT NULL,
     FOREIGN KEY (nivel) REFERENCES grupos (id)
 );
@@ -46,7 +47,7 @@ INSERT INTO grupos(
     VALUES (3, 'administrador', 'Usuários administradores ficam por aqui.', 'administrador', 0);
     
 INSERT INTO usuario(
-	"id", "email", "discord_id", "senha", "nivel")
-    VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.', 0);
+	"id", "email", "discord_id", "senha", "whitelist", "nivel")
+    VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.', 0, 0);
 
 --first groups
