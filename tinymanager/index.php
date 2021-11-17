@@ -1,4 +1,6 @@
 <?php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 //Default Configuration
 $CONFIG = '{"lang":"pt","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false,"theme":"light"}';
 
@@ -281,6 +283,13 @@ if($login_check > 0){
 }
 // echo "teste"
 // Auth
+
+$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+
+print_r($decoded);
+
+
+$use_auth = false;
 if ($use_auth) {
     if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
     //if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
