@@ -18,6 +18,6 @@ async def mem(command : command_model, message):
     return f"{used_mem} de {total_mem} RAM usada."
   
 def register(commands : command_register):
-  command_model('cpu',method=cpu, register=commands)
-  command_model('ram', method=mem, register=commands)
+  command_model('cpu',method=cpu, descricao="Exibir uso de cpu do servidor", register=commands)
+  command_model('ram', method=mem, descricao="Exibir uso de memória do servidor", register=commands)
   

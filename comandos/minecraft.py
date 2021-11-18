@@ -27,9 +27,9 @@ async def start(command : command_model, message):
         return f"Ocorreu um erro ao iniciar servidor {command.args[2]} .."
 
 def register(commands : command_register):
-  command_model(optional_alias='minecraft', alias='status',method=status, register=commands)
-  command_model(optional_alias='minecraft', alias='list', method=list, register=commands)
-  command_model(optional_alias='minecraft', alias='stop', max_arg=2, method=stop, register=commands)
-  command_model(optional_alias='minecraft', alias='start', max_arg=2, method=start, register=commands)
+  command_model(optional_alias='minecraft', alias='status',descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands)
+  command_model(optional_alias='minecraft', alias='list', descricao="Exibir uma lista de servidores de minecraft", method=list, register=commands)
+  command_model(optional_alias='minecraft', alias='stop', descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", max_arg=2, method=stop, register=commands)
+  command_model(optional_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", max_arg=2, method=start, register=commands)
 
   
