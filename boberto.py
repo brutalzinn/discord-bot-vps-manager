@@ -28,15 +28,17 @@ class Boberto(discord.Client):
         print(author)
         comando = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(), author)                                                              
         if comando is None:
-            await message.channel.send('Sem resposta.') 
+            await message.channel.send('Esse comando não existe.') 
             return
-        resposta = await comando.execute(message)
-        if not comando.private:
-            await message.channel.send(resposta)
-            return
-        #user = await self.get_user_info('762397073315332096')
-        if isinstance(message.channel, discord.channel.DMChannel) and message.author != self.user:
-            await message.channel.send(resposta)
+
+        await comando.execute(message, self.user)
+
+        # if not comando.private:
+        #     await message.channel.send(resposta)
+        #     return
+
+        # if isinstance(message.channel, discord.channel.DMChannel) and message.author != self.user:
+        #     await message.channel.send(resposta)
 
         #await message.channel.send(f'Privada: {resposta}')
         

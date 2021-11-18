@@ -14,10 +14,10 @@ class command_model:
         self.optional_alias = optional_alias
         self.min_arg = min_arg
         register.addCommand(self)
-    async def execute(self, message):
+    async def execute(self, message, user):
         if self.method is not False:
             if not config.perm_handler.check_permission(self.author, self.nivel): return "Você não tem permissão para executar esse comando"
             if len(self.args) >= self.min_arg and len(self.args) <= self.max_arg:
-                return await self.method(self, message)
+                return await self.method(self, message, user)
         else:
             return False

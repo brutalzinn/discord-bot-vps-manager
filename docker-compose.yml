@@ -4,6 +4,7 @@ services:
     build: .
     ports:
       - "3060:80"
+    restart: always
     env_file:
       - .env
     container_name: boberto-file-manager
