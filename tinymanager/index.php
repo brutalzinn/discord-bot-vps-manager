@@ -286,8 +286,10 @@ if($login_check > 0){
 // echo "teste"
 // Auth
 function authJWT (){
-try {   
-$key = getenv("JWT_SECRET");   
+    
+try {
+
+$key = getenv("JWT_SECRET");
 $jwt = ''; 
 
 if(isset($_GET['user'])){
