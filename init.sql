@@ -15,15 +15,19 @@ ALTER TABLE IF EXISTS grupos
 
 CREATE TABLE IF NOT EXISTS usuario
 (
-    "id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    "email" text,
-    "discord_id" text,
-    "senha" text,
-    "token" text,
-    "refresh_token" text,
-    "whitelist" integer DEFAULT 0,
-    "nivel" integer DEFAULT 0 NOT NULL,
-    FOREIGN KEY (nivel) REFERENCES grupos (id)
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    email text COLLATE pg_catalog."default",
+    discord_id text COLLATE pg_catalog."default",
+    senha text COLLATE pg_catalog."default",
+    token text COLLATE pg_catalog."default",
+    refresh_token text COLLATE pg_catalog."default",
+    whitelist integer DEFAULT 0,
+    nivel integer NOT NULL DEFAULT 0,
+    CONSTRAINT usuario_pkey PRIMARY KEY (id),
+    CONSTRAINT usuario_nivel_fkey FOREIGN KEY (nivel)
+        REFERENCES grupos (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 ALTER TABLE IF EXISTS usuario
