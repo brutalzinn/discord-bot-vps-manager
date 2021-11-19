@@ -3570,7 +3570,7 @@ global $lang, $root_url, $favicon_path;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Web based File Manager in PHP, Manage your files efficiently and easily with Tiny File Manager">
+    <meta name="description" content="Gerenciador de arquivos do Boberto">
     <meta name="author" content="CCP Programmers">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex">
