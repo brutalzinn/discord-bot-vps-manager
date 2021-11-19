@@ -21,10 +21,10 @@ async def list(command : command_model, message):
     return list_container()
 
 async def stop(command : command_model, message, user):          
-    if stop_container('boberto-database'):
-        return f"Parando servidor.. boberto-database"
+    if stop_container(command.args[2]):
+        return f"Parando servidor.. {command.args[2]}"
     else:
-        return f"Ocorreu um erro ao parar servidor boberto-database .."
+        return f"Ocorreu um erro ao parar servidor {command.args[2]} .."
   
 async def start(command : command_model, message):
     if start_container(command.args[2]):

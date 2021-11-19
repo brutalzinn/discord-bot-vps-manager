@@ -5,7 +5,7 @@ import config
 from sqlalchemy import event, text
 from sqlalchemy import create_engine
 import message_handler
-
+import os
 async def edit(command : command_model, message, user):
     await message.channel.send('Testando mensagem') 
     await message_handler.send_message_private(message, user, 'Esse link será expirado em 60 segundos.')
@@ -21,7 +21,7 @@ async def edit(command : command_model, message, user):
       email = row._mapping['email']
       whitelist = row._mapping['whitelist']
       payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email}
-      resultado = f"http://127.0.0.1:3060/index.php?p=&user={config.jwt.gerar_jwt(payload)}"
+      resultado = f"http://{os.getenv('URL')}:3060/index.php?p=&user={config.jwt.gerar_jwt(payload)}"
       await message_handler.send_message_private(message, user, resultado)
 
     

@@ -50,7 +50,8 @@ jobs:
           echo "JWT_SECRET=$BOBERTO_JWT" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_DATABASE=$BOBERTO_DATABASE" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_USER=$BOBERTO_USER" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>/home/brutalzinn/discord/boberto/.env          
+          echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>/home/brutalzinn/discord/boberto/.env     
+          echo "URL=jogar.robertocpaes.dev" >>/home/brutalzinn/discord/boberto/.env      
 
 
     - name: Disparando notificação no Discord pré deploy
@@ -80,6 +81,19 @@ jobs:
           cd /home/brutalzinn/discord/boberto
           bash start.sh
 
+
+    - name: Executando docker compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script_stop: true
+        script: |
+          cd /home/brutalzinn/discord/boberto
+          docker-compose up
+
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
       env:
@@ -94,5 +108,6 @@ jobs:
           DATA=$(date '+%d-%m-%Y %H:%M:%S') &&
           CONTENT="O deploy do boberto foi um sucesso. $DATA" &&
           curl -X POST -H 'Content-Type: application/json' -d '{"content":"'"$CONTENT"'"}' $DISCORD_URL
+
 
     
