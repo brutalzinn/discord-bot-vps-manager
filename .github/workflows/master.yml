@@ -92,7 +92,7 @@ jobs:
         script_stop: true
         script: |
           cd /home/brutalzinn/discord/boberto
-          docker-compose up
+          docker-compose up >> error.log 2>&1 &
 
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
