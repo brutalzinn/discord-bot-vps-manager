@@ -16,6 +16,7 @@ async def edit(command : command_model, message, user):
       if row is None:
         await message_handler.send_message_private(message, user, 'Você não foi encontrado no banco de dados.. :(')
         return
+      ##
       discord_id = row._mapping['discord_id']
       nivel = row._mapping['nivel']
       email = row._mapping['email']
