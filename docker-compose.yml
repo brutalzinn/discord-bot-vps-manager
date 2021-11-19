@@ -9,7 +9,7 @@ services:
       - .env
     container_name: boberto-file-manager
     volumes:
-      - ./tinymanager:/var/www/html
+      - ./web:/var/www/html
 
   boberto-database:
     container_name: boberto-database
