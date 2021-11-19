@@ -4,14 +4,18 @@ class command_handler:
     def __init__(self,command_reg : command_register):
         self.commands = command_reg.getCommands()
 
-    def checkCommand(self, command,author):
+    def checkCommand(self, args, author):
         for obj in self.commands:
           try:
             if not obj.optional_alias:  
-                if obj.alias == command[0].strip():
-                    return obj.execute(command, author)
+                if obj.alias == args[0].strip():
+                    obj.author = author
+                    obj.args = args
+                    return obj
             else:
-                if len(self.commands) >= 1 and obj.optional_alias == command[0].strip() and obj.alias == command[1].strip():
-                    return obj.execute(command, author)
+                if len(self.commands) >= 1 and obj.optional_alias == args[0].strip() and obj.alias == args[1].strip():
+                    obj.author = author
+                    obj.args = args
+                    return obj
           except:
               return "Comando não reconhecido."
