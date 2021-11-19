@@ -4,10 +4,13 @@ from models.permissions.permission_handler import permission_handler
 from models.permissions.permission_model import permission_model
 from models.permissions.permission_register import permission_register
 import jwt_handler
+import os
+from dotenv import load_dotenv
+load_dotenv()
 filename = 'whitelist.txt'
 perm_register = permission_register()
 perm_handler = permission_handler(perm_register)
-jwt = jwt_handler.Gerador_JWT()
+jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_SECRET'))
 with open(filename) as file:
     for line in file:
         line_splited = line.rstrip().split(',')

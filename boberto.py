@@ -4,10 +4,8 @@ import requests
 import importlib
 import os
 from datetime import datetime
-from dotenv import load_dotenv
 import pkgutil
 import sys
-load_dotenv()
 alias = 'b!'
 lastExec = datetime.today()
 discordToken = os.getenv('DISCORD_TOKEN')
