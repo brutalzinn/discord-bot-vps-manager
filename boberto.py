@@ -45,12 +45,12 @@ class Boberto(discord.Client):
 
 def discord_notification(message):   
     myobj = {'content': message}
-  #  requests.post(discordUrl, data = myobj)
+    requests.post(discordUrl, data = myobj)
 client = Boberto()
 try:
-    discord_notification(f'Boberto iniciado em {lastExec}')
+    discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
     client.run(discordToken)
 except:
-    discord_notification(f'Boberto caiu na água em {lastExec}')
+    discord_notification(f'Boberto caiu na água em {datetime.today()}!')
     
 
