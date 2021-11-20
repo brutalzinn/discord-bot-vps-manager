@@ -16,11 +16,11 @@ ALTER TABLE IF EXISTS grupos
 CREATE TABLE IF NOT EXISTS usuario
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    email text COLLATE pg_catalog."default",
-    discord_id text COLLATE pg_catalog."default",
-    senha text COLLATE pg_catalog."default",
-    token text COLLATE pg_catalog."default",
-    refresh_token text COLLATE pg_catalog."default",
+    email text,
+    discord_id text,
+    senha text,
+    token text,
+    last_login timestamp NULL DEFAULT null,
     whitelist integer DEFAULT 0,
     nivel integer NOT NULL DEFAULT 0,
     CONSTRAINT usuario_pkey PRIMARY KEY (id),
@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS usuario
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+SET TIMEZONE TO 'America/Sao_Paulo';
 
 ALTER TABLE IF EXISTS usuario
     OWNER to root;
@@ -51,7 +52,15 @@ INSERT INTO grupos(
     VALUES (3, 'administrador', 'Usuários administradores ficam por aqui.', 'administrador', 0);
     
 INSERT INTO usuario(
-	"id", "email", "discord_id", "senha", "whitelist", "nivel")
-    VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.', 0, 0);
+	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+    VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
+
+INSERT INTO usuario(
+	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+    VALUES (DEFAULT, 'teste@example.com', 'dani95ye#6699', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
+
+INSERT INTO usuario(
+	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+    VALUES (DEFAULT, 'teste@example.com', 'luisph#3300', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
 
 --first groups

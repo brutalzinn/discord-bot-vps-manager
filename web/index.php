@@ -3,7 +3,6 @@ include __DIR__.'/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-
 $CONFIG = '{"lang":"pt","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false,"theme":"light"}';
 
 /**
@@ -266,6 +265,7 @@ if($ip_ruleset != 'OFF'){
         exit();
     }
 }
+date_default_timezone_set('America/Sao_Paulo');
 
 function validar_usuario(){
 $host = getenv("HOST");
@@ -333,6 +333,24 @@ function tokenExpiredHtml(){
     fm_show_footer_login();
     exit;
 }
+function calcularLastLogin($email){
+$host = '192.168.0.21';//getenv("HOST");
+$database = getenv("DATABASE");
+$user = getenv("USER");
+$password = getenv("PASSWORD");    
+$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
+$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+$result = pg_query($conn,"SELECT last_login FROM usuario WHERE email='".$email."'");
+$row = pg_fetch_assoc($result);
+$login_check = pg_num_rows($result);
+if($login_check > 0){
+    return password_verify($_POST['fm_pwd'], $row['last_login']);
+}else{
+    return false;
+}
+
+
+}
 function authJWT (){
     
 try {
@@ -353,6 +371,31 @@ $discord_id = $decoded->payload->discord_id;
 $_SESSION[FM_SESSION_ID]['logged'] = $user_email;
 $_SESSION[FM_SESSION_ID]['discord_id'] = $discord_id;
 fm_set_msg(lng('You are logged in'));
+$host = '192.168.0.21';//getenv("HOST");
+$database = getenv("DATABASE");
+$user = getenv("USER");
+$password = getenv("PASSWORD");    
+$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
+$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+$date = date('Y-m-d H:i:s', time());
+
+// $result = pg_query($conn,"SELECT last_login FROM usuario WHERE email='".$user_email."'");
+// $row = pg_fetch_assoc($result);
+// $login_check = pg_num_rows($result);
+// if($login_check > 0){
+//    // echo "Ultimo login:". gettype($row['last_login']) ."</br>"; 
+//     $d1 = new DateTime(date('Y-m-d H:i:s', time()));
+//     $d2 = new DateTime($row['last_login']);
+    
+// }
+
+
+$query = "UPDATE usuario SET last_login='".$date."' WHERE email='".$user_email."'";
+$result = pg_query($conn, $query);
+$row = pg_fetch_assoc($result);
+if($row > 0){
+    $_SESSION[FM_SESSION_ID]['last_login'] = $date;
+}
 fm_redirect(FM_SELF_URL . '?p=');
 //fm_show_header_login();
 }
@@ -371,7 +414,10 @@ tokenExpiredHtml();
 }
 
 if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
+//$last_login = $_SESSION[FM_SESSION_ID]['last_login'];
 
+
+   
 }else{
     authJWT();
 }
