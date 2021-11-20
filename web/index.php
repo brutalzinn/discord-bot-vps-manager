@@ -18,6 +18,12 @@ define('VERSION', '2.4.6');
 define('APP_TITLE', 'Boberto - Gerenciador de arquivos');
 
 
+define('HOST',getenv("HOST"));
+define('DATABASE',getenv("DATABASE"));
+define('USER',getenv("USER"));
+define('PASSWORD',getenv("PASSWORD"));
+define('JWT_SECRET',getenv("JWT_SECRET"));
+define('HOSTSTRING',"host={$HOST} port=5432 dbname={$DATABASE} user={$USER} password={$PASSWORD}");
 // --- EDIT BELOW CONFIGURATION CAREFULLY ---
 
 $use_auth = false;
@@ -267,22 +273,22 @@ if($ip_ruleset != 'OFF'){
 }
 date_default_timezone_set('America/Sao_Paulo');
 
-function validar_usuario(){
-$host = getenv("HOST");
-$database = getenv("DATABASE");
-$user = getenv("USER");
-$password = getenv("PASSWORD");    
-$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
-$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
-$result = pg_query($conn,"SELECT * FROM usuario WHERE email='".$_POST['fm_usr']."'");
-$row = pg_fetch_assoc($result);
-$login_check = pg_num_rows($result);
-if($login_check > 0){
-    return password_verify($_POST['fm_pwd'], $row['senha']);
-}else{
-    return false;
-}
-}
+// function validar_usuario(){
+// $host = getenv("HOST");
+// $database = getenv("DATABASE");
+// $user = getenv("USER");
+// $password = getenv("PASSWORD");    
+// $hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
+// $conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+// $result = pg_query($conn,"SELECT * FROM usuario WHERE email='".$_POST['fm_usr']."'");
+// $row = pg_fetch_assoc($result);
+// $login_check = pg_num_rows($result);
+// if($login_check > 0){
+//     return password_verify($_POST['fm_pwd'], $row['senha']);
+// }else{
+//     return false;
+// }
+// }
 // echo "teste"
 // Auth
 function tokenExpiredHtml(){
@@ -321,8 +327,9 @@ function tokenExpiredHtml(){
                         </div>
                     </div>
                     <div class="footer text-center">
-                        &mdash;&mdash; &copy;
-                        <a href="https://tinyfilemanager.github.io/" target="_blank" class="text-muted" data-version="<?php echo VERSION; ?>">CCP Programmers</a> &mdash;&mdash;
+                      Essa página da web é baseada no projeto tinyfilemanager.</br>
+                        <strong>Obrigado por usar o boberto ❤ </strong> </br>
+                        <a href="https://tinyfilemanager.github.io/" target="_blank" class="text-muted" data-version="<?php echo VERSION; ?>">Acessar tinyfilemanager no github</a>
                     </div>
                 </div>
             </div>
@@ -333,34 +340,12 @@ function tokenExpiredHtml(){
     fm_show_footer_login();
     exit;
 }
-function calcularLastLogin($email){
-$host = '192.168.0.21';//getenv("HOST");
-$database = getenv("DATABASE");
-$user = getenv("USER");
-$password = getenv("PASSWORD");    
-$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
-$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
-$result = pg_query($conn,"SELECT last_login FROM usuario WHERE email='".$email."'");
-$row = pg_fetch_assoc($result);
-$login_check = pg_num_rows($result);
-if($login_check > 0){
-    return password_verify($_POST['fm_pwd'], $row['last_login']);
-}else{
-    return false;
-}
 
-
-}
-function authJWT (){
-    
-
-
-$key = getenv("JWT_SECRET");
-$jwt = ''; 
+//autenticação de usuário por jwt gerado pelo boberto
+function AutenticarUsuario($jwt){
 
 try {
-$jwt = $_GET['user'];
-$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+$decoded = JWT::decode($jwt, new Key(JWT_SECRET, 'HS256'));
 $_SESSION[FM_SESSION_ID]['logged'] = $decoded->payload->email;
 $_SESSION[FM_SESSION_ID]['email'] = $decoded->payload->email;
 $_SESSION[FM_SESSION_ID]['discord_id'] = $decoded->payload->discord_id;
@@ -369,17 +354,11 @@ fm_set_msg(lng('You are logged in'));
 
 }
 catch (Exception $e) {
-    unset($_SESSION[FM_SESSION_ID]['logged']);
     fm_set_msg(lng('Sessão inválida. Chame o boberto para ajudar.'), 'error');
     tokenExpiredHtml();
 }
-
-$host = getenv("HOST");
-$database = getenv("DATABASE");
-$user = getenv("USER");
-$password = getenv("PASSWORD");    
-$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
-$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+  
+$conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
 
 $result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
 $row_token = pg_fetch_assoc($result);
@@ -390,32 +369,25 @@ if($row_token['allcount'] > 0){
 }
 
 fm_redirect(FM_SELF_URL . '?p=');
-
 }
 
 
 
 
 if(isset($_GET['user'])){
-    authJWT();
+    AutenticarUsuario($_GET['user']);
 }
 
 
 if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
 $date = date("dMy-His");
-echo "mudando de página " . $date;
-$host = 'host.docker.internal';//getenv("HOST");
-$database = getenv("DATABASE");
-$user = getenv("USER");
-$password = getenv("PASSWORD");    
-$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
-$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+$conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
 $result = pg_query($conn,"SELECT token FROM usuario_token WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
 $row_token = pg_fetch_assoc($result);
 if($row_token > 0){
     $token = $row_token['token']; 
     if($_SESSION[FM_SESSION_ID]['session_id'] != $token){
-        fm_set_msg(lng('Sessão expirada. Chame o boberto para ajudar.'. $_SESSION[FM_SESSION_ID]['session_id'] ), 'error');
+        fm_set_msg(lng('Sessão expirada ou você logou em outro lugar. Chame o boberto para ajudar.'. $_SESSION[FM_SESSION_ID]['session_id'] ), 'error');
         echo $_SESSION[FM_SESSION_ID]['session_id'];
         unset($_SESSION[FM_SESSION_ID]['logged']);
         //tokenExpiredHtml();
@@ -431,90 +403,6 @@ if($row_token > 0){
 }
 
 
-
-
-
-function teste ($use_auth){
-if ($use_auth) {
-    if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
-    //if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
-        // Logged
-    } elseif (isset($_POST['fm_usr'], $_POST['fm_pwd'])) {
-        // Logging In
-        sleep(1);
-        if(function_exists('password_verify')) {
-            if (isset($_POST['fm_pwd']) && validar_usuario()) {
-           // if (isset($_POST['fm_usr']]) && isset($_POST['fm_pwd']) && validar_usuario()) {
-                $_SESSION[FM_SESSION_ID]['logged'] = $_POST['fm_usr'];
-                fm_set_msg(lng('You are logged in'));
-                fm_redirect(FM_SELF_URL . '?p=');
-            } else {
-                unset($_SESSION[FM_SESSION_ID]['logged']);
-                fm_set_msg(lng('Falha ao efetuar login. nome de usuário ou senha inválidos'), 'error');
-                fm_redirect(FM_SELF_URL);
-            }
-        } else {
-            fm_set_msg(lng('password_hash não suportado, atualização da versão do PHP'), 'error');;
-        }
-    } else {
-        // Form
-        unset($_SESSION[FM_SESSION_ID]['logged']);
-        fm_show_header_login();
-        ?>
-        <section class="h-100">
-            <div class="container h-100">
-                <div class="row justify-content-md-center h-100">
-                    <div class="card-wrapper">
-                        <div class="card fat <?php echo fm_get_theme(); ?>">
-                            <div class="card-body">
-                                <form class="form-signin" action="" method="post" autocomplete="off">
-                                    <div class="form-group">
-                                       <div class="brand">
-                                            <img src="imagens/boberto_normal.jpg"/> 
-                                        </div>
-                                        <div class="text-center">
-                                            <h1 class="card-title"><?php echo APP_TITLE; ?></h1>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div class="form-group">
-                                        <label for="fm_usr"><?php echo lng('Username'); ?></label>
-                                        <input type="text" class="form-control" id="fm_usr" name="fm_usr" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="fm_pwd"><?php echo lng('Password'); ?></label>
-                                        <input type="password" class="form-control" id="fm_pwd" name="fm_pwd" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <?php fm_show_message(); ?>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-block mt-4" role="button">
-                                            <?php echo lng('Login'); ?>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="footer text-center">
-                            &mdash;&mdash; &copy;
-                            <a href="https://tinyfilemanager.github.io/" target="_blank" class="text-muted" data-version="<?php echo VERSION; ?>">CCP Programmers</a> &mdash;&mdash;
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <?php
-        fm_show_footer_login();
-        exit;
-    }
-}
-}
-//teste(true);
 // update root path
 if ($use_auth && isset($_SESSION[FM_SESSION_ID]['logged'])) {
     $root_path = isset($directories_users[$_SESSION[FM_SESSION_ID]['logged']]) ? $directories_users[$_SESSION[FM_SESSION_ID]['logged']] : $root_path;
@@ -3670,7 +3558,6 @@ global $lang, $root_url, $favicon_path;
  */
 function fm_show_header()
 {
-$sprites_ver = '20160315';
 header("Content-Type: text/html; charset=utf-8");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
