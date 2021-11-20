@@ -17,16 +17,18 @@ define('VERSION', '2.4.6');
 //Application Title
 define('APP_TITLE', 'Boberto - Gerenciador de arquivos');
 
-
 define('HOST',getenv("HOST"));
 define('DATABASE',getenv("DATABASE"));
 define('USER',getenv("USER"));
 define('PASSWORD',getenv("PASSWORD"));
 define('JWT_SECRET',getenv("JWT_SECRET"));
-define('HOSTSTRING',"host={$HOST} port=5432 dbname={$DATABASE} user={$USER} password={$PASSWORD}");
+define('PORT',getenv("PORT"));
+define('HOSTSTRING',"host=".HOST." port=".PORT." dbname=".DATABASE." user=".USER." password=".PASSWORD."");
+
+
 // --- EDIT BELOW CONFIGURATION CAREFULLY ---
 
-$use_auth = false;
+$use_auth = true;
 // Login user name and password
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
 // Generate secure password hash - https://tinyfilemanager.github.io/docs/pwd.html
@@ -341,6 +343,7 @@ function tokenExpiredHtml(){
     exit;
 }
 
+
 //autenticação de usuário por jwt gerado pelo boberto
 function AutenticarUsuario($jwt){
 
@@ -359,7 +362,6 @@ catch (Exception $e) {
 }
   
 $conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
-
 $result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
 $row_token = pg_fetch_assoc($result);
 if($row_token['allcount'] > 0){
