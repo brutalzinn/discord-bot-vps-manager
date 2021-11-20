@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS usuario
     email text,
     discord_id text,
     senha text,
-    token text,
+    sessao text,
     last_login timestamp NULL DEFAULT null,
     whitelist integer DEFAULT 0,
     nivel integer NOT NULL DEFAULT 0,
@@ -29,6 +29,18 @@ CREATE TABLE IF NOT EXISTS usuario
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+
+CREATE TABLE IF NOT EXISTS usuario_token
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    discord_id text,
+    token text,
+    timemodified timestamp NULL DEFAULT null,
+    CONSTRAINT usuario_token_pkey PRIMARY KEY (id)
+);
+
+
+
 SET TIMEZONE TO 'America/Sao_Paulo';
 
 ALTER TABLE IF EXISTS usuario
@@ -52,15 +64,15 @@ INSERT INTO grupos(
     VALUES (3, 'administrador', 'Usuários administradores ficam por aqui.', 'administrador', 0);
     
 INSERT INTO usuario(
-	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
     VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
 
 INSERT INTO usuario(
-	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
     VALUES (DEFAULT, 'teste@example.com', 'dani95ye#6699', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
 
 INSERT INTO usuario(
-	"id", "email", "discord_id", "senha", "token" ,"last_login", "whitelist", "nivel")
+	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
     VALUES (DEFAULT, 'teste@example.com', 'luisph#3300', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 0);
 
 --first groups

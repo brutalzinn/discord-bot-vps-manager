@@ -26,14 +26,24 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  boberto-pgadmin:
-    container_name: boberto-pgadmin
-    image: dpage/pgadmin4
-    networks:
-      - default
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: root@root.com
-      PGADMIN_DEFAULT_PASSWORD: root
+  # boberto-pgadmin:
+  #   container_name: boberto-pgadmin
+  #   image: dpage/pgadmin4
+  #   networks:
+  #     - default
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: root@root.com
+  #     PGADMIN_DEFAULT_PASSWORD: root
+  #   ports:
+  #     - "5050:80"
+
+  redis-compose:
+    image: redis
+    container_name: boberto-cache
+    command: redis-server --requirepass SUASENHA --appendonly yes
+    hostname: redis
     ports:
-      - "5050:80"
+      - "6379:6379"
+    volumes:
+      - .Redis:/var/lib/postgresql/data

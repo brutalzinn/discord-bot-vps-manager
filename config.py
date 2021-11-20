@@ -5,9 +5,11 @@ from models.permissions.permission_model import permission_model
 from models.permissions.permission_register import permission_register
 import jwt_handler
 import os
+import redis
 from dotenv import load_dotenv
 load_dotenv()
 filename = 'whitelist.txt'
+redis_cache = redis.Redis(host='localhost',password='SUASENHA', port=6379, db=0)
 perm_register = permission_register()
 perm_handler = permission_handler(perm_register)
 jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_SECRET'))

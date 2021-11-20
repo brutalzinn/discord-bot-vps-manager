@@ -138,7 +138,7 @@ if (is_readable($config_file)) {
 define('MAX_UPLOAD_SIZE', $max_upload_size_bytes);
 
 // private key and session name to store to the session
-if ( !defined( 'FM_SESSION_ID')) {
+if ( !defined('FM_SESSION_ID')) {
     define('FM_SESSION_ID', 'filemanager');
 }
 
@@ -353,88 +353,84 @@ if($login_check > 0){
 }
 function authJWT (){
     
-try {
+
 
 $key = getenv("JWT_SECRET");
 $jwt = ''; 
 
-if(isset($_GET['user'])){
+try {
 $jwt = $_GET['user'];
+$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+$_SESSION[FM_SESSION_ID]['logged'] = $decoded->payload->email;
+$_SESSION[FM_SESSION_ID]['email'] = $decoded->payload->email;
+$_SESSION[FM_SESSION_ID]['discord_id'] = $decoded->payload->discord_id;
+$_SESSION[FM_SESSION_ID]['session_id'] = $decoded->payload->session_id;
+fm_set_msg(lng('You are logged in'));
+
+}
+catch (Exception $e) {
+    unset($_SESSION[FM_SESSION_ID]['logged']);
+    fm_set_msg(lng('Sessão inválida. Chame o boberto para ajudar.'), 'error');
+    tokenExpiredHtml();
 }
 
-
-$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-$user_email = $decoded->payload->email;
-$discord_id = $decoded->payload->discord_id;
-
-
-$_SESSION[FM_SESSION_ID]['logged'] = $user_email;
-$_SESSION[FM_SESSION_ID]['discord_id'] = $discord_id;
-fm_set_msg(lng('You are logged in'));
-$host = '192.168.0.21';//getenv("HOST");
+$host = getenv("HOST");
 $database = getenv("DATABASE");
 $user = getenv("USER");
 $password = getenv("PASSWORD");    
 $hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
 $conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
-$date = date('Y-m-d H:i:s', time());
 
-// $result = pg_query($conn,"SELECT last_login FROM usuario WHERE email='".$user_email."'");
-// $row = pg_fetch_assoc($result);
-// $login_check = pg_num_rows($result);
-// if($login_check > 0){
-//    // echo "Ultimo login:". gettype($row['last_login']) ."</br>"; 
-//     $d1 = new DateTime(date('Y-m-d H:i:s', time()));
-//     $d2 = new DateTime($row['last_login']);
-    
-// }
-
-
-$query = "UPDATE usuario SET last_login='".$date."' WHERE email='".$user_email."'";
-$result = pg_query($conn, $query);
-$row = pg_fetch_assoc($result);
-if($row > 0){
-    $_SESSION[FM_SESSION_ID]['last_login'] = $date;
-}
-fm_redirect(FM_SELF_URL . '?p=');
-//fm_show_header_login();
-}
-catch (Exception $e) {
-// unset($_SESSION[FM_SESSION_ID]['logged']);
-// fm_set_msg(lng('Falha ao efetuar login. nome de usuário ou senha inválidos'), 'error');
-// fm_redirect(FM_SELF_URL);
-unset($_SESSION[FM_SESSION_ID]['logged']);
-fm_set_msg(lng('Sessão inválida. Chame o boberto para ajudar.'), 'error');
-//fm_redirect(FM_SELF_URL);
-tokenExpiredHtml();
-//fm_show_footer_login();
-
-}
-
-}
-
-if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
-//$last_login = $_SESSION[FM_SESSION_ID]['last_login'];
-
-
-   
+$result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
+$row_token = pg_fetch_assoc($result);
+if($row_token['allcount'] > 0){
+    pg_query($conn, "UPDATE usuario_token SET token='".$_SESSION[FM_SESSION_ID]['session_id']."' WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
 }else{
+    pg_query($conn, "INSERT INTO usuario_token(discord_id,token) values ('".$_SESSION[FM_SESSION_ID]['discord_id']."','".$_SESSION[FM_SESSION_ID]['session_id']."')");
+}
+
+fm_redirect(FM_SELF_URL . '?p=');
+
+}
+
+
+
+
+if(isset($_GET['user'])){
     authJWT();
 }
-//authJWT();
-/*
- NOTE: This will now be an object instead of an associative array. To get
- an associative array, you will need to cast it as such:
-*/
 
 
-/**
- * You can add a leeway to account for when there is a clock skew times between
- * the signing and verifying servers. It is recommended that this leeway should
- * not be bigger than a few minutes.
- *
- * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
- */
+if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
+$date = date("dMy-His");
+echo "mudando de página " . $date;
+$host = 'host.docker.internal';//getenv("HOST");
+$database = getenv("DATABASE");
+$user = getenv("USER");
+$password = getenv("PASSWORD");    
+$hostString = "host={$host} port=5432 dbname={$database} user={$user} password={$password}";
+$conn = pg_connect($hostString) or die("Deu erro de comunicação com o banco");
+$result = pg_query($conn,"SELECT token FROM usuario_token WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
+$row_token = pg_fetch_assoc($result);
+if($row_token > 0){
+    $token = $row_token['token']; 
+    if($_SESSION[FM_SESSION_ID]['session_id'] != $token){
+        fm_set_msg(lng('Sessão expirada. Chame o boberto para ajudar.'. $_SESSION[FM_SESSION_ID]['session_id'] ), 'error');
+        echo $_SESSION[FM_SESSION_ID]['session_id'];
+        unset($_SESSION[FM_SESSION_ID]['logged']);
+        //tokenExpiredHtml();
+        fm_redirect(FM_SELF_URL);
+    }
+}
+
+//$last_login = $_SESSION[FM_SESSION_ID]['last_login'];
+}else{
+    unset($_SESSION[FM_SESSION_ID]['logged']);
+    fm_set_msg(lng('Sessão inválida. Chame o boberto para ajudar.'), 'error');
+    tokenExpiredHtml();
+}
+
+
 
 
 

@@ -6,6 +6,9 @@ from sqlalchemy import event, text
 from sqlalchemy import create_engine
 import message_handler
 import os
+import json
+import string    
+import random # define the random module   
 async def edit(command : command_model, message, user):
     await message.channel.send('Testando mensagem') 
     await message_handler.send_message_private(message, user, 'Esse link será expirado em 60 segundos.')
@@ -17,11 +20,16 @@ async def edit(command : command_model, message, user):
         await message_handler.send_message_private(message, user, 'Você não foi encontrado no banco de dados.. :(')
         return
       ##
+      random_session = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 10)) 
+      with engine.connect() as conn:
+        conn.execute(text(f"UPDATE usuario SET sessao='{random_session}' WHERE discord_id='{command.author}'"))
       discord_id = row._mapping['discord_id']
       nivel = row._mapping['nivel']
       email = row._mapping['email']
       whitelist = row._mapping['whitelist']
-      payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email}
+   
+      payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email, "session_id":random_session}
+      #config.redis_cache.set(random_session, json.dumps(payload))
       resultado = f"http://{os.getenv('URL')}:3060/index.php?p=&user={config.jwt.gerar_jwt(payload)}"
       await message_handler.send_message_private(message, user, resultado)
 
