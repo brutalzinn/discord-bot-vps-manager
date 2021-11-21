@@ -9,7 +9,7 @@ def create_container(path, servername, port, environment):
         return {"status":True}
     except Exception as err:
         print(err)
-        return {"status":False, "mensagem":"Ocorreu um erro desconhecido."}
+        return {"status":False, "mensagem":str(err)}
     except docker.errors.ImageNotFound as err:
         print("Puxando imagem itzg/minecraft-server")
         print(err)
