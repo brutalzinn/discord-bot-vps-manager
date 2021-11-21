@@ -45,7 +45,7 @@ class Boberto(discord.Client):
 
 def discord_notification(message):   
     myobj = {'content': message}
-    #requests.post(discordUrl, data = myobj)
+    requests.post(discordUrl, data = myobj)
 client = Boberto()
 try:
     discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
