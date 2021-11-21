@@ -17,8 +17,9 @@ async def status(command : command_model, message):
     except(ConnectionRefusedError):
         return "O servidor está offline ou não responde."
     
-async def list(command : command_model, message):
-    return list_container()
+async def list(command : command_model, message, user):
+    await message_handler.send_message_normal(message,  user, list_container())
+
 
 async def stop(command : command_model, message, user):          
     if stop_container(command.args[2]):
@@ -40,6 +41,10 @@ async def create(command : command_model, message, user):
     porta = new_args[command.command_args.get_arg_unique('porta').index]     
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
     versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]     
+    memoria = new_args[command.command_args.get_arg_unique('memoria').index]  
+    if int(memoria) > 5:
+        await message_handler.send_message_normal(message,  user, f'Memória limite atingida. Use menos de 6G')
+        return
     await message_handler.send_message_normal(message,  user, f'Criando servidor {nome} ..')
 
 
@@ -54,7 +59,9 @@ async def create(command : command_model, message, user):
 
     environment['FORGEVERSION'] = versaoforge
     environment['VERSION'] = versao
+    environment['MEMORY'] = f'{memoria}G'
     resultado = create_container(server_path,nome,porta,environment)
+    print('chamando docker create..')
     if resultado['status']:
         await message_handler.send_message_normal(message,  user, f'Servidor criado.. {nome}')
     else:
@@ -67,12 +74,11 @@ def register(commands : command_register):
   command_model(optional_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands)
   
   args_create = command_args_register()
-  
   args_create.addArg(command_args(unique_id='nome', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='porta', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='versao', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
-
+  args_create.addArg(command_args(unique_id='memoria', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   command_model(optional_alias='minecraft', alias='create',descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)
 
   

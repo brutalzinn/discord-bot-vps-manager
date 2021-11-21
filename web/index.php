@@ -1,9 +1,11 @@
 <?php
+//Default Configuration
 include __DIR__.'/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-$CONFIG = '{"lang":"pt","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false,"theme":"light"}';
+
+$CONFIG = '{"lang":"pt","error_reporting":true,"show_hidden":false,"hide_Cols":true,"calc_folder":false,"theme":"light"}';
 
 /**
  * H3K | Tiny File Manager V2.4.6
@@ -55,11 +57,11 @@ $edit_files = true;
 
 // Default timezone for date() and time()
 // Doc - http://php.net/manual/en/timezones.php
-$default_timezone = 'Etc/UTC'; // UTC
+$default_timezone = 'America/Sao_Paulo'; // UTC
 
 // Root path for file manager
 // use absolute path of directory i.e: '/var/www/folder' or $_SERVER['DOCUMENT_ROOT'].'/folder'
-$root_path = $_SERVER['DOCUMENT_ROOT'];
+$root_path = $_SERVER['DOCUMENT_ROOT'].'/data'; #$_SERVER['DOCUMENT_ROOT'];
 
 // Root url for links in file manager.Relative to $http_host. Variants: '', 'path/to/subfolder'
 // Will not working if $root_path will be outside of server document root
@@ -135,10 +137,10 @@ $ip_blacklist = array(
 );
 
 // if User has the customized config file, try to use it to override the default config above
-$config_file = __DIR__.'/config.php';
-if (is_readable($config_file)) {
-    @include($config_file);
-}
+// $config_file = __DIR__.'/config.php';
+// if (is_readable($config_file)) {
+//     @include($config_file);
+// }
 
 // --- EDIT BELOW CAREFULLY OR DO NOT EDIT AT ALL ---
 
@@ -273,7 +275,7 @@ if($ip_ruleset != 'OFF'){
         exit();
     }
 }
-date_default_timezone_set('America/Sao_Paulo');
+
 
 // function validar_usuario(){
 // $host = getenv("HOST");
