@@ -1,7 +1,5 @@
 from sys import flags
-import docker
-dockerClient = docker.from_env()
-
+from config import dockerClient, docker
 
 def create_container(path, servername, port, environment):
     try:
