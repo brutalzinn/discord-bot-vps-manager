@@ -35,13 +35,15 @@ jobs:
         BOBERTO_DATABASE: ${{ secrets.BOBERTO_DATABASE }}
         BOBERTO_USER: ${{ secrets.BOBERTO_USER }}
         BOBERTO_PASSWORD: ${{ secrets.BOBERTO_PASSWORD }}
+        BOBERTO_PORT: ${{ secrets.BOBERTO_PORT }}
+
 
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, PORT
+        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT
         script: |
           sudo rm -f .env
           echo "DISCORD_TOKEN=$DISCORD_KEY" >/home/brutalzinn/discord/boberto/.env
@@ -51,7 +53,7 @@ jobs:
           echo "BOBERTO_DATABASE=$BOBERTO_DATABASE" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_USER=$BOBERTO_USER" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>/home/brutalzinn/discord/boberto/.env
-          echo "PORT=$PORT" >>/home/brutalzinn/discord/boberto/.env     
+          echo "BOBERTO_PORT=$BOBERTO_PORT" >>/home/brutalzinn/discord/boberto/.env     
           echo "URL=jogar.robertocpaes.dev" >>/home/brutalzinn/discord/boberto/.env      
 
 

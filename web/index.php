@@ -24,7 +24,7 @@ define('DATABASE',getenv("BOBERTO_DATABASE"));
 define('USER',getenv("BOBERTO_USER"));
 define('PASSWORD',getenv("BOBERTO_PASSWORD"));
 define('JWT_SECRET',getenv("JWT_SECRET"));
-define('PORT',getenv("PORT"));
+define('PORT',getenv("BOBERTO_PORT"));
 define('HOSTSTRING',"host=".HOST." port=".PORT." dbname=".DATABASE." user=".USER." password=".PASSWORD."");
 
 
