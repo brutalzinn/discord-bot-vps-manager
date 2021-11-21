@@ -19,7 +19,7 @@ define('VERSION', '2.4.6');
 //Application Title
 define('APP_TITLE', 'Boberto - Gerenciador de arquivos');
 
-define('HOST',getenv("HOST"));
+define('HOST',getenv("BOBERTO_HOST"));
 define('DATABASE',getenv("BOBERTO_DATABASE"));
 define('USER',getenv("BOBERTO_USER"));
 define('PASSWORD',getenv("BOBERTO_PASSWORD"));
