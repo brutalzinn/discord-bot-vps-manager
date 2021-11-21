@@ -20,9 +20,9 @@ define('VERSION', '2.4.6');
 define('APP_TITLE', 'Boberto - Gerenciador de arquivos');
 
 define('HOST',getenv("HOST"));
-define('DATABASE',getenv("DATABASE"));
-define('USER',getenv("USER"));
-define('PASSWORD',getenv("PASSWORD"));
+define('DATABASE',getenv("BOBERTO_DATABASE"));
+define('USER',getenv("BOBERTO_USER"));
+define('PASSWORD',getenv("BOBERTO_PASSWORD"));
 define('JWT_SECRET',getenv("JWT_SECRET"));
 define('PORT',getenv("PORT"));
 define('HOSTSTRING',"host=".HOST." port=".PORT." dbname=".DATABASE." user=".USER." password=".PASSWORD."");
