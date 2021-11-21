@@ -7,4 +7,3 @@ python-dotenv==0.19.2
 python_bcrypt==0.3.2
 Requests==2.26.0
 SQLAlchemy==1.4.0
-redis==4.0.1
