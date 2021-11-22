@@ -21,23 +21,23 @@ def restart_container(servername):
     try:
         dockerClient.api.restart(servername)
         return True
-    except:
-        return False
+    except Exception as err:
+        return str(err)
 
 def remove_container(servername):
    
     try:
         dockerClient.api.remove_container(servername, True)
         return True
-    except:
-        return False
+    except Exception as err:
+        return str(err)
 
 def start_container(servername):
     try:
         dockerClient.api.start(servername)
         return True
-    except:
-        return False
+    except Exception as err:
+        return str(err)
 
 
 def stop_container(servername):
@@ -46,8 +46,7 @@ def stop_container(servername):
         dockerClient.api.stop(servername)
         return True
     except Exception as err:
-        print(err)
-        return False
+        return str(err)
     
 def get_container(name):
     containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})

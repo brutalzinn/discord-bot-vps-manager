@@ -44,19 +44,21 @@ async def remove(command : command_model, message, user):
     new_args = command.args[2:]
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
     resultado = ''
-    if remove_container(nome):
+    docker_connection = remove_container(nome)
+    if docker_connection:
         resultado = f"Removendo servidor.. {nome}"
     else:
-        resultado = f"Ocorreu um erro ao remover servidor {nome} .."
+        resultado = f"Ocorreu um erro ao remover servidor {nome} ---  {docker_connection}"
     await message_handler.send_message_normal(message,  user, resultado)
   
 async def start(command : command_model,  message, user):
     new_args = command.args[2:]
-    nome = new_args[command.command_args.get_arg_unique('nome').index]     
-    if start_container(nome):
+    nome = new_args[command.command_args.get_arg_unique('nome').index]    
+    docker_connection = start_container(nome)
+    if docker_connection:
         await message_handler.send_message_normal(message,  user, f"Iniciando servidor.. {nome}")
     else:
-        await message_handler.send_message_normal(message,  user,  f"Ocorreu um erro ao iniciar servidor {nome} ..")
+        await message_handler.send_message_normal(message,  user,  f"Ocorreu um erro ao iniciar servidor {nome} ---  {docker_connection}")
 
 
 async def create(command : command_model, message, user):
