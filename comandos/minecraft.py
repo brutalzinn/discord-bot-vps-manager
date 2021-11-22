@@ -2,36 +2,62 @@ from models.commands.command_args import command_args
 from models.commands.command_args_register import command_args_register
 from models.commands.command_model import command_model
 from models.commands.command_register import command_register
-from container_manager import list_container, start_container, stop_container, create_container
+from container_manager import list_container, start_container, stop_container, create_container,remove_container, get_container
 from mcstatus import MinecraftServer
 import message_handler
 import os
 from pathlib import Path
 
 
-async def status(command : command_model, message):
+async def status(command : command_model, message, user):
+    resultado = ''
     try:
-        server = MinecraftServer.lookup("127.0.0.1:25565")
+        new_args = command.args[2:]
+        nome = new_args[command.command_args.get_arg_unique('nome').index]   
+        serverport = get_container(nome)
+        if serverport is None:
+            await message_handler.send_message_normal(message,  user, 'Esse servidor não existe.')
+            return
+        server = MinecraftServer.lookup(f"{os.getenv('BOBERTO_HOST')}:{serverport['port']}")
         status = server.status()
-        return "O servidor tem {0} jogadores jogando com {1} ms".format(status.players.online, status.latency)
+        resultado = "O servidor tem {0} jogadores jogando com {1} ms".format(status.players.online, status.latency)
     except(ConnectionRefusedError):
-        return "O servidor está offline ou não responde."
+        resultado = "O servidor está offline ou não responde."
+    
+    await message_handler.send_message_normal(message,  user, resultado)
+
     
 async def list(command : command_model, message, user):
     await message_handler.send_message_normal(message,  user, list_container())
 
+async def stop(command : command_model, message, user):  
+    new_args = command.args[2:]
+    nome = new_args[command.command_args.get_arg_unique('nome').index]     
+    resultado = ''
+    if stop_container(nome):
+        resultado = f"Parando servidor.. {nome}"
+    else:
+        resultado = f"Ocorreu um erro ao parar servidor {nome} .."
+    await message_handler.send_message_normal(message,  user, resultado)
 
-async def stop(command : command_model, message, user):          
-    if stop_container(command.args[2]):
-        return f"Parando servidor.. {command.args[2]}"
+async def remove(command : command_model, message, user):  
+    new_args = command.args[2:]
+    nome = new_args[command.command_args.get_arg_unique('nome').index]     
+    resultado = ''
+    if remove_container(nome):
+        resultado = f"Removendo servidor.. {nome}"
     else:
-        return f"Ocorreu um erro ao parar servidor {command.args[2]} .."
+        resultado = f"Ocorreu um erro ao remover servidor {nome} .."
+    await message_handler.send_message_normal(message,  user, resultado)
   
-async def start(command : command_model, message):
-    if start_container(command.args[2]):
-        return f"Iniciando servidor.. {command.args[2]}"
+async def start(command : command_model,  message, user):
+    new_args = command.args[2:]
+    nome = new_args[command.command_args.get_arg_unique('nome').index]     
+    if start_container(nome):
+        await message_handler.send_message_normal(message,  user, f"Iniciando servidor.. {nome}")
     else:
-        return f"Ocorreu um erro ao iniciar servidor {command.args[2]} .."
+        await message_handler.send_message_normal(message,  user,  f"Ocorreu um erro ao iniciar servidor {nome} ..")
+
 
 async def create(command : command_model, message, user):
     environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "FORGEVERSION": "36.1.32", "ONLINE_MODE": "FALSE"}
@@ -68,10 +94,16 @@ async def create(command : command_model, message, user):
         await message_handler.send_message_normal(message,  user, resultado['mensagem'])
 
 def register(commands : command_register):
-  command_model(optional_alias='minecraft', alias='status',descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands)
+  #refatorar isso
+  args_default = command_args_register()  
+  args_default.addArg(command_args(unique_id='nome', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
+  
+  command_model(optional_alias='minecraft', alias='status',descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands, command_args=args_default)
   command_model(optional_alias='minecraft', alias='list', descricao="Exibir uma lista de servidores de minecraft", method=list, register=commands)
-  command_model(optional_alias='minecraft', alias='stop', descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", method=stop, register=commands)
-  command_model(optional_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands)
+  command_model(optional_alias='minecraft', alias='stop', descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", method=stop, register=commands, command_args=args_default) 
+  command_model(optional_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands, command_args=args_default)
+  command_model(optional_alias='minecraft', alias='remove',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=remove, register=commands, command_args=args_default)
+
   
   args_create = command_args_register()
   args_create.addArg(command_args(unique_id='nome', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))

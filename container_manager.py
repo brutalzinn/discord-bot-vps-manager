@@ -24,6 +24,13 @@ def restart_container(servername):
     except:
         return False
 
+def remove_container(servername):
+   
+    try:
+        dockerClient.api.remove_container(servername, True)
+        return True
+    except:
+        return False
 
 def start_container(servername):
     try:
@@ -42,6 +49,19 @@ def stop_container(servername):
         print(err)
         return False
     
+def get_container(name):
+    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
+    if len(containerList) == 0:
+        return None
+    for item in containerList:
+        containerInfo = dockerClient.containers.get(item.id)
+        ports = containerInfo.attrs['HostConfig']['PortBindings'].items()
+        finalPort = 0
+        for key, value in ports:
+            finalPort = value[0]['HostPort']
+            if name in item.name:
+                return {"name":item.name,"status":item.status,"port":finalPort}
+                
 def list_container():
     list = ''
     containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
