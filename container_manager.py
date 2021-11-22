@@ -49,7 +49,7 @@ def stop_container(servername):
         return str(err)
     
 def get_container(name):
-    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
+    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server:java8"})
     if len(containerList) == 0:
         return None
     for item in containerList:
@@ -63,7 +63,7 @@ def get_container(name):
                 
 def list_container():
     list = ''
-    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
+    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server:java8"})
     if len(containerList) == 0:
         list = 'Nenhum servidor criado.'
     for item in containerList:

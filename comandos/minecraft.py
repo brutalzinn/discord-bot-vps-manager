@@ -46,7 +46,7 @@ async def remove(command : command_model, message, user):
     resultado = ''
     docker_connection = remove_container(nome)
     if docker_connection:
-        resultado = f"Removendo servidor.. {nome}"
+        resultado = f"servidor.. {nome} removido"
     else:
         resultado = f"Ocorreu um erro ao remover servidor {nome} ---  {docker_connection}"
     await message_handler.send_message_normal(message,  user, resultado)
