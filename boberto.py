@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 import pkgutil
 import sys
-alias = 'b!'
+alias = '!b'
 lastExec = datetime.today()
 discordToken = os.getenv('DISCORD_TOKEN')
 discordUrl = os.getenv('DISCORD_URL')
