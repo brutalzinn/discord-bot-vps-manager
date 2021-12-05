@@ -32,9 +32,6 @@ async def ajuda(command : command_model, message, user):
             elif len(new_args) > 1 and comando.optional_alias == command_name and comando.alias == new_args[1]:
                 resultado += f'{comando.optional_alias} {comando.alias} - {comando.descricao} \n'
                 break
-
-
-
     await message_handler.send_message_normal(message,  user,   resultado)
     
   
