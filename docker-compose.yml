@@ -10,7 +10,7 @@ services:
     container_name: boberto-file-manager
     volumes:
       - ./web:/var/www/html
-      - ./config/php.ini:/usr/local/etc/php/php.ini
+      - ./web/config/php.ini:/usr/local/etc/php/php.ini
 
   boberto-database:
     container_name: boberto-database
