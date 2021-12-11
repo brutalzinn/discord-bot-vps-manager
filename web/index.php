@@ -113,7 +113,7 @@ $sticky_navbar = true;
 // Maximum file upload size
 // Increase the following values in php.ini to work properly
 // memory_limit, upload_max_filesize, post_max_size
-$max_upload_size_bytes = 5000000000;
+$max_upload_size_bytes = 512;
 
 // Possible rules are 'OFF', 'AND' or 'OR'
 // OFF => Don't check connection IP, defaults to OFF
@@ -1282,7 +1282,7 @@ if (isset($_GET['upload']) && !FM_READONLY) {
     <script>
         Dropzone.options.fileUploader = {
             timeout: 180000,
-            maxFilesize: 512,
+            maxFilesize: <?php echo MAX_UPLOAD_SIZE; ?>,
             acceptedFiles : "<?php echo getUploadExt() ?>",
             init: function () {
                 this.on("sending", function (file, xhr, formData) {
