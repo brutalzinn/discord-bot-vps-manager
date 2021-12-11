@@ -87,7 +87,7 @@ $allowed_file_extensions = '';
 
 // Allowed file extensions for upload files
 // e.g. 'gif,png,jpg,html,txt'
-$allowed_upload_extensions = 'zip,jar,json';
+$allowed_upload_extensions = '';
 
 // Favicon path. This can be either a full url to an .PNG image, or a path based on the document root.
 // full path, e.g http://example.com/favicon.png
@@ -1281,7 +1281,7 @@ if (isset($_GET['upload']) && !FM_READONLY) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script>
         Dropzone.options.fileUploader = {
-            timeout: 120000,
+            timeout: 500000,
             maxFilesize: <?php echo MAX_UPLOAD_SIZE; ?>,
             acceptedFiles : "<?php echo getUploadExt() ?>",
             init: function () {
