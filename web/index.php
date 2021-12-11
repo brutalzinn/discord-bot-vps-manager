@@ -1282,7 +1282,7 @@ if (isset($_GET['upload']) && !FM_READONLY) {
     <script>
         Dropzone.options.fileUploader = {
             timeout: 180000,
-            maxFilesize: <?php echo MAX_UPLOAD_SIZE; ?>,
+            maxFilesize: 512,
             acceptedFiles : "<?php echo getUploadExt() ?>",
             init: function () {
                 this.on("sending", function (file, xhr, formData) {
