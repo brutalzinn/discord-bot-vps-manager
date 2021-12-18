@@ -27,7 +27,7 @@ def restart_container(servername):
 def remove_container(servername):
    
     try:
-        dockerClient.api.remove_container(servername, True)
+        dockerClient.api.remove_container(servername, True, True, True)
         return True
     except Exception as err:
         return str(err)
