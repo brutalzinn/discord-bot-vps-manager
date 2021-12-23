@@ -60,7 +60,16 @@ def get_container(name):
             finalPort = value[0]['HostPort']
             if name in item.name:
                 return {"name":item.name,"status":item.status,"port":finalPort}
-                
+
+#TODO:
+#Adicionar web socket para transmitir dados do console do minecraft server.
+def get_container_data(name):
+        container = dockerClient.api.attach(name,stream=True)
+        return container._stream
+
+
+
+
 def list_container():
     list = ''
     containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server:java8"})

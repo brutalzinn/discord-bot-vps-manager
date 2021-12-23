@@ -77,7 +77,7 @@ async def create(command : command_model, message, user):
 
 
     root_directory = Path(__file__).parent.parent
-    arquivos = os.path.join(root_directory,'web','data')
+    arquivos = os.path.join(root_directory,'web','data','servidores')
     if not os.path.isdir(arquivos):
         os.mkdir(arquivos)
     server_path = os.path.join(arquivos, nome)

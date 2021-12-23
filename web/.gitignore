@@ -1,8 +1,6 @@
 /vendor
 composer.lock
-data/*
+data/cliente/*
+data/servidores/*
 
 # exception to the rule
-!data/.gitkeep 
-!data/servidores/.gitkeep 
-!data/cliente/.gitkeep 
