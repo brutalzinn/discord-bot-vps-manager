@@ -1,6 +1,8 @@
 <?php
+
+include __DIR__.'/vendor/autoload.php';
+
 //Default Configuration
-$CONFIG = '{"lang":"pt","error_reporting":true,"show_hidden":true,"hide_Cols":true,"calc_folder":true,"theme":"light"}';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -364,7 +366,9 @@ $_SESSION[FM_SESSION_ID]['email'] = $decoded->payload->email;
 $_SESSION[FM_SESSION_ID]['nivel'] = $decoded->payload->nivel;
 $_SESSION[FM_SESSION_ID]['discord_id'] = $decoded->payload->discord_id;
 $_SESSION[FM_SESSION_ID]['session_id'] = $decoded->payload->session_id;
-fm_set_msg(lng('You are logged in'));
+fm_set_msg(lng('Seu nível é: '. $_SESSION[FM_SESSION_ID]['nivel']));
+
+
 
 
 
@@ -384,17 +388,9 @@ if($row_token['allcount'] > 0){
 }else{
     pg_query($conn, "INSERT INTO usuario_token(discord_id,token) values ('".$_SESSION[FM_SESSION_ID]['discord_id']."','".$_SESSION[FM_SESSION_ID]['session_id']."')");
 }
-
 fm_redirect(FM_SELF_URL . '?p=');
 }
 
-
-function ChecarPermissaoDePasta(){
-    if($_SESSION[FM_SESSION_ID]['nivel'] < 3){
-      return "nao tenho nivel";  
-    }
-    return isset($_GET['p'])  && in_array($_GET['p'], $readonly_folders);
-}
 
 
 // echo "TESTE" . ChecarPermissaoDePasta();
@@ -416,7 +412,12 @@ if($row_token > 0){
         echo $_SESSION[FM_SESSION_ID]['session_id'];
         unset($_SESSION[FM_SESSION_ID]['logged']);
         //tokenExpiredHtml();
+
         fm_redirect(FM_SELF_URL);
+    }
+//limitando visibilidade da pasta cliente. Pois isso é crítico.
+    if($_SESSION[FM_SESSION_ID]['nivel'] < 3){
+        array_push($exclude_items,"cliente");
     }
 }
 
@@ -611,6 +612,7 @@ if (isset($_POST['ajax']) && !FM_READONLY) {
             global $callback;
             echo json_encode($message);
         }
+
 
         function get_file_path () {
             global $path, $fileinfo, $temp_file;
@@ -3425,11 +3427,11 @@ function fm_show_nav_path($path)
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <?php
-            echo "TESTE". ChecarPermissaoDePasta()";
             $path = fm_clean_path($path);
             $root_url = "<a href='?p='><i class='fa fa-home' aria-hidden='true' title='" . FM_ROOT_PATH . "'></i></a>";
             $sep = '<i class="bread-crumb"> / </i>';
             if ($path != '') {
+
                 $exploded = explode('/', $path);
                 $count = count($exploded);
                 $array = array();
