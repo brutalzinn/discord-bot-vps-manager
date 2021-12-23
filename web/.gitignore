@@ -4,3 +4,4 @@ data/cliente/*
 data/servidores/*
 
 # exception to the rule
+!data/.gitkeep 
