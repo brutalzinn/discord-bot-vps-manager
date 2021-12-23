@@ -3,4 +3,4 @@ composer.lock
 data/*
 
 # exception to the rule
-!data/.gitkeep 
+!data/servidores/.gitkeep 
