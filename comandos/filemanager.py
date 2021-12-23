@@ -12,7 +12,7 @@ import random # define the random module
 async def edit(command : command_model, message, user):
     await message.channel.send('Testando mensagem') 
     await message_handler.send_message_private(message, user, 'Esse link será expirado em 60 segundos.')
-    engine = create_engine(f"postgresql://{os.getenv('BOBERTO_USER')}:{os.getenv('BOBERTO_PASSWORD')}{os.getenv('BOBERTO_HOST')}/{os.getenv('BOBERTO_DATABASE')}")
+    engine = create_engine(f"postgresql://{os.getenv('BOBERTO_USER')}:{os.getenv('BOBERTO_PASSWORD')}@{os.getenv('BOBERTO_HOST')}/{os.getenv('BOBERTO_DATABASE')}")
     with engine.connect() as conn:
       result = conn.execute(text(f"select * from usuario where discord_id='{command.author}'"))
       row = result.fetchone()
