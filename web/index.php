@@ -1,6 +1,6 @@
 <?php
 //Default Configuration
-include __DIR__.'/vendor/autoload.php';
+$CONFIG = '{"lang":"pt","error_reporting":true,"show_hidden":true,"hide_Cols":true,"calc_folder":true,"theme":"light"}';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -44,6 +44,11 @@ $use_auth = true;
 $readonly_users = array(
     'user'
 );
+
+$readonly_folders = array(
+    'cliente'
+);
+
 
 // Enable highlight.js (https://highlightjs.org/) on view's page
 $use_highlightjs = true;
@@ -295,6 +300,9 @@ if($ip_ruleset != 'OFF'){
 // }
 // echo "teste"
 // Auth
+
+
+
 function tokenExpiredHtml(){
     
  
@@ -353,16 +361,21 @@ try {
 $decoded = JWT::decode($jwt, new Key(JWT_SECRET, 'HS256'));
 $_SESSION[FM_SESSION_ID]['logged'] = $decoded->payload->email;
 $_SESSION[FM_SESSION_ID]['email'] = $decoded->payload->email;
+$_SESSION[FM_SESSION_ID]['nivel'] = $decoded->payload->nivel;
 $_SESSION[FM_SESSION_ID]['discord_id'] = $decoded->payload->discord_id;
 $_SESSION[FM_SESSION_ID]['session_id'] = $decoded->payload->session_id;
 fm_set_msg(lng('You are logged in'));
+
+
+
 
 }
 catch (Exception $e) {
     fm_set_msg(lng('Sessão inválida. Chame o boberto para ajudar.'), 'error');
     tokenExpiredHtml();
 }
-  
+
+
 $conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
 $result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
 $row_token = pg_fetch_assoc($result);
@@ -376,7 +389,15 @@ fm_redirect(FM_SELF_URL . '?p=');
 }
 
 
+function ChecarPermissaoDePasta(){
+    if($_SESSION[FM_SESSION_ID]['nivel'] < 3){
+      return "nao tenho nivel";  
+    }
+    return isset($_GET['p'])  && in_array($_GET['p'], $readonly_folders);
+}
 
+
+// echo "TESTE" . ChecarPermissaoDePasta();
 
 if(isset($_GET['user'])){
     AutenticarUsuario($_GET['user']);
@@ -3404,6 +3425,7 @@ function fm_show_nav_path($path)
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <?php
+            echo "TESTE". ChecarPermissaoDePasta()";
             $path = fm_clean_path($path);
             $root_url = "<a href='?p='><i class='fa fa-home' aria-hidden='true' title='" . FM_ROOT_PATH . "'></i></a>";
             $sep = '<i class="bread-crumb"> / </i>';
