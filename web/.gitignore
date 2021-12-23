@@ -5,3 +5,5 @@ data/servidores/*
 
 # exception to the rule
 !data/.gitkeep 
+!data/cliente/.gitkeep 
+!data/servidores/.gitkeep 
