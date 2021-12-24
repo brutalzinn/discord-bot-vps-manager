@@ -30,7 +30,7 @@ async def edit(command : command_model, message, user):
    
       payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email, "session_id":random_session}
       #config.redis_cache.set(random_session, json.dumps(payload))
-      resultado = f"http://{os.getenv('URL')}:3060/index.php?p=&user={config.jwt.gerar_jwt(payload)}"
+      resultado = f"http://{os.getenv('URL')}/index.php?p=&user={config.jwt.gerar_jwt(payload)}"
       await message_handler.send_message_private(message, user, resultado)
 
     
