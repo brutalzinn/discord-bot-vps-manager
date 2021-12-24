@@ -1,5 +1,9 @@
 /vendor
 composer.lock
 
-/data/cliente
-/data/servidores
+/data/*
+
+!data/cliente
+!data/servidores
+!data/console
+!data/downloads
