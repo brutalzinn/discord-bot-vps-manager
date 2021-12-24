@@ -2,8 +2,10 @@
 composer.lock
 data/cliente/*
 data/servidores/*
+data/downloads/*
 
 # exception to the rule
 !data/.gitkeep 
 !data/cliente/.gitkeep 
+!data/downloads/.gitkeep 
 !data/servidores/.gitkeep 
