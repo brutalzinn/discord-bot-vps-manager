@@ -70,7 +70,7 @@ async def create(command : command_model, message, user):
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
     versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]     
     memoria = new_args[command.command_args.get_arg_unique('memoria').index]  
-    if int(memoria) > 5:
+    if int(memoria) > 7:
         await message_handler.send_message_normal(message,  user, f'Memória limite atingida. Use menos de 6G')
         return
     await message_handler.send_message_normal(message,  user, f'Criando servidor {nome} ..')
