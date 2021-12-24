@@ -6,7 +6,7 @@
 
         if ($entry != "." && $entry != "..") {
 
-        echo '<a href="/prac/admin/'.$entry.'"' .'download="'.$entry.'">'.$entry.'</a>'.'<br>';       
+        echo '<a href="/downloads/'.$entry.'"' .'download="'.$entry.'">'.$entry.'</a>'.'<br>';       
         }
       }
     }
