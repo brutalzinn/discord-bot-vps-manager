@@ -1304,7 +1304,7 @@ if (isset($_GET['upload']) && !FM_READONLY) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script>
         Dropzone.options.fileUploader = {
-            timeout: 180000,
+            timeout: 350000,
             maxFilesize: <?php echo MAX_UPLOAD_SIZE; ?>,
             acceptedFiles : "<?php echo getUploadExt() ?>",
             init: function () {
