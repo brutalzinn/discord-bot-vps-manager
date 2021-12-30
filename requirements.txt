@@ -10,3 +10,5 @@ SQLAlchemy
 psycopg2
 flask
 werkzeug
+patool
+pyunpack
