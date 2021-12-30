@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 import pkgutil
 import sys
+import api
 alias = '!b'
 lastExec = datetime.today()
 discordToken = os.getenv('DISCORD_TOKEN')
@@ -41,12 +42,16 @@ class Boberto(discord.Client):
         #await message.channel.send(f'Privada: {resposta}')
         
 
-       
 
 def discord_notification(message):   
     myobj = {'content': message}
     requests.post(discordUrl, data = myobj)
 client = Boberto()
+try:
+    api.app.run(debug = True)
+    discord_notification(f'API de envio de modpacks parou de funcionar.{lastExec}!')
+except:
+    pass
 try:
     discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
     client.run(discordToken)

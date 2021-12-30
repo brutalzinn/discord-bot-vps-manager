@@ -8,3 +8,5 @@ python_bcrypt
 Requests
 SQLAlchemy
 psycopg2
+flask
+werkzeug

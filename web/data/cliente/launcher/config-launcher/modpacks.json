@@ -1,0 +1,18 @@
+[
+  {
+    "id": "6f38a1e9-b9bd-4320-8358-e483d58f8a01",
+    "name": "Modpack de Teste",
+    "directory": "teste-modpack",
+    "default": true,
+    "premium": false,
+    "description": "teste de descrição",
+    "game_version": "1.16.5",
+    "forge_version": "1.16.5-36.2.22",
+    "server_ip": "boberto.net",
+    "server_port": "25565",
+    "datetime_creat_at": "2021-12-29T18:40:06.001Z",
+    "datetime_updat_at": "2021-12-29T18:40:41.703Z",
+    "img": "",
+    "author": "teste de autor"
+  }
+]
