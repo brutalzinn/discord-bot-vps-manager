@@ -23,7 +23,7 @@ class Boberto(discord.Client):
     async def on_message(self, message):
         if message.author == self.user: return
         if not alias in message.content.lower(): return
-        author = str(message.author).lower()
+        author = str(message.author.id).lower()
         print(author)
         comando = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(), author)                                                              
         if comando is None:

@@ -65,14 +65,14 @@ INSERT INTO grupos(
     
 INSERT INTO usuario(
 	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
-    VALUES (DEFAULT, 'teste@example.com', 'robertocpaes.dev#2825', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
+    VALUES (DEFAULT, 'teste@example.com', '762397073315332096', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
 
 INSERT INTO usuario(
 	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
-    VALUES (DEFAULT, 'teste@example.com', 'dani95ye#6699', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
+    VALUES (DEFAULT, 'teste@example.com', '465562383469772800', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
 
 INSERT INTO usuario(
 	"id", "email", "discord_id", "senha", "sessao" ,"last_login", "whitelist", "nivel")
-    VALUES (DEFAULT, 'teste@example.com', 'luisph#3300', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
+    VALUES (DEFAULT, 'teste@example.com', '822811206522765332', '$2y$10$kEuT6V6Tpbx9TsQNL3WHtuErmSm4/cwOnqoX.t1nB99VahkUy8sa.','','now', 0, 3);
 
 --first groups
