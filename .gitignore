@@ -142,3 +142,4 @@ cython_debug/
 
 
 .Redis/
+web/data/cliente/files/files/*

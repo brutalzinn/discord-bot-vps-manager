@@ -1,18 +1,34 @@
 [
-  {
-    "id": "6f38a1e9-b9bd-4320-8358-e483d58f8a01",
-    "name": "Modpack de Teste",
-    "directory": "teste-modpack",
-    "default": true,
-    "premium": false,
-    "description": "teste de descrição",
-    "game_version": "1.16.5",
-    "forge_version": "1.16.5-36.2.22",
-    "server_ip": "boberto.net",
-    "server_port": "25565",
-    "datetime_creat_at": "2021-12-29T18:40:06.001Z",
-    "datetime_updat_at": "2021-12-29T18:40:41.703Z",
-    "img": "",
-    "author": "teste de autor"
-  }
+    {
+        "id": "6f38a1e9-b9bd-4320-8358-e483d58f8a01",
+        "name": "Modpack de Teste",
+        "directory": "teste-modpack",
+        "default": true,
+        "premium": false,
+        "description": "teste de descrição",
+        "game_version": "1.16.5",
+        "forge_version": "1.16.5-36.2.22",
+        "server_ip": "boberto.net",
+        "server_port": "25566",
+        "datetime_creat_at": "2021-12-29T18:40:06.001Z",
+        "datetime_updat_at": "2021-12-30T17:17:23.925Z",
+        "img": "",
+        "author": "teste de autor"
+    },
+    {
+        "id": "8a1ae76f-5c4a-4846-9082-9a74b895cd74",
+        "name": "Modpack do daniel",
+        "directory": "modpack-daniel",
+        "default": false,
+        "premium": true,
+        "description": "Esse modpack é uma descrição.",
+        "game_version": "1.16.5",
+        "forge_version": "1.16.5-36.2.22",
+        "server_ip": "boberto.net",
+        "server_port": "25565",
+        "datetime_creat_at": "2021-12-30T23:31:49.498Z",
+        "datetime_updat_at": "2021-12-30T23:36:45.887Z",
+        "img": "",
+        "author": "daniel"
+    }
 ]
