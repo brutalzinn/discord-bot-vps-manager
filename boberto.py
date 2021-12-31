@@ -52,6 +52,7 @@ try:
     discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 except:
     pass
+
 try:
     discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
     client.run(discordToken)

@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/list/modpacks', methods = ['GET'])
 def get_modpacks():
-      if request.headers.get('api-key') != 'teste':
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
       f = open(modpacks)
@@ -19,7 +19,7 @@ def get_modpacks():
 
 @app.route('/update/modpacks', methods = ['POST'])
 def add_modpack():
-      if request.headers.get('api-key') != 'teste':
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
       content = request.json
@@ -29,7 +29,7 @@ def add_modpack():
 
 @app.route('/config/launcher', methods = ['POST'])
 def add_modpack():
-      if request.headers.get('api-key') != 'teste':
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       config_launcher = os.path.join("web","data","cliente","launcher","config-launcher","config.json")
       content = request.json
@@ -39,7 +39,7 @@ def add_modpack():
 
 @app.route('/upload/moodpacks', methods = ['GET', 'POST'])
 def upload_file():
-   if request.headers.get('api-key') != 'teste':
+   if request.headers.get('api-key') != os.getenv('API_TOKEN'):
       return Response(status=401)
    if request.method == 'POST':
       f = request.files['file']
