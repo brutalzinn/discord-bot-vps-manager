@@ -49,7 +49,7 @@ def discord_notification(message):
 client = Boberto()
 try:
     api.app.run(debug = True)
-    discord_notification(f'API de envio de modpacks parou de funcionar.{lastExec}!')
+    discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 except:
     pass
 try:
