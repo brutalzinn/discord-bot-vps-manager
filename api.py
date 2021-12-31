@@ -1,13 +1,12 @@
+from discord.enums import ContentFilter
 from flask import Flask, render_template, request, Response
 import os
 from pyunpack import Archive
 import json
 from flask import jsonify
-
-
+import config
 app = Flask(__name__)
-
-@app.route('/list/modpacks', methods = ['GET'])
+@app.route('/launcher/list/modpacks', methods = ['GET'])
 def get_modpacks():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -17,7 +16,7 @@ def get_modpacks():
       f.close()
       return jsonify(data)
 
-@app.route('/update/modpacks', methods = ['POST'])
+@app.route('/launcher/update/modpacks', methods = ['POST'])
 def add_modpack():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -27,8 +26,8 @@ def add_modpack():
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
-@app.route('/config/launcher', methods = ['POST'])
-def add_modpack():
+@app.route('/launcher/config/launcher', methods = ['POST'])
+def update_config():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       config_launcher = os.path.join("web","data","cliente","launcher","config-launcher","config.json")
@@ -37,7 +36,18 @@ def add_modpack():
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
-@app.route('/upload/moodpacks', methods = ['GET', 'POST'])
+@app.route('/launcher/config/redis', methods = ['POST'])
+def clear_redis():
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
+         return Response(status=401)
+      content = request.get_json()
+     
+      config.redis_cache.delete(content['id'])
+     # print(content['id'])
+      
+      return Response(status=200)
+
+@app.route('/launcher/upload/modpacks', methods = ['GET', 'POST'])
 def upload_file():
    if request.headers.get('api-key') != os.getenv('API_TOKEN'):
       return Response(status=401)

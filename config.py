@@ -6,11 +6,11 @@ import docker
 from models.permissions.permission_register import permission_register
 import jwt_handler
 import os
-#import redis
+import redis
 from dotenv import load_dotenv
 load_dotenv()
 filename = 'whitelist.txt'
-#redis_cache = redis.Redis(host='localhost',password='SUASENHA', port=6379, db=0)
+redis_cache = redis.Redis(host='127.0.0.1',password=os.getenv("REDIS_PASSWORD"), port=6379)
 perm_register = permission_register()
 perm_handler = permission_handler(perm_register)
 jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_SECRET'))

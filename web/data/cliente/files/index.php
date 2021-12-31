@@ -1,12 +1,12 @@
 <?php
-include __DIR__.'../../../vendor/autoload.php';
+include __DIR__.'../../../../vendor/autoload.php';
 
 Predis\Autoloader::register();
 $client = new Predis\Client([
     'scheme' => 'tcp',
-    'host'   => 'host.docker.internal',
+    'host'   => getenv("BOBERTO_HOST"),
     'port'   => 6379,
-    'password' => 'SUASENHA'
+    'password' => getenv("REDIS_PASSWORD")
 ]);
 
 $GLOBALS['DIRS']= array();

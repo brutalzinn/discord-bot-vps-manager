@@ -12,3 +12,4 @@ flask
 werkzeug
 patool
 pyunpack
+redis

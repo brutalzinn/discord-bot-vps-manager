@@ -45,10 +45,10 @@ class Boberto(discord.Client):
 
 def discord_notification(message):   
     myobj = {'content': message}
-    requests.post(discordUrl, data = myobj)
+#    requests.post(discordUrl, data = myobj)
 client = Boberto()
 try:
-    api.app.run(debug = True)
+    api.app.run(port=8090,debug = True)
     discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 except:
     pass
