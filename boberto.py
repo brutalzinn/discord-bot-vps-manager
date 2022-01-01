@@ -44,7 +44,7 @@ except:
 
 try:
     config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
-    threading.Thread(target=lambda:client.run(config.discordToken)).start()
+    client.run(config.discordToken)
 except:
     config.discord_notification(f'Boberto caiu na água em {datetime.today()}!')
     
