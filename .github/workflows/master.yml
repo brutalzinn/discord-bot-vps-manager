@@ -64,6 +64,8 @@ jobs:
           echo "REDIS_PORT=$REDIS_PORT" >>/home/brutalzinn/discord/boberto/.env
           echo "API_TOKEN=$API_TOKEN" >>/home/brutalzinn/discord/boberto/.env
           echo "URL=$URL" >>/home/brutalzinn/discord/boberto/.env
+          echo "ENVIROMENT=PRODUCTION" >>/home/brutalzinn/discord/boberto/.env
+
 
 
     - name: Disparando notificação no Discord pré deploy

@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 discordToken = os.getenv('DISCORD_TOKEN')
 discordUrl = os.getenv('DISCORD_URL')
-
+enviroment = os.getenv('ENVIROMENT')
 engine = create_engine(f"postgresql://{os.getenv('BOBERTO_USER')}:{os.getenv('BOBERTO_PASSWORD')}@localhost/{os.getenv('BOBERTO_DATABASE')}")
 
 redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("REDIS_PASSWORD"), port=6379)
@@ -35,9 +35,10 @@ def loadPermissions():
 
 
 
-def discord_notification(message):   
-    myobj = {'content': message}
-    requests.post(discordUrl, data = myobj)
+def discord_notification(message):
+    if 'PRODUCTION' in enviroment:
+        myobj = {'content': message}
+        requests.post(discordUrl, data = myobj)
 
 
 
