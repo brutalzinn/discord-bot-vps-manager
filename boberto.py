@@ -36,7 +36,7 @@ client = Boberto()
 try:
     #api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
     threading.Thread(target=lambda: api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = False, use_reloader=False)).start()
-    config.discord_notification(f'A API de boberto foi iniciada.{lastExec}!')
+    config.discord_notification(f'A API de boberto iniciou com sucesso.{lastExec}!')
 
 except:
     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
@@ -44,7 +44,7 @@ except:
 
 try:
     config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
-    client.run(config.discordToken)
+    threading.Thread(target=lambda:client.run(config.discordToken)).start()
 except:
     config.discord_notification(f'Boberto caiu na água em {datetime.today()}!')
     
