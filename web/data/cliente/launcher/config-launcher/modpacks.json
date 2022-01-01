@@ -1,18 +1,18 @@
 [
     {
-        "id": "6f38a1e9-b9bd-4320-8358-e483d58f8a01",
-        "name": "Modpack de Teste",
-        "directory": "modpack-daniel",
+        "id": "1063fe34-a106-4a53-a521-2aa4c6ac9a94",
+        "name": "ModPack do boberto",
+        "directory": "modpack-boberto",
         "default": true,
         "premium": false,
-        "description": "teste de descrição",
-        "game_version": "1.16.5",
-        "forge_version": "1.16.5-36.2.22",
+        "description": "Modpack padrão",
+        "game_version": "1.12.2",
+        "forge_version": "14.23.5.2860",
         "server_ip": "boberto.net",
-        "server_port": "25566",
-        "datetime_creat_at": "2021-12-29T18:40:06.001Z",
-        "datetime_updat_at": "2021-12-30T17:17:23.925Z",
+        "server_port": "25565",
+        "datetime_creat_at": "2021-12-31T15:58:57.069Z",
+        "datetime_updat_at": "2021-12-31T16:10:41.092Z",
         "img": "",
-        "author": "teste de autor"
+        "author": "robertocpaes"
     }
 ]

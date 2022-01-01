@@ -14,7 +14,7 @@ load_dotenv()
 discordToken = os.getenv('DISCORD_TOKEN')
 discordUrl = os.getenv('DISCORD_URL')
 
-engine = create_engine(f"postgresql://{os.getenv('BOBERTO_USER')}:{os.getenv('BOBERTO_PASSWORD')}@{os.getenv('BOBERTO_HOST')}/{os.getenv('BOBERTO_DATABASE')}")
+engine = create_engine(f"postgresql://{os.getenv('BOBERTO_USER')}:{os.getenv('BOBERTO_PASSWORD')}@localhost/{os.getenv('BOBERTO_DATABASE')}")
 
 redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("REDIS_PASSWORD"), port=6379)
 
