@@ -33,6 +33,7 @@ jobs:
         DISCORD_URL: ${{ secrets.DISCORD_URL }}
         BOBERTO_JWT: ${{ secrets.BOBERTO_JWT }}
         BOBERTO_DATABASE: ${{ secrets.BOBERTO_DATABASE }}
+        BOBERTO_HOST: ${{ secrets.BOBERTO_HOST }}
         BOBERTO_USER: ${{ secrets.BOBERTO_USER }}
         BOBERTO_PASSWORD: ${{ secrets.BOBERTO_PASSWORD }}
         BOBERTO_PORT: ${{ secrets.BOBERTO_PORT }}
