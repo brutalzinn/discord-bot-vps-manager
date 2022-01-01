@@ -66,7 +66,7 @@ if(!isset($value)){
    $resultado = json_encode($GLOBALS['DIRS'],JSON_UNESCAPED_SLASHES ) ;
    $client->set($_GET['modpack'], $resultado);
    $client->expire($_GET['modpack'], 3600);
-   echo "[", $client->get($_GET['modpack']), "\"\"]";
+   echo  $client->get($_GET['modpack']);
 }else{
    echo $client->get($_GET['modpack']);
 }

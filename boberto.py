@@ -34,8 +34,8 @@ class Boberto(discord.Client):
 
 client = Boberto()
 try:
-    api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
-    # threading.Thread(target=lambda: api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=False)).start()
+    #api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
+    threading.Thread(target=lambda: api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=False)).start()
     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 except:
     pass
