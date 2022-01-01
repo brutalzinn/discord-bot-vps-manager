@@ -83,7 +83,7 @@ def upload_file():
          f.save(file_zip)
          f.close()
          Archive(file_zip).extractall(file_zip_out, True)
-         #os.unlink(file_zip)
+         os.unlink(file_zip)
       except:
          print("Deu erro.")
          return Response(status=401)
