@@ -81,7 +81,7 @@ def upload_file():
       file_zip_out = os.path.join("web","data","cliente","files","files",directory)
       try:
          f.save(file_zip)
-         Archive(file_zip).extractall(file_zip_out)
+         Archive(file_zip, backend="patool").extractall(file_zip_out)
          #os.unlink(file_zip)
       except:
          print("Deu erro.")
