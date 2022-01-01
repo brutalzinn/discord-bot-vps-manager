@@ -36,16 +36,18 @@ jobs:
         BOBERTO_USER: ${{ secrets.BOBERTO_USER }}
         BOBERTO_PASSWORD: ${{ secrets.BOBERTO_PASSWORD }}
         BOBERTO_PORT: ${{ secrets.BOBERTO_PORT }}
-        BOBERTO_HOST: ${{ secrets.BOBERTO_HOST }}
+        API_PORT: ${{ secrets.API_PORT }}
+        REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        API_TOKEN: ${{ secrets.API_TOKEN }}
         URL: ${{ secrets.URL }}
-
 
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT, BOBERTO_HOST, URL
+        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT, BOBERTO_HOST, URL, API_TOKEN, REDIS_PORT, REDIS_PASSWORD, API_PORT
         script: |
           sudo rm -f .env
           echo "DISCORD_TOKEN=$DISCORD_KEY" >/home/brutalzinn/discord/boberto/.env
@@ -55,8 +57,12 @@ jobs:
           echo "BOBERTO_DATABASE=$BOBERTO_DATABASE" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_USER=$BOBERTO_USER" >>/home/brutalzinn/discord/boberto/.env
           echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_PORT=$BOBERTO_PORT" >>/home/brutalzinn/discord/boberto/.env     
-          echo "URL=$URL" >>/home/brutalzinn/discord/boberto/.env      
+          echo "BOBERTO_PORT=$BOBERTO_PORT" >>/home/brutalzinn/discord/boberto/.env
+          echo "API_PORT=$API_PORT" >>/home/brutalzinn/discord/boberto/.env
+          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >>/home/brutalzinn/discord/boberto/.env
+          echo "REDIS_PORT=$REDIS_PORT" >>/home/brutalzinn/discord/boberto/.env
+          echo "API_TOKEN=$API_TOKEN" >>/home/brutalzinn/discord/boberto/.env
+          echo "URL=$URL" >>/home/brutalzinn/discord/boberto/.env
 
 
     - name: Disparando notificação no Discord pré deploy
