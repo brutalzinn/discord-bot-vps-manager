@@ -37,7 +37,7 @@ def loadPermissions():
 
 def discord_notification(message):   
     myobj = {'content': message}
-    #requests.post(discordUrl, data = myobj)
+    requests.post(discordUrl, data = myobj)
 
 
 
