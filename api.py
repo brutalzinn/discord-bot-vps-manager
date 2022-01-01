@@ -71,8 +71,8 @@ def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       directory = request.form.get('directory')
-      if not os.path.exists(os.path.join("web","data","cliente","files","files",directory)):
-         os.mkdir(os.path.join("web","data","cliente","files","files",directory))
+      # if not os.path.exists(os.path.join("web","data","cliente","files","files",directory)):
+      #    os.mkdir(os.path.join("web","data","cliente","files","files",directory))
       if f.filename.split('.')[1]  != 'zip':
         return Response(status=401)
       file_zip = os.path.join("web","data","cliente","files","files", f.filename)
@@ -80,7 +80,7 @@ def upload_file():
       try:
          f.save(file_zip)
          f.close()
-         Archive(file_zip).extractall(file_zip_out)
+         Archive(file_zip).extractall(file_zip_out, True)
          os.unlink(file_zip)
       except:
          print("Deu erro.")
