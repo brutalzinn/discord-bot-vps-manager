@@ -6,4 +6,5 @@ async def send_message_private(message, user, resposta = ''):
         await message.channel.send(resposta)
 async def send_message_normal(message, user, resposta = ''):
         await message.channel.send(resposta)
-          
+def isPrivate(message, user):
+    return isinstance(message.channel, discord.channel.DMChannel) and message.author != user

@@ -27,7 +27,9 @@ class command_model:
 
     async def execute(self, message, user):
         if self.method is not False:
-            if not config.perm_handler.check_permission(self.author, self.nivel): return "Você não tem permissão para executar esse comando"
+            if not config.perm_handler.check_permission(self.author, self.nivel):
+                 await message.channel.send("Você não tem permissão para executar esse comando") 
+                 return
             # if self.command_args is not False and len(self.command_args.getArgs()) >= self.min_arg and len(self.command_args.getArgs()) <= self.max_arg:
             #     return await self.method(self, message, user)
             # else:

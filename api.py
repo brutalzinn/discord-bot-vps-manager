@@ -6,6 +6,7 @@ import json
 from flask import jsonify
 import config
 app = Flask(__name__)
+
 @app.route('/launcher/list/modpacks', methods = ['GET'])
 def get_modpacks():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
@@ -26,7 +27,7 @@ def add_modpack():
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
-@app.route('/launcher/config/launcher', methods = ['POST'])
+@app.route('/launcher/config', methods = ['POST'])
 def update_config():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -41,13 +42,10 @@ def clear_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       content = request.get_json()
-     
       config.redis_cache.delete(content['id'])
-     # print(content['id'])
-      
       return Response(status=200)
 
-@app.route('/launcher/upload/modpacks', methods = ['GET', 'POST'])
+@app.route('/launcher/upload/modpacks', methods = ['POST'])
 def upload_file():
    if request.headers.get('api-key') != os.getenv('API_TOKEN'):
       return Response(status=401)
