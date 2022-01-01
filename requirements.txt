@@ -4,7 +4,6 @@ mcstatus
 psutil
 PyJWT
 python-dotenv
-python_bcrypt
 Requests
 SQLAlchemy
 psycopg2
