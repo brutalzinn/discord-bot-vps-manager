@@ -58,7 +58,7 @@ def update_config():
 #We need clear redis cache before update the new modpack 
 #and we need to put launcher in maintance mod too.
 @app.route('/launcher/del/redis', methods = ['POST'])
-def clear_redis():
+def del_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       content = request.get_json()
