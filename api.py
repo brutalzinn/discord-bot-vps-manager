@@ -65,7 +65,7 @@ def clear_redis():
       config.redis_cache.delete(content['id'])
       return Response(status=200)
 
-@app.route('/launcher/dellall/redis', methods = ['POST'])
+@app.route('/launcher/clear/redis', methods = ['POST'])
 def clear_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
