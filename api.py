@@ -71,6 +71,7 @@ def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       directory = request.form.get('directory')
+      os.umask(0)
       if not os.path.exists(os.path.join('web','data','cliente','files','files',directory)):
          # os.mkdir(os.path.join('web','data','cliente','files','files',directory))
           os.umask(0)
