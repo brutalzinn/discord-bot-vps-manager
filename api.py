@@ -37,8 +37,8 @@ def add_modpack():
             if modpack_dir in old_modpacks:
                modpacks_exists.append(modpack_dir)
       for old_folder in old_modpacks:
-         if not old_folder in modpacks_exists:
-            if  os.path.exists(old_folder):
+         if os.path.isdir(old_folder):
+            if not old_folder in modpacks_exists:
                shutil.rmtree(old_folder)
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
