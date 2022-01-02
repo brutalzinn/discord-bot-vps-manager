@@ -65,6 +65,17 @@ def clear_redis():
       config.redis_cache.delete(content['id'])
       return Response(status=200)
 
+@app.route('/launcher/dellall/redis', methods = ['POST'])
+def clear_redis():
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
+         return Response(status=401)
+      modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
+      obj = open(modpacks)
+      data = json.load(obj)
+      for content in data:
+         config.redis_cache.delete(content['id'])
+      return Response(status=200)
+
 @app.route('/launcher/upload/modpacks', methods = ['POST'])
 def upload_file():
    if request.headers.get('api-key') != os.getenv('API_TOKEN'):
