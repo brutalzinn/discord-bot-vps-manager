@@ -2201,21 +2201,21 @@ fm_show_footer();
  * @param string $filename
  * @return bool
  */
-function fm_is_file_allowed($filename)
-{
-    // By default, no file is allowed
-    $allowed = false;
+// function fm_is_file_allowed($filename)
+// {
+//     // By default, no file is allowed
+//     $allowed = false;
 
-    if (FM_EXTENSION) {
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+//     if (FM_EXTENSION) {
+//         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-        if (in_array($ext, explode(',', strtolower(FM_EXTENSION)))) {
-            $allowed = true;
-        }
-    }
+//         if (in_array($ext, explode(',', strtolower(FM_EXTENSION)))) {
+//             $allowed = true;
+//         }
+//     }
 
-    return $allowed;
-}
+//     return $allowed;
+// }
 
 /**
  * Delete  file or folder (recursively)
