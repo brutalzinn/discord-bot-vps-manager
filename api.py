@@ -38,7 +38,8 @@ def add_modpack():
                modpacks_exists.append(modpack_dir)
       for old_folder in old_modpacks:
          if not old_folder in modpacks_exists:
-            shutil.rmtree(old_folder)
+            if  os.path.exists(old_folder):
+               shutil.rmtree(old_folder)
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
@@ -83,7 +84,7 @@ def upload_file():
       try:
          f.save(file_zip)
          Archive(file_zip).extractall(file_zip_out)
-         #os.unlink(file_zip)
+         os.unlink(file_zip)
       except:
          print('Deu erro.')
          return Response(status=401)
