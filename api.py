@@ -24,22 +24,23 @@ def get_modpacks():
 
 #gamb to delete all modpacks that dont include in the new modpack update
 #need refactor this some later
+
 @app.route('/launcher/update/modpacks', methods = ['POST'])
 def add_modpack():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
       content = request.get_json()
-      to_exists = []
       old_modpacks = glob(os.path.join("web","data","cliente","files","files","*"), recursive = True)
+      modspacks_new = []
       for modpack in content:
-            modpack_dir = os.path.join(os.path.join("web","data","cliente","files","files",modpack["directory"])).replace("\","\\")
-            print(modpack_dir,old_modpacks)
-            for item in old_modpacks:
-               if modpack_dir not in old_modpacks:
-                  shutil.rmtree(item)
+            modpack_dir = os.path.join(os.path.join("web","data","cliente","files","files",modpack["directory"]))
+            modspacks_new.append(modpack_dir)
       
-
+      for item in old_modpacks:
+         if item not in modspacks_new:
+            shutil.rmtree(item)
+      
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
