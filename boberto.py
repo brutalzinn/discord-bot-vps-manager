@@ -35,8 +35,10 @@ class Boberto(discord.Client):
 client = Boberto()
 try:
     #api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
-    api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = True, use_reloader=False)
-   # threading.Thread(target=lambda: api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = False, use_reloader=False)).start()
+    if "API" not in os.getenv("MODE"):
+        api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = True, use_reloader=False)
+    else:
+        threading.Thread(target=lambda: api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = False, use_reloader=False)).start()
     config.discord_notification(f'A API de boberto iniciou com sucesso.{lastExec}!')
 
 except:
@@ -45,7 +47,7 @@ except:
 
 
 try:
-    if "API"not in os.getenv("MODE"):
+    if "API" not in os.getenv("MODE"):
         config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
         client.run(config.discordToken)
 except:
