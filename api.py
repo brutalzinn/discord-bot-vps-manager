@@ -30,16 +30,16 @@ def add_modpack():
          return Response(status=401)
       modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
       content = request.get_json()
+      to_exists = []
       old_modpacks = glob(os.path.join("web","data","cliente","files","files","*"), recursive = True)
       for modpack in content:
-            modpack_dir = os.path.join("web","data","cliente","files","files",modpack["directory"])
-            modpacks_exists = []
-            if modpack_dir in old_modpacks:
-               modpacks_exists.append(modpack_dir)
-      for old_folder in old_modpacks:
-         if os.path.isdir(old_folder):
-            if not old_folder in modpacks_exists:
-               shutil.rmtree(old_folder)
+            modpack_dir = os.path.join(os.path.join("web","data","cliente","files","files",modpack["directory"])).replace("\","\\")
+            print(modpack_dir,old_modpacks)
+            for item in old_modpacks:
+               if modpack_dir not in old_modpacks:
+                  shutil.rmtree(item)
+      
+
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)

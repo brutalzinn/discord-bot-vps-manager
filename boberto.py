@@ -35,16 +35,19 @@ class Boberto(discord.Client):
 client = Boberto()
 try:
     #api.app.run(port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
-    threading.Thread(target=lambda: api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = False, use_reloader=False)).start()
+    api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = True, use_reloader=False)
+   # threading.Thread(target=lambda: api.app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = False, use_reloader=False)).start()
     config.discord_notification(f'A API de boberto iniciou com sucesso.{lastExec}!')
 
 except:
     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
     pass
 
+
 try:
-    config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
-    client.run(config.discordToken)
+    if "API"not in os.getenv("MODE"):
+        config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
+        client.run(config.discordToken)
 except:
     config.discord_notification(f'Boberto caiu na água em {datetime.today()}!')
     
