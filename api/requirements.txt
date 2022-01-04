@@ -1,0 +1,8 @@
+PyJWT
+python-dotenv
+Requests
+flask
+werkzeug
+patool
+pyunpack
+redis

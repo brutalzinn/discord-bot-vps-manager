@@ -1,13 +1,14 @@
-from discord.enums import ContentFilter
 from flask import Flask, render_template, request, Response
 import os
 from pyunpack import Archive
 import json
 from flask import jsonify
-import config
+import redis
 import shutil
 from glob import glob
 app = Flask(__name__)
+redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("REDIS_PASSWORD"), port=6379)
+
 
 #First boberto api try. This is pure gamb. Please, dont reply in any production server.
 #This file contains method that doesnt secure to use in production early. 
@@ -63,7 +64,7 @@ def del_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
       content = request.get_json()
-      config.redis_cache.delete(content['id'])
+      redis_cache.delete(content['id'])
       return Response(status=200)
 
 @app.route('/launcher/clear/redis', methods = ['POST'])
@@ -74,7 +75,7 @@ def clear_redis():
       obj = open(modpacks)
       data = json.load(obj)
       for content in data:
-         config.redis_cache.delete(content['id'])
+         redis_cache.delete(content['id'])
       return Response(status=200)
 
 @app.route('/launcher/upload/modpacks', methods = ['POST'])
@@ -102,3 +103,5 @@ def upload_file():
          return Response(status=401)
       return Response(status=200)
 		
+#app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
+# app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')))

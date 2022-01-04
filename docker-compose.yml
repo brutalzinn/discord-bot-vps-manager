@@ -37,3 +37,14 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
+
+  boberto-api:
+    build: ./api
+    ports:
+      - "5000:5000"
+    container_name: boberto-api
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./web:/code/web
