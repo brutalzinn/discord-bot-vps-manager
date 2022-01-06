@@ -26,7 +26,7 @@ def get_modpacks():
 #gamb to delete all modpacks that dont include in the new modpack update
 #need refactor this some later
 
-@app.route('/launcher/update/modpacks', methods = ['POST'])
+@app.route('/launcher/update/sync/modpacks', methods = ['POST'])
 def add_modpack():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)

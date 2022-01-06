@@ -1,36 +1,18 @@
 [
     {
-        "id": "23f2823e-a98c-4a98-b417-875167feeda6",
-        "name": "teste",
-        "directory": "teste-modpack",
-        "default": false,
-        "premium": false,
-        "verify_mods": false,
-        "description": "teste de descrição de modpack sem verificação de mods",
-        "game_version": "1.16.5",
-        "forge_version": "",
-        "server_ip": "boberto.net",
-        "server_port": "25566",
-        "datetime_creat_at": "2022-01-02T10:45:20.912Z",
-        "datetime_updat_at": "2022-01-02T10:45:45.541Z",
-        "img": "",
-        "author": "teste"
-    },
-    {
-        "id": "1063fe34-a106-4a53-a521-2aa4c6ac9a94",
-        "name": "ModPack do boberto",
-        "directory": "modpack-boberto",
-        "default": true,
-        "premium": false,
-        "verify_mods": true,
-        "description": "Modpack padrão",
-        "game_version": "1.12.2",
-        "forge_version": "14.23.5.2860",
-        "server_ip": "boberto.net",
-        "server_port": "25565",
+        "author": "testandooooooooo",
         "datetime_creat_at": "2021-12-31T15:58:57.069Z",
-        "datetime_updat_at": "2022-01-01T16:38:19.491Z",
+        "datetime_updat_at": "2021-12-31T16:10:41.092Z",
+        "default": true,
+        "description": "Modpack padrão",
+        "directory": "modpack-boberto",
+        "forge_version": "14.23.5.2860",
+        "game_version": "1.12.2",
+        "id": "1063fe34-a106-4a53-a521-2aa4c6ac9a94",
         "img": "",
-        "author": "robertocpaes"
+        "name": "ModPack do boberto",
+        "premium": false,
+        "server_ip": "boberto.net",
+        "server_port": "25565"
     }
 ]
