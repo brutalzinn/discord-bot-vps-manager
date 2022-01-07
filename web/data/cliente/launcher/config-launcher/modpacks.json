@@ -14,5 +14,21 @@
         "premium": false,
         "server_ip": "boberto.net",
         "server_port": "25565"
+    },
+    {
+        "author": "pandmc",
+        "datetime_creat_at": "2021-12-31T15:58:57.069Z",
+        "datetime_updat_at": "2021-12-31T16:10:41.092Z",
+        "default": false,
+        "description": "Modpack padrão",
+        "directory": "modpack-boberto",
+        "forge_version": "14.23.5.2860",
+        "game_version": "1.12.2",
+        "id": "1063fe34-a106-4a53-a521-2aa4c6ac9a94",
+        "img": "",
+        "name": "ModPack do boberto",
+        "premium": false,
+        "server_ip": "boberto.net",
+        "server_port": "25565"
     }
 ]

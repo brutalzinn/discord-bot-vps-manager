@@ -46,6 +46,24 @@ def add_modpack():
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
+@app.route('/launcher/update/append/modpacks', methods = ['POST'])
+def append_modpack():
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
+         return Response(status=401)
+      modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
+      modpacks_json = json.load(open(modpacks))
+      content = request.get_json()
+ 
+      
+      for index, item in enumerate(modpacks_json):
+         if item['id'] == content['id']:
+            modpacks_json[index] = content
+            break
+      
+      with open(modpacks, 'w', encoding='utf-8') as f:
+         json.dump(modpacks_json, f, ensure_ascii=False, indent=4)
+      return Response(status=200)
+
 @app.route('/launcher/config', methods = ['POST'])
 def update_config():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
