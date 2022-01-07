@@ -45,6 +45,17 @@ def add_modpack():
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
+def checkExist(store_list, value):
+   exist = False
+   for item in store_list:
+         if item['id'] == value:
+            exist = True
+
+   return exist
+         
+
+
+
 
 @app.route('/launcher/update/append/modpacks', methods = ['POST'])
 def append_modpack():
@@ -53,15 +64,21 @@ def append_modpack():
       modpacks = os.path.join("web","data","cliente","launcher","config-launcher","modpacks.json")
       modpacks_json = json.load(open(modpacks))
       content = request.get_json()
- 
-      
-      for index, item in enumerate(modpacks_json):
+
+      store_list = []
+      for item in modpacks_json:
+         store_list.append(item)
+
+    
+      for index, item in enumerate(store_list):
          if item['id'] == content['id']:
-            modpacks_json[index] = content
-            break
+            store_list[index] = content
+         elif item['id'] != content['id'] and checkExist(store_list, content['id']) == False:
+            store_list.append(content)
+
       
       with open(modpacks, 'w', encoding='utf-8') as f:
-         json.dump(modpacks_json, f, ensure_ascii=False, indent=4)
+         json.dump(store_list, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
 @app.route('/launcher/config', methods = ['POST'])
