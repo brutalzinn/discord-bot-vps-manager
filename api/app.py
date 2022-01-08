@@ -9,10 +9,23 @@ from glob import glob
 app = Flask(__name__)
 redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("REDIS_PASSWORD"), port=6379)
 
-
+# we need to convert this api to PHP
 #First boberto api try. This is pure gamb. Please, dont reply in any production server.
 #This file contains method that doesnt secure to use in production early. 
 #Boberto needs be happy with this api :) 
+
+ALLOWED_EXTENSIONS = set(['zip'])
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def checkExist(store_list, value):
+   exist = False
+   for item in store_list:
+         if item['id'] == value:
+            exist = True
+
+   return exist
+
 @app.route('/launcher/list/modpacks', methods = ['GET'])
 def get_modpacks():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
@@ -22,6 +35,7 @@ def get_modpacks():
       data = json.load(f)
       f.close()
       return jsonify(data)
+
 
 #gamb to delete all modpacks that dont include in the new modpack update
 #need refactor this some later
@@ -45,17 +59,6 @@ def add_modpack():
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
-def checkExist(store_list, value):
-   exist = False
-   for item in store_list:
-         if item['id'] == value:
-            exist = True
-
-   return exist
-         
-
-
-
 
 @app.route('/launcher/update/append/modpacks', methods = ['POST'])
 def append_modpack():
@@ -137,6 +140,27 @@ def upload_file():
          print('Deu erro.')
          return Response(status=401)
       return Response(status=200)
-		
-#app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')),debug = True, use_reloader=True)
-# app.run(host="0.0.0.0", port=int(os.getenv('API_PORT')))
+
+@app.route('/launcher/upload/update', methods = ['POST'])
+def update_launcher_zips():
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
+         return Response(status=401)
+      if request.method == 'POST':
+         files = request.files.getlist('file')
+         for file in files:
+            if file and allowed_file(file.filename):
+               file_zip = os.path.join('web','data','cliente','launcher','update-launcher', file.filename)
+               file.save(file_zip)
+      return Response(status=200)
+
+@app.route('/launcher/version', methods = ['POST'])
+def update_launcher_version():
+      if request.headers.get('api-key') != os.getenv('API_TOKEN'):
+         return Response(status=401)
+      config_launcher = os.path.join("web","data","cliente","launcher","package.json")
+      content = request.json
+      if os.path.exists(config_launcher):
+         os.unlink(config_launcher)
+      with open(config_launcher, 'w', encoding='utf-8') as f:
+         json.dump(content, f, ensure_ascii=False, indent=4)
+      return Response(status=200)
