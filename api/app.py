@@ -13,18 +13,33 @@ redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("RED
 #First boberto api try. This is pure gamb. Please, dont reply in any production server.
 #This file contains method that doesnt secure to use in production early. 
 #Boberto needs be happy with this api :) 
+class FileDir:
+      def __init__(self,filename, path):
+         self.filename = filename
+         self.path = path
 
 ALLOWED_EXTENSIONS = set(['zip'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def checkExist(store_list, value):
+def checkExistId(store_list, value):
    exist = False
    for item in store_list:
          if item['id'] == value:
             exist = True
-
    return exist
+
+def checkFilename(item, list):
+   exist = False
+   for f in list:
+         if f.filename == item:
+            exist = True
+   return exist
+
+def getFileNameByURL(url:str):
+   splitter = url.split('/')
+   index = len(splitter) - 1
+   return splitter[index]
 
 @app.route('/launcher/list/modpacks', methods = ['GET'])
 def get_modpacks():
@@ -76,7 +91,7 @@ def append_modpack():
       for index, item in enumerate(store_list):
          if item['id'] == content['id']:
             store_list[index] = content
-         elif item['id'] != content['id'] and checkExist(store_list, content['id']) == False:
+         elif item['id'] != content['id'] and checkExistId(store_list, content['id']) == False:
             store_list.append(content)
 
       
@@ -153,14 +168,40 @@ def update_launcher_zips():
                file.save(file_zip)
       return Response(status=200)
 
-@app.route('/launcher/version', methods = ['POST'])
+@app.route('/launcher/version', methods = ['POST', 'GET'])
 def update_launcher_version():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
-      config_launcher = os.path.join("web","data","cliente","launcher","package.json")
-      content = request.json
-      if os.path.exists(config_launcher):
-         os.unlink(config_launcher)
-      with open(config_launcher, 'w', encoding='utf-8') as f:
-         json.dump(content, f, ensure_ascii=False, indent=4)
-      return Response(status=200)
+      config_launcher = os.path.join('web','data','cliente','launcher','package.json')
+      launcher_dir = os.path.join('web','data','cliente','launcher','update-launcher')
+      olds = []
+      old_launcher = glob(os.path.join('web','data','cliente','launcher','update-launcher',"*"), recursive = True)
+   
+      for path in old_launcher:
+         olds.append(FileDir(getFileNameByURL(path),path))
+      if request.method == 'POST':
+         content = request.get_json()
+         if os.path.exists(config_launcher):
+            package = open(config_launcher)
+            backup_launcher = json.load(package)
+            for item in content['packages']:
+               sistema = content['packages'][item]
+               if sistema is None:
+                  content['packages'][item] = backup_launcher['packages'][item]
+               else:
+                  filename = getFileNameByURL(sistema['url'])
+                  teste = checkFilename(filename, olds)
+                  if not teste:
+                     antigo = getFileNameByURL(backup_launcher['packages'][item]['url'])
+                     dir_antigo = os.path.join(launcher_dir, antigo)
+                     if os.path.exists(dir_antigo):
+                        os.unlink(dir_antigo)
+      
+         with open(config_launcher, 'w', encoding='utf-8') as f:
+            json.dump(content, f, ensure_ascii=False, indent=4)
+         return Response(status=200)
+      elif request.method == 'GET':
+         f = open(config_launcher)
+         return json.load(f)
+
+print("API ATUALIZADA")
