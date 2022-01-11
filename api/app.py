@@ -94,6 +94,10 @@ def append_modpack():
          elif item['id'] != content['id'] and checkExistId(store_list, content['id']) == False:
             store_list.append(content)
 
+      if len(store_list) == 0:
+         store_list.append(content)
+
+      print('teste',store_list)
       
       with open(modpacks, 'w', encoding='utf-8') as f:
          json.dump(store_list, f, ensure_ascii=False, indent=4)
