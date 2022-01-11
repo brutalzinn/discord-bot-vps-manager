@@ -9,7 +9,7 @@ from glob import glob
 app = Flask(__name__)
 redis_cache = redis.Redis(host=os.getenv('BOBERTO_HOST'),password=os.getenv("REDIS_PASSWORD"), port=6379)
 
-# we need to convert this api to PHP
+# We need to convert this api to PHP
 #First boberto api try. This is pure gamb. Please, dont reply in any production server.
 #This file contains method that doesnt secure to use in production early. 
 #Boberto needs be happy with this api :) 
@@ -41,7 +41,7 @@ def getFileNameByURL(url:str):
    index = len(splitter) - 1
    return splitter[index]
 
-@app.route('/launcher/list/modpacks', methods = ['GET'])
+@app.route('/launcher/modpacks/list', methods = ['GET'])
 def get_modpacks():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -52,10 +52,10 @@ def get_modpacks():
       return jsonify(data)
 
 
-#gamb to delete all modpacks that dont include in the new modpack update
+#gamb to delete all modpacks that dont include in mod creator modpack list
 #need refactor this some later
 
-@app.route('/launcher/update/sync/modpacks', methods = ['POST'])
+@app.route('/modpackcreator/modpacks/sync', methods = ['POST'])
 def add_modpack():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -75,7 +75,7 @@ def add_modpack():
          json.dump(content, f, ensure_ascii=False, indent=4)
       return Response(status=200)
 
-@app.route('/launcher/update/append/modpacks', methods = ['POST'])
+@app.route('/modpackcreator/modpacks/append', methods = ['POST'])
 def append_modpack():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -112,7 +112,7 @@ def update_config():
 #This route is called when a modpack is updated by modpack creator.
 #We need clear redis cache before update the new modpack 
 #and we need to put launcher in maintance mod too.
-@app.route('/launcher/del/redis', methods = ['POST'])
+@app.route('/launcher/redis/del', methods = ['POST'])
 def del_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -120,7 +120,7 @@ def del_redis():
       redis_cache.delete(content['id'])
       return Response(status=200)
 
-@app.route('/launcher/clear/redis', methods = ['POST'])
+@app.route('/launcher/redis/clear', methods = ['POST'])
 def clear_redis():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -131,7 +131,7 @@ def clear_redis():
          redis_cache.delete(content['id'])
       return Response(status=200)
 
-@app.route('/launcher/upload/modpacks', methods = ['POST'])
+@app.route('/launcher/modpacks/upload', methods = ['POST'])
 def upload_file():
    if request.headers.get('api-key') != os.getenv('API_TOKEN'):
       return Response(status=401)
@@ -156,7 +156,10 @@ def upload_file():
          return Response(status=401)
       return Response(status=200)
 
-@app.route('/launcher/upload/update', methods = ['POST'])
+
+#THIS ROUTE IS TO BE USED TO SEND MULTIPLE LAUNCHER ZIPS WITH THE LAUNCHER UPDATED VERSIONS.
+
+@app.route('/launcher/version/upload', methods = ['POST'])
 def update_launcher_zips():
       if request.headers.get('api-key') != os.getenv('API_TOKEN'):
          return Response(status=401)
@@ -167,6 +170,10 @@ def update_launcher_zips():
                file_zip = os.path.join('web','data','cliente','launcher','update-launcher', file.filename)
                file.save(file_zip)
       return Response(status=200)
+
+# UPDATE LAUNCHER VERSION FILE. YOU WILL CALL THIS ROUTE BEFORE /LAUNCHER/UPLOAD/UPDATE.
+# THIS ROUTE WILL CHECK THE LAUNCHER VERSION FOR WIN,MAC AND LINUX. 
+# THIS ROUTE WILL DELETE OLD LAUNCHER VERSION FILE TOO.
 
 @app.route('/launcher/version', methods = ['POST', 'GET'])
 def update_launcher_version():
@@ -204,4 +211,4 @@ def update_launcher_version():
          f = open(config_launcher)
          return json.load(f)
 
-print("API ATUALIZADA")
+print("API IS REFRESHED.")
