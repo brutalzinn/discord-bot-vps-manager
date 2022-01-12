@@ -1,8 +1,10 @@
 PyJWT
 python-dotenv
 Requests
-flask
-werkzeug
+Flask
+Flask-Cors
+flask-restx
+Werkzeug
 patool
 pyunpack
 redis
