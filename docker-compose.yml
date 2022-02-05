@@ -47,5 +47,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./web:/code/web
-      - ./api:/code
+      - ./web/data/cliente:/var/www/html/cliente
+      - ./api:/var/www/html
+      - ./api/config/php.ini:/usr/local/etc/php/php.ini

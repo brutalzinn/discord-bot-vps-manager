@@ -1,0 +1,44 @@
+{
+    "news": [
+        {
+            "id": "61e3728320b19",
+            "title": "Titleee 1",
+            "body": "bodyyyyyyyyy text.",
+            "img": "https://raw.githubusercontent.com/luuxis/Uzurion-Launcher/master/app/assets/images/background/wallpaper.jpg",
+            "author": "robertocpaes",
+            "date": "15/01/2022"
+        },
+        {
+            "title": "Titleee 2",
+            "body": "bodyyyyyyyyy text.",
+            "img": "https://raw.githubusercontent.com/luuxis/Uzurion-Launcher/master/app/assets/images/background/wallpaper.jpg",
+            "author": "robertocpaes",
+            "date": "15/01/2022",
+            "id": "61e374488701c"
+        },
+        {
+            "title": "Titleee 3",
+            "body": "body de description",
+            "img": "https://raw.githubusercontent.com/luuxis/Uzurion-Launcher/master/app/assets/images/background/wallpaper.jpg",
+            "author": "robertocpaes",
+            "date": "15/01/2022",
+            "id": "61e47acc00508"
+        },
+        {
+            "title": "Titleee 4",
+            "body": "body de description",
+            "img": "https://raw.githubusercontent.com/luuxis/Uzurion-Launcher/master/app/assets/images/background/wallpaper.jpg",
+            "author": "robertocpaes",
+            "date": "15/01/2022",
+            "id": "61e47ad3bf8ee"
+        },
+        {
+            "title": "Titleee 5",
+            "body": "body de description",
+            "img": "https://raw.githubusercontent.com/luuxis/Uzurion-Launcher/master/app/assets/images/background/wallpaper.jpg",
+            "author": "robertocpaes",
+            "date": "15/01/2022",
+            "id": "61e47ad59be12"
+        }
+    ]
+}
