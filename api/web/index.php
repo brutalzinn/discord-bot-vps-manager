@@ -2,14 +2,13 @@
     header('Content-Type: application/json');
     require_once 'vendor/autoload.php';
     use App\Services\RedisService;
-    use App\Controllers;
-use App\Controllers\ApiController;
-use App\Controllers\LauncherController;
-use App\Controllers\ModPackManagerController;
-use App\Controllers\NewsController;
-use App\Controllers\RedisController;
+    use App\Controllers\ApiController;
+    use App\Controllers\LauncherController;
+    use App\Controllers\ModPackManagerController;
+    use App\Controllers\NewsController;
+    use App\Controllers\RedisController;
 
-include 'route.php';
+    include 'route.php';
     Predis\Autoloader::register();
     $client = new Predis\Client([
         'scheme' => 'tcp',
@@ -64,12 +63,12 @@ include 'route.php';
 
     try
     {
-        // $request_headers = getallheaders();
-        // if(!isset($request_headers[$api_key]) || isset($request_headers[$api_key]) && $request_headers[$api_key] != getenv('API_TOKEN')) {
-        //     http_response_code(401);
-        //     echo json_encode(array('status' => false, 'data' => 'API-KEY DONT PROVIDED OR API-KEY IS WRONG.'), JSON_UNESCAPED_UNICODE);
-        //     exit;
-        // }
+        $request_headers = getallheaders();
+        if(!isset($request_headers[$api_key]) || isset($request_headers[$api_key]) && $request_headers[$api_key] != getenv('API_TOKEN')) {
+            http_response_code(401);
+            echo json_encode(array('status' => false, 'data' => 'API-KEY DONT PROVIDED OR API-KEY IS WRONG.'), JSON_UNESCAPED_UNICODE);
+            exit;
+        }
         Route::run(BASEPATH);
         exit;
     } catch (Exception $e) {
