@@ -18,4 +18,4 @@ RUN docker-php-ext-install \
     fileinfo
 
 WORKDIR /var/www/html
-CMD ["sh", "-c", "composer require predis/predis && composer require firebase/php-jwt && php -S 0.0.0.0:80"]
+CMD ["sh", "-c", "composer require predis/predis && composer require firebase/php-jwt && php -S 0.0.0.0:5000"]
