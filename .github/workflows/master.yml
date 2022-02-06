@@ -41,7 +41,6 @@ jobs:
         REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
         REDIS_PORT: ${{ secrets.REDIS_PORT }}
         API_TOKEN: ${{ secrets.API_TOKEN }}
-        API_HEADER: ${{ secrets.API_HEADER }}
         URL: ${{ secrets.URL }}
 
       with:
@@ -49,7 +48,7 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT, BOBERTO_HOST, URL, API_TOKEN, REDIS_PORT, REDIS_PASSWORD, API_PORT, API_HEADER
+        envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT, BOBERTO_HOST, URL, API_TOKEN, REDIS_PORT, REDIS_PASSWORD, API_PORT
         script: |
           sudo rm -f .env
           echo "DISCORD_TOKEN=$DISCORD_KEY" >/home/brutalzinn/discord/boberto/.env
@@ -65,7 +64,6 @@ jobs:
           echo "REDIS_PORT=$REDIS_PORT" >>/home/brutalzinn/discord/boberto/.env
           echo "API_TOKEN=$API_TOKEN" >>/home/brutalzinn/discord/boberto/.env
           echo "URL=$URL" >>/home/brutalzinn/discord/boberto/.env
-          echo "API_HEADER=$API_HEADER" >>/home/brutalzinn/discord/boberto/.env
           echo "ENVIROMENT=PRODUCTION" >>/home/brutalzinn/discord/boberto/.env
 
 
@@ -124,6 +122,3 @@ jobs:
           DATA=$(date '+%d-%m-%Y %H:%M:%S') &&
           CONTENT="O deploy do boberto foi um sucesso. $DATA" &&
           curl -X POST -H 'Content-Type: application/json' -d '{"content":"'"$CONTENT"'"}' $DISCORD_URL
-
-
-    

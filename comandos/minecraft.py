@@ -104,7 +104,7 @@ async def console(command : command_model,  message, user):
 def register(commands : command_register):
   #refatorar isso
   args_default = command_args_register()  
-  args_default.addArg(command_args(unique_id='nome', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
+  args_default.addArg(command_args(unique_id='nome', name='nome do servidor',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   
   command_model(optional_alias='minecraft', alias='status',descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands, command_args=args_default)
   command_model(optional_alias='minecraft', alias='list', descricao="Exibir uma lista de servidores de minecraft", method=list, register=commands)
