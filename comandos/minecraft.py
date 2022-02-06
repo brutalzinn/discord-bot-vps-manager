@@ -102,7 +102,7 @@ async def console(command : command_model,  message, user):
     
 
 def register(commands : command_register):
-  #refatorar isso
+    
   args_default = command_args_register()  
   args_default.addArg(command_args(unique_id='nome', name='nome do servidor',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   
