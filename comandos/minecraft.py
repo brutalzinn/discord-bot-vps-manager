@@ -95,6 +95,12 @@ async def create(command : command_model, message, user):
     else:
         await message_handler.send_message_normal(message,  user, resultado['mensagem'])
 
+async def console(command : command_model,  message, user):
+    new_args = command.args[2:]
+    nome = new_args[command.command_args.get_arg_unique('nome').index]    
+    await message_handler.send_message_normal(message,  user, f"Acesse o terminal em \n http://boberto.net/data/console?servidor={nome}")
+    
+
 def register(commands : command_register):
   #refatorar isso
   args_default = command_args_register()  
@@ -105,6 +111,7 @@ def register(commands : command_register):
   command_model(optional_alias='minecraft', alias='stop', descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", method=stop, register=commands, command_args=args_default) 
   command_model(optional_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands, command_args=args_default)
   command_model(optional_alias='minecraft', alias='remove',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=remove, register=commands, command_args=args_default)
+  command_model(optional_alias='minecraft', alias='console',descricao="abrir um console \n uso: minecraft console <nome>", method=remove, register=commands, command_args=args_default)
 
   
   args_create = command_args_register()
