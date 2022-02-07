@@ -5,6 +5,8 @@ import os
 from datetime import datetime
 import pkgutil
 import sys
+from threading import Thread
+from cronjob import Start
 
 alias = '!b'
 lastExec = datetime.today()
@@ -42,8 +44,8 @@ client = Boberto()
 # except:
 #     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 #     pass
-
-
+Thread(target=Start).start()
+#thread.join()
 try:
    
     config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')

@@ -2,6 +2,26 @@
 
 -- DROP TABLE IF EXISTS public.usuario;
 
+CREATE TABLE IF NOT EXISTS jobs
+(
+    "id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "name" text,
+    "desc" text,
+    "server" text,
+    "expression" text,
+    "command" text,
+    "enabled" integer DEFAULT 0 NOT NULL,
+    CONSTRAINT jobs_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO jobs(
+	"id", "name", "desc", "server", "expression", "command")
+    VALUES (DEFAULT, 'Nome do comando', 'Broadcast to server default', 'default', '*/1 * * * *', 'say testeee');
+
+
+ALTER TABLE IF EXISTS jobs
+    OWNER to root;
+
 CREATE TABLE IF NOT EXISTS grupos
 (
     "id" integer PRIMARY KEY NOT NULL,
