@@ -34,5 +34,5 @@ def Start():
                         print(f'comando: {job.name} executando {c} em {job.server} {data_em_texto}')
                 else:
                     print(f'comando: {job.name} executando {job.command[0]} em {job.server} {data_em_texto}')
-
+        
         time.sleep(60)

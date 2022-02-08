@@ -24,13 +24,11 @@ class Boberto(discord.Client):
         if message.author == self.user: return
         if not alias in message.content.lower(): return
         author = str(message.author.id)
-        print(author)
         comando = config.commands_handle.checkCommand(message.content.lower().replace(alias,'').split(), author)                                                              
         if comando is None:
             await message.channel.send('Esse comando não existe.') 
             return
-
-        await comando.execute(message, self.user)
+        await comando.execute(message, self.user, client)
 
 client = Boberto()
 # try:
