@@ -1,10 +1,11 @@
-from inspect import ArgSpec
+
 import message_handler
 from models.commands.command_model import command_model
 from models.commands.command_register import command_register
 from models.commands.command_args import command_args
 from models.commands.command_args_register import command_args_register
 import discord
+import config
 
 class Dialogo:
     nome = 'NOME'
@@ -19,7 +20,9 @@ async def job(command : command_model, message, user, client):
     new_args = command.args[1:]
     passos = ['nome','desc','server','expresion','command','enabled']
     def modo(m):
+
         return isinstance(m.channel, discord.channel.DMChannel) and message.author != user and m.content == 'criar'
+        
     def private(m):
         if isinstance(m.channel, discord.channel.DMChannel) and message.author != user:
             return True
@@ -46,6 +49,7 @@ async def job(command : command_model, message, user, client):
     await message_handler.send_message_private(message, user,'Container: {.content}'.format(msg_server))
 
     #get  expression
+
     await message_handler.send_message_private(message, user,'Digite um expresion para o job ser criado.')
     msg_expression = await client.wait_for('message', check=private)
     await message_handler.send_message_private(message, user,'Expressão cron: {.content}'.format(msg_expression))
@@ -62,6 +66,13 @@ async def job(command : command_model, message, user, client):
     msg_enabled = await client.wait_for('message', check=private)
     await message_handler.send_message_private(message, user,'enabled: {.content}'.format(msg_enabled))
 
+    if msg_modo.content == 'criar':
+        with config.engine.connect() as conn:
+            conn.execute(config.text(f"""INSERT INTO jobs(
+	"id", "name", "desc", "server", "expression", "command", "enabled")
+    VALUES (DEFAULT, '{msg_nome.content}', '{msg_desc.content}', '{msg_server.content}', '{msg_expression.content}', '{msg_command.content}', '{msg_enabled.content}');"""))
+
+    await message_handler.send_message_private(message, user, f'Job {msg_nome.content} criado..')
 
 def register(commands : command_register):
     args_register = command_args_register()
