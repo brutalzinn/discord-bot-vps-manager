@@ -6,7 +6,7 @@ from models.commands.command_args import command_args
 from models.commands.command_args_register import command_args_register
 import discord
 import config
-
+import json
 class Dialogo:
     nome = 'NOME'
     desc = 'DESC'
@@ -60,6 +60,8 @@ async def job(command : command_model, message, user, client):
     msg_command = await client.wait_for('message', check=private)
     await message_handler.send_message_private(message, user,'Comando: {.content}'.format(msg_command))
 
+    commands = msg_command.content.split(',')
+    print(commands)
     #get enabled
 
     await message_handler.send_message_private(message, user,'Digite um enabled para o job ser criado.')
@@ -70,7 +72,7 @@ async def job(command : command_model, message, user, client):
         with config.engine.connect() as conn:
             conn.execute(config.text(f"""INSERT INTO jobs(
 	"id", "name", "desc", "server", "expression", "command", "enabled")
-    VALUES (DEFAULT, '{msg_nome.content}', '{msg_desc.content}', '{msg_server.content}', '{msg_expression.content}', '{msg_command.content}', '{msg_enabled.content}');"""))
+    VALUES (DEFAULT, '{msg_nome.content}', '{msg_desc.content}', '{msg_server.content}', '{msg_expression.content}', '{json.dumps(commands)}', '{msg_enabled.content}');"""))
 
     await message_handler.send_message_private(message, user, f'Job {msg_nome.content} criado..')
 
