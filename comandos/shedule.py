@@ -20,61 +20,40 @@ async def job(command : command_model, message, user, client):
     new_args = command.args[1:]
     passos = ['nome','desc','server','expresion','command','enabled']
     def modo(m):
-
         return isinstance(m.channel, discord.channel.DMChannel) and message.author != user and m.content == 'criar'
-        
     def private(m):
-        if isinstance(m.channel, discord.channel.DMChannel) and message.author != user:
+        if isinstance(m.channel, discord.channel.DMChannel) and message.author != user and m.content != 'criar':
             return True
 
-    await message_handler.send_message_private(message, user, 'digite criar/editar ou deletar para gerenciamento de jobs')
-    msg_modo = await client.wait_for('message', check=modo)
-    await message_handler.send_message_private(message, user,'Criando job no modo: {.content}'.format(msg_modo))
+    msg_modo = await message_handler.send_ask_question(client, modo, 30, message, user, 'digite criar/editar ou deletar para gerenciamento de jobs')
+    await message_handler.send_message_private(message, user,f'Criando job no modo: {msg_modo}')
 
-    #get name of job
+    msg_name = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um nome para o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
 
-    await message_handler.send_message_private(message, user,'Digite um nome para o job ser criado.')
-    msg_nome = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'Job: {.content}'.format(msg_nome))
+    msg_desc = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma descrição para o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')
 
-    #get  desc
-    await message_handler.send_message_private(message, user,'Digite uma descrição para o job ser criado.')
-    msg_desc = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'Descrição: {.content}'.format(msg_desc))
+    msg_server = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um container para o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Container: {msg_server}')
+    # #get  server
+    msg_expression = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
 
-    #get  server
+    msg_command = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um comando o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Expressão cron: {msg_command}')
+    commands = msg_command.split(',')
 
-    await message_handler.send_message_private(message, user,'Digite um container para o job ser criado.')
-    msg_server = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'Container: {.content}'.format(msg_server))
+    msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um enabled o job ser criado.')
+    await message_handler.send_message_private(message, user,f'Expressão cron: {msg_enabled}')
 
-    #get  expression
-
-    await message_handler.send_message_private(message, user,'Digite um expresion para o job ser criado.')
-    msg_expression = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'Expressão cron: {.content}'.format(msg_expression))
-    
-    #get command
-
-    await message_handler.send_message_private(message, user,'Digite um command para o job ser criado.')
-    msg_command = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'Comando: {.content}'.format(msg_command))
-
-    commands = msg_command.content.split(',')
-    print(commands)
-    #get enabled
-
-    await message_handler.send_message_private(message, user,'Digite um enabled para o job ser criado.')
-    msg_enabled = await client.wait_for('message', check=private)
-    await message_handler.send_message_private(message, user,'enabled: {.content}'.format(msg_enabled))
-
-    if msg_modo.content == 'criar':
+    if msg_modo == 'criar':
         with config.engine.connect() as conn:
             conn.execute(config.text(f"""INSERT INTO jobs(
 	"id", "name", "desc", "server", "expression", "command", "enabled")
-    VALUES (DEFAULT, '{msg_nome.content}', '{msg_desc.content}', '{msg_server.content}', '{msg_expression.content}', '{json.dumps(commands)}', '{msg_enabled.content}');"""))
+    VALUES (DEFAULT, '{msg_name}', '{msg_desc}', '{msg_server}', '{msg_expression}', '{json.dumps(commands)}', '{msg_enabled}');"""))
 
-    await message_handler.send_message_private(message, user, f'Job {msg_nome.content} criado..')
+    await message_handler.send_message_private(message, user, f'Job {msg_name} criado..')
 
 def register(commands : command_register):
     args_register = command_args_register()
