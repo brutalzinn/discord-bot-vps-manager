@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS jobs
 (
     "id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "name" text,
-    "desc" text,
+    "description" text,
     "server" text,
     "expression" text,
     "command" text,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS jobs
 );
 
 INSERT INTO jobs(
-	"id", "name", "desc", "server", "expression", "command")
+	"id", "name", "description", "server", "expression", "command")
     VALUES (DEFAULT, 'Nome do comando', 'Broadcast to server default', 'default', '*/1 * * * *', 'say testeee');
 
 
