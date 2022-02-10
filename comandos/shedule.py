@@ -7,7 +7,6 @@ from models.commands.command_args_register import command_args_register
 import discord
 import config
 import json
-from table2ascii import table2ascii, PresetStyle
 
 class Dialogo:
     nome = 'NOME'
@@ -54,19 +53,18 @@ async def job(command : command_model, message, user, client):
 
         await message_handler.send_message_private(message, user, f'Job {msg_name} criado..')
     elif msg_modo == 'listar':
+        s = ['ID      Nome      Descrição      Container      Cron      Comando      Enabled']
 
         with config.engine.connect() as conn:
-            result = conn.execute(config.text(f"SELECT id, name, 'desc', server, expression, command, enabled from jobs"))
+            result = conn.execute(config.text(f"select *from jobs"))
             rows = result.fetchall()
-            output = table2ascii(
-                        header=["ID", "Nome", "Descrição", "Container", "Cron", "command", "Enabled"],
-                        body=rows,
-                        column_widths=[10] * 7,
-                        style=PresetStyle.ascii_box,
-                        first_col_heading=True
-                    )
+ 
+            for user in rows:
+                s.append('    '.join([str(item).center(0, ' ') for item in user]))
 
-        await message_handler.send_message_private(message, user, output)
+            d = '```'+'\n'.join(s) + '```'
+            await message_handler.send_message_private(message, user, d)
+
 
 def register(commands : command_register):
     args_register = command_args_register()
