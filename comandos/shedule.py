@@ -82,42 +82,46 @@ async def job(command : command_model, message, user, client):
             d = '```'+'\n'.join(s) + '```'
             await message_handler.send_message_private(message, user, d)
 
-            update = ""
+            update = []
 
             msg_name = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um nome para o job ser criado.')
             await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
             if not 'x' in  msg_name:
-                update += f"name='{msg_name}'"
+                update.append(f"name='{msg_name}'")
 
             msg_desc = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma descrição para o job ser criado.')
             await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')        
             if not 'x' in msg_desc:
-                update += f", description='{msg_desc}'"
+                update.append(f"description='{msg_desc}'")
                 
            
             msg_server = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um container para o job ser criado.')
             await message_handler.send_message_private(message, user,f'Container: {msg_server}')
             if not 'x' in msg_server:
-                update += f", server='{msg_server}'"
+                update.append(f"server='{msg_server}'")
 
             msg_expression = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
             await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
             if not 'x' in msg_expression:
-                update += f", expression='{msg_expression}'"
+                update.append(f"expression='{msg_expression}'")
 
             msg_command = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um comando o job ser criado.')
             await message_handler.send_message_private(message, user,f'Comando: {msg_command}')
             if not 'x' in msg_command:
-                update += f", command='{msg_command}'"
+                update.append(f"command='{msg_command}'")
             commands = msg_command.split(',')
 
             msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um enabled o job ser criado.')
             await message_handler.send_message_private(message, user,f'Status cron: {msg_enabled}')       
             if not 'x' in msg_enabled:
-                update += f", enabled='{msg_enabled}'"
-
+                update.append(f"enabled='{msg_enabled}'")
+            
+            update_string = ",".join(update)
             with config.engine.connect() as conn:
-                    conn.execute(config.text(f"UPDATE jobs SET {update} WHERE id='{id}'"))
+                    conn.execute(config.text(f"UPDATE jobs SET {update_string} WHERE id='{id}'"))
+            
+            await message_handler.send_message_private(message, user,f'Job editado com sucesso.')       
+
 
 
 def register(commands : command_register):
