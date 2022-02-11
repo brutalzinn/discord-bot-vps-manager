@@ -7,7 +7,7 @@ from models.commands.command_args_register import command_args_register
 import discord
 import config
 import json
-
+import cronjob
 class Dialogo:
     nome = 'NOME'
     desc = 'DESC'
@@ -53,6 +53,7 @@ async def job(command : command_model, message, user, client):
         VALUES (DEFAULT, '{msg_name}', '{msg_desc}', '{msg_server}', '{msg_expression}', '{json.dumps(commands)}', '{msg_enabled}');"""))
 
         await message_handler.send_message_private(message, user, f'Job {msg_name} criado..')
+        cronjob.UpdateJobs()
     elif msg_modo == 'listar':
         s = []
         with config.engine.connect() as conn:
@@ -121,7 +122,8 @@ async def job(command : command_model, message, user, client):
                     conn.execute(config.text(f"UPDATE jobs SET {update_string} WHERE id='{id}'"))
             
             await message_handler.send_message_private(message, user,f'Job editado com sucesso.')       
-    
+            cronjob.UpdateJobs()
+
     elif msg_modo == 'deletar':
         s = []
         id = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite o id do job.')
@@ -132,7 +134,7 @@ async def job(command : command_model, message, user, client):
         with config.engine.connect() as conn:
             conn.execute(config.text(f"DELETE from jobs WHERE id='{id}'"))
             await message_handler.send_message_private(message, user, 'Deletado com sucesso :(')
-
+            cronjob.UpdateJobs()
 
 def register(commands : command_register):
     command_model('job', method=job, descricao="criar/editar/listar/deletar jobr", register=commands)
