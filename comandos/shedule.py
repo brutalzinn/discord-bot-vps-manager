@@ -121,10 +121,19 @@ async def job(command : command_model, message, user, client):
                     conn.execute(config.text(f"UPDATE jobs SET {update_string} WHERE id='{id}'"))
             
             await message_handler.send_message_private(message, user,f'Job editado com sucesso.')       
-
+    
+    elif msg_modo == 'deletar':
+        s = []
+        id = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite o id do job.')
+        if id.isdigit() is False:
+            await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
+            return
+        await message_handler.send_message_private(message, user,f'Deletando job com id: {id}')
+        with config.engine.connect() as conn:
+            conn.execute(config.text(f"DELETE from jobs WHERE id='{id}'"))
+            await message_handler.send_message_private(message, user, 'Deletado com sucesso :(')
 
 
 def register(commands : command_register):
-    args_register = command_args_register()
     command_model('job', method=job, descricao="criar/editar/listar/deletar jobr", register=commands)
   
