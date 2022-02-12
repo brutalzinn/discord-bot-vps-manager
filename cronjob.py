@@ -21,6 +21,7 @@ def UpdateJobs():
             job.command =  json.loads(user._mapping['command'])
             job.enabled = user._mapping['enabled']
             jobs.append(job)
+            
 def Start():
     date_started = datetime.now()
     data_em_texto = date_started.strftime('%d/%m/%Y %H:%M')

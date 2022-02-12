@@ -7,7 +7,7 @@ from models.commands.command_args import command_args
 from models.commands.command_args_register import command_args_register
 
 
-async def ajuda(command : command_model, message, user):
+async def ajuda(command : command_model, message, user, client):
     resultado = ''
     is_show_command = False
     new_args = command.args[1:]

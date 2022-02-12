@@ -4,7 +4,7 @@ from models.commands.command_model import command_model
 from models.commands.command_register import command_register
 import message_handler
 
-async def cpu(command : command_model, message, user):
+async def cpu(command : command_model, message, user, client):
     fetchCPU = psutil.cpu_freq()
     currCPU = str(fetchCPU[0]) 
     maxCPU = str(fetchCPU[2])
@@ -13,7 +13,7 @@ async def cpu(command : command_model, message, user):
     await message_handler.send_message_normal(message,  user, resultado)
 
     
-async def mem(command : command_model, message, user):
+async def mem(command : command_model, message, user, client):
     mem_usage = psutil.virtual_memory()
     total_mem = bytes2human(mem_usage[0])
     used_mem = bytes2human(mem_usage[3])

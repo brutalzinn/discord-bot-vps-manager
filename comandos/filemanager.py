@@ -7,7 +7,7 @@ import os
 import json
 import string    
 import random # define the random module   
-async def edit(command : command_model, message, user):
+async def edit(command : command_model, message, user, client):
     print('userid',command.author)
     if not message_handler.isPrivate(message, user):
       await message.channel.send('Esse comando só pode ser executado em mensagem privada.') 

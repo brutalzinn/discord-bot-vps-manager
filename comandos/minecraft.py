@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 
 
-async def status(command : command_model, message, user):
+async def status(command : command_model, message, user, client):
     resultado = ''
     try:
         new_args = command.args[2:]
@@ -27,10 +27,10 @@ async def status(command : command_model, message, user):
     await message_handler.send_message_normal(message,  user, resultado)
 
     
-async def list(command : command_model, message, user):
+async def list(command : command_model, message, user, client):
     await message_handler.send_message_normal(message,  user, list_container())
 
-async def stop(command : command_model, message, user):  
+async def stop(command : command_model, message, user, client):  
     new_args = command.args[2:]
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
     resultado = ''
@@ -40,7 +40,7 @@ async def stop(command : command_model, message, user):
         resultado = f"Ocorreu um erro ao parar servidor {nome} .."
     await message_handler.send_message_normal(message,  user, resultado)
 
-async def remove(command : command_model, message, user):  
+async def remove(command : command_model, message, user, client):  
     new_args = command.args[2:]
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
     resultado = ''
@@ -61,7 +61,7 @@ async def start(command : command_model,  message, user):
         await message_handler.send_message_normal(message,  user,  f"Ocorreu um erro ao iniciar servidor {nome} ---  {docker_connection}")
 
 
-async def create(command : command_model, message, user):
+async def create(command : command_model, message, user, client):
     environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "FORGEVERSION": "36.1.32", "ONLINE_MODE": "FALSE"}
     new_args = command.args[2:]
     print(new_args)
