@@ -67,7 +67,7 @@ async def job(command : command_model, message, user, client):
             await message_handler.send_message_private(message, user, d)
 
     elif msg_modo == 'editar':
-        s = []
+
         id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
@@ -109,8 +109,8 @@ async def job(command : command_model, message, user, client):
             update.append(f"command='{json.dumps(commands)}'")
         
 
-        msg_enabled = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um enabled o job ser criado.')
-        await message_handler.send_message_private(message, user,f'Status(1 ou 0 para ativar/desativar): {msg_enabled}')       
+        msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite 1 ou 0 para ativar/desativar o job')
+        await message_handler.send_message_private(message, user,f'Você escolheu: {msg_enabled}')       
         if not msg_enabled.startswith('x'):
             update.append(f"enabled='{msg_enabled}'")
 
@@ -119,9 +119,9 @@ async def job(command : command_model, message, user, client):
             return
 
         update_string = ",".join(update)
+
         with config.engine.connect() as conn:
                 conn.execute(config.text(f"UPDATE jobs SET {update_string} WHERE id='{id}'"))
-                print(f"UPDATE jobs SET {update_string} WHERE id='{id}'")
         
         await message_handler.send_message_private(message, user,f'Job editado com sucesso.')
 
