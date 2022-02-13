@@ -35,10 +35,14 @@ def Start():
                 data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M')
                 if len(job.command) > 1:
                     for c in job.command:
-                        print(f'comando: {job.name} executando {c} em {job.server} {data_em_texto}')
                         os.system(c)
-                else:
-                    print(f'comando: {job.name} executando {job.command[0]} em {job.server} {data_em_texto}')
+                        with open('log.txt', 'w') as f:
+                            f.write(f'comando: {job.name} executando {job.command[0]} em {job.server} {data_em_texto}')
+                            f.write('\n')
+                else:         
                     os.system(job.command[0])  
+                    with open('log.txt', 'w') as f:
+                        f.write(f'comando: {job.name} executando {job.command[0]} em {job.server} {data_em_texto}')
+                        f.write('\n')
 
         time.sleep(60)
