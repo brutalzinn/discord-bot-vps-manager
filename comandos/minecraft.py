@@ -51,7 +51,7 @@ async def remove(command : command_model, message, user, client):
         resultado = f"Ocorreu um erro ao remover servidor {nome} ---  {docker_connection}"
     await message_handler.send_message_normal(message,  user, resultado)
   
-async def start(command : command_model,  message, user):
+async def start(command : command_model, message, user, client):
     new_args = command.args[2:]
     nome = new_args[command.command_args.get_arg_unique('nome').index]    
     docker_connection = start_container(nome)
@@ -95,7 +95,7 @@ async def create(command : command_model, message, user, client):
     else:
         await message_handler.send_message_normal(message,  user, resultado['mensagem'])
 
-async def console(command : command_model,  message, user):
+async def console(command : command_model, message, user, client):
     new_args = command.args[2:]
     nome = new_args[command.command_args.get_arg_unique('nome').index]    
     await message_handler.send_message_normal(message,  user, f"Acesse o terminal em \n http://boberto.net/data/console?servidor={nome}")
