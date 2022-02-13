@@ -66,6 +66,10 @@ async def job(command : command_model, message, user, client):
             d = '```'+'\n'.join(s) + '```'
             await message_handler.send_message_private(message, user, d)
 
+    elif msg_modo == 'atualizar':
+        cronjob.UpdateJobs()
+        await message_handler.send_message_private(message, user, 'Todos os jobs foram atualizados.')
+
     elif msg_modo == 'editar':
 
         id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
@@ -141,5 +145,5 @@ async def job(command : command_model, message, user, client):
             cronjob.UpdateJobs()
 
 def register(commands : command_register):
-    command_model('job', method=job, descricao="criar/editar/listar/deletar jobr", register=commands)
+    command_model('job', method=job, descricao="criar/editar/listar/deletar/atualizar job", register=commands)
   
