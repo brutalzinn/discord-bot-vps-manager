@@ -18,34 +18,31 @@ class Dialogo:
 
 async def job(command : command_model, message, user, client):
 
-    new_args = command.args[1:]
-    passos = ['nome','desc','server','expresion','command','enabled']
-
     def private(m):
         return message.author != user
 
 
-    msg_modo = await message_handler.send_ask_question(client, private, 30, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
+    msg_modo = await message_handler.send_ask_question(client, private, 10, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
     await message_handler.send_message_private(message, user,f'Criando job no modo: {msg_modo}')
     if msg_modo == 'criar':
 
-        msg_name = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um nome para o job ser criado.')
+        msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
 
-        msg_desc = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma descrição para o job ser criado.')
+        msg_desc = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma descrição para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')
 
-        msg_server = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um container para o job ser criado.')
+        msg_server = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um container para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Container: {msg_server}')
 
-        msg_expression = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
+        msg_expression = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma expressão cron para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
 
-        msg_command = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um comando o job ser criado.')
+        msg_command = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um comando o job ser criado.')
         await message_handler.send_message_private(message, user,f'Comando: {msg_command}')
         commands = msg_command.split(',')
 
-        msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um enabled o job ser criado.')
+        msg_enabled = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um enabled o job ser criado.')
         await message_handler.send_message_private(message, user,f'Status cron: {msg_enabled}')
 
         with config.engine.connect() as conn:
@@ -71,7 +68,7 @@ async def job(command : command_model, message, user, client):
 
     elif msg_modo == 'editar':
         s = []
-        id = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite o id do job.')
+        id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
             return
@@ -83,29 +80,29 @@ async def job(command : command_model, message, user, client):
                 await message_handler.send_message_private(message, user, 'Não foi encontrado.. :(')
                 return
 
-            update = []
+        update = []
 
-        msg_name = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um nome para o job ser criado.')
+        msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
         if not msg_name.startswith('x'):
             update.append(f"name='{msg_name}'")
 
-        msg_desc = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma descrição para o job ser criado.')
+        msg_desc = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma descrição para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')        
         if not msg_desc.startswith('x'):
             update.append(f"description='{msg_desc}'")
             
-        msg_server = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um container para o job ser criado.')
+        msg_server = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um container para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Container: {msg_server}')
         if not msg_server.startswith('x'):
             update.append(f"server='{msg_server}'")
 
-        msg_expression = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
+        msg_expression = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma expressão cron para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
         if not msg_expression.startswith('x'):
             update.append(f"expression='{msg_expression}'")
 
-        msg_command = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um comando o job ser criado.')
+        msg_command = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um comando o job ser criado.')
         await message_handler.send_message_private(message, user,f'Comando: {msg_command}')
         if not msg_command.startswith('x'):
             commands = msg_command.split(',')
