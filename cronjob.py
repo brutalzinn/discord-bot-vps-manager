@@ -9,6 +9,7 @@ import os
 jobs = []
 
 def UpdateJobs():
+    jobs = []
     with config.engine.connect() as conn:
         result = conn.execute(config.text(f"select * from jobs"))
         rows = result.fetchall()
