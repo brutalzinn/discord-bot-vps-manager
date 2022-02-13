@@ -109,7 +109,7 @@ async def job(command : command_model, message, user, client):
             update.append(f"command='{json.dumps(commands)}'")
         
 
-        msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite um enabled o job ser criado.')
+        msg_enabled = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um enabled o job ser criado.')
         await message_handler.send_message_private(message, user,f'Status(1 ou 0 para ativar/desativar): {msg_enabled}')       
         if not msg_enabled.startswith('x'):
             update.append(f"enabled='{msg_enabled}'")
@@ -129,7 +129,7 @@ async def job(command : command_model, message, user, client):
 
     elif msg_modo == 'deletar':
         s = []
-        id = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite o id do job.')
+        id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
             return
