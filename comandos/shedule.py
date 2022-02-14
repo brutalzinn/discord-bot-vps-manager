@@ -67,6 +67,7 @@ async def job(command : command_model, message, user, client):
             await message_handler.send_message_private(message, user, d)
 
     elif msg_modo == 'atualizar':
+        
         cronjob.UpdateJobs()
         await message_handler.send_message_private(message, user, 'Todos os jobs foram atualizados.')
 

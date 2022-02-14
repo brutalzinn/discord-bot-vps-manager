@@ -10,6 +10,8 @@ import redis
 import requests
 from sqlalchemy import event, text,create_engine
 from dotenv import load_dotenv
+import logging
+logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 load_dotenv()
 discordToken = os.getenv('DISCORD_TOKEN')
 discordUrl = os.getenv('DISCORD_URL')
