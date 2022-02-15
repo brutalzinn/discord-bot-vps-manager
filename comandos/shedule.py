@@ -18,13 +18,16 @@ class Dialogo:
 
 async def job(command : command_model, message, user, client):
 
+    if not message_handler.isPrivate(message, user):
+      await message_handler.send_message_normal(message, user, 'Esse comando só pode ser executado em mensagem privada.') 
+
     def private(m):
         return message.author != user
 
 
     msg_modo = await message_handler.send_ask_question(client, private, 10, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
     if msg_modo == 'criar':
-        await message_handler.send_message_private(message, user,f'Criando job no modo: {msg_modo}')
+        await message_handler.send_message_private(message, user, f'Criando job no modo: {msg_modo}')
 
         msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
@@ -134,7 +137,7 @@ async def job(command : command_model, message, user, client):
 
     elif msg_modo == 'deletar':
         await message_handler.send_message_private(message, user,f'Deletando job no modo: {msg_modo}')
-        
+
         id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
