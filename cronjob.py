@@ -41,7 +41,7 @@ def Start():
             jobs.append(job)
     while True:
         for job in jobs:
-            if job.enabled == 1 and pycron.has_been(job.expression, date_started):
+            if job.enabled == 1 and pycron.is_now(job.expression):
                 data_atual = datetime.now()
                 data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M')
                 if len(job.command) > 1:
