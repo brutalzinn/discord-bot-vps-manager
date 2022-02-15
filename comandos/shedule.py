@@ -23,8 +23,8 @@ async def job(command : command_model, message, user, client):
 
 
     msg_modo = await message_handler.send_ask_question(client, private, 10, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
-    await message_handler.send_message_private(message, user,f'Criando job no modo: {msg_modo}')
     if msg_modo == 'criar':
+        await message_handler.send_message_private(message, user,f'Criando job no modo: {msg_modo}')
 
         msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
@@ -67,12 +67,12 @@ async def job(command : command_model, message, user, client):
             await message_handler.send_message_private(message, user, d)
 
     elif msg_modo == 'atualizar':
-        
+
         cronjob.UpdateJobs()
         await message_handler.send_message_private(message, user, 'Todos os jobs foram atualizados.')
 
     elif msg_modo == 'editar':
-
+        await message_handler.send_message_private(message, user,f'Editando job no modo: {msg_modo}')
         id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
@@ -133,7 +133,8 @@ async def job(command : command_model, message, user, client):
         cronjob.UpdateJobs()
 
     elif msg_modo == 'deletar':
-        s = []
+        await message_handler.send_message_private(message, user,f'Deletando job no modo: {msg_modo}')
+        
         id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
