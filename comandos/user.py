@@ -1,3 +1,5 @@
+import random
+import string
 import message_handler
 from psutil._common import bytes2human
 from models.commands.command_model import command_model
@@ -34,18 +36,28 @@ async def ajuda(command : command_model, message, user, client):
     await message_handler.send_message_normal(message,  user,   resultado)
     
 async def key_gen(command : command_model, message, user, client):
+    random_session = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 10)) 
     with config.engine.connect() as conn:
-      result = conn.execute(config.text(f"select * from usuario where discord_id='{command.author}'"))
-      row = result.fetchone()
+      query = conn.execute(config.text(f"select * from usuario where discord_id='{command.author}'"))
+      row = query.fetchone()
       if row is None:
         await message_handler.send_message_private(message, user, 'Você não foi encontrado no banco de dados.. :(')
         return
+      query = conn.execute(config.text(f"SELECT count(*) as allcount from usuario_token where discord_id='{command.author}'"))
+      row_update = query.fetchone()
+      if row_update._mapping['allcount'] > 0:
+          conn.execute(config.text(f"UPDATE usuario_token SET token='{random_session}' WHERE discord_id='{command.author}'"))
+      else:
+          conn.execute(config.text(f"INSERT INTO usuario_token(discord_id,token) values ('{command.author}','{random_session}')"))
+
     discord_id = row._mapping['discord_id']
     nivel = row._mapping['nivel']
     email = row._mapping['email']
     whitelist = row._mapping['whitelist']
-    payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email}
-    await message_handler.send_message_normal(message,  user, config.jwt.gerar_jwt(payload, 1440))
+
+    payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email, "session_id":random_session}
+    
+    await message_handler.send_message_private(message,  user, config.jwt.gerar_jwt(payload, 1440))
 
 def register(commands : command_register):
     args_register = command_args_register()
