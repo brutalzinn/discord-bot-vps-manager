@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS usuario_token
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     discord_id text,
     token text,
+    origin text,
     timemodified timestamp NULL DEFAULT null,
     CONSTRAINT usuario_token_pkey PRIMARY KEY (id)
 );

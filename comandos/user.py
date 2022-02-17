@@ -43,12 +43,12 @@ async def key_gen(command : command_model, message, user, client):
       if row is None:
         await message_handler.send_message_private(message, user, 'Você não foi encontrado no banco de dados.. :(')
         return
-      query = conn.execute(config.text(f"SELECT count(*) as allcount from usuario_token where discord_id='{command.author}'"))
+      query = conn.execute(config.text(f"SELECT count(*) as allcount from usuario_token where discord_id='{command.author}' AND origin='mod_creator'"))
       row_update = query.fetchone()
       if row_update._mapping['allcount'] > 0:
-          conn.execute(config.text(f"UPDATE usuario_token SET token='{random_session}' WHERE discord_id='{command.author}'"))
+          conn.execute(config.text(f"UPDATE usuario_token SET token='{random_session}' WHERE discord_id='{command.author}' AND origin='mod_creator'"))
       else:
-          conn.execute(config.text(f"INSERT INTO usuario_token(discord_id,token) values ('{command.author}','{random_session}')"))
+          conn.execute(config.text(f"INSERT INTO usuario_token(discord_id,token,origin) values ('{command.author}','{random_session}','mod_creator')"))
 
     discord_id = row._mapping['discord_id']
     nivel = row._mapping['nivel']
