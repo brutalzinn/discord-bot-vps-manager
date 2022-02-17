@@ -1,3 +1,4 @@
+import os
 import random
 import string
 import message_handler
@@ -7,6 +8,7 @@ from models.commands.command_register import command_register
 from models.commands.command_args import command_args
 from models.commands.command_args_register import command_args_register
 import config
+import jwt_handler
 
 async def ajuda(command : command_model, message, user, client):
     resultado = ''
@@ -56,8 +58,8 @@ async def key_gen(command : command_model, message, user, client):
     whitelist = row._mapping['whitelist']
 
     payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email, "session_id":random_session}
-    
-    await message_handler.send_message_private(message,  user, config.jwt.gerar_jwt(payload, 1440))
+    jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_API_SECRET'))    
+    await message_handler.send_message_private(message,  user, jwt.gerar_jwt(payload, 1440))
 
 def register(commands : command_register):
     args_register = command_args_register()
