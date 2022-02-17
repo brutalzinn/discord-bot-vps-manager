@@ -381,12 +381,12 @@ catch (Exception $e) {
 
 
 $conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
-$result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
+$result = pg_query($conn,"SELECT count(*) as allcount from usuario_token where discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."' AND origin='boberto'");
 $row_token = pg_fetch_assoc($result);
 if($row_token['allcount'] > 0){
-    pg_query($conn, "UPDATE usuario_token SET token='".$_SESSION[FM_SESSION_ID]['session_id']."' WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
+    pg_query($conn, "UPDATE usuario_token SET token='".$_SESSION[FM_SESSION_ID]['session_id']."' WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."' AND origin='boberto'");
 }else{
-    pg_query($conn, "INSERT INTO usuario_token(discord_id,token) values ('".$_SESSION[FM_SESSION_ID]['discord_id']."','".$_SESSION[FM_SESSION_ID]['session_id']."')");
+    pg_query($conn, "INSERT INTO usuario_token(discord_id,token,origin) values ('".$_SESSION[FM_SESSION_ID]['discord_id']."','".$_SESSION[FM_SESSION_ID]['session_id']."', 'boberto')");
 }
 fm_redirect(FM_SELF_URL . '?p=');
 }
@@ -403,7 +403,7 @@ if(isset($_GET['user'])){
 if (isset($_SESSION[FM_SESSION_ID]['logged'])) {
 $date = date("dMy-His");
 $conn = pg_connect(HOSTSTRING) or die("Deu erro de comunicação com o banco");
-$result = pg_query($conn,"SELECT token FROM usuario_token WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."'");
+$result = pg_query($conn,"SELECT token FROM usuario_token WHERE discord_id='".$_SESSION[FM_SESSION_ID]['discord_id']."' AND origin='boberto'");
 $row_token = pg_fetch_assoc($result);
 if($row_token > 0){
     $token = $row_token['token']; 

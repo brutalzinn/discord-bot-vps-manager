@@ -13,7 +13,7 @@ async def edit(command : command_model, message, user, client):
       await message.channel.send('Esse comando só pode ser executado em mensagem privada.') 
     await message_handler.send_message_private(message, user, 'Esse link será expirado em 60 segundos.')
     with config.engine.connect() as conn:
-      result = conn.execute(config.text(f"select * from usuario where discord_id='{command.author}'"))
+      result = conn.execute(config.text(f"select * from usuario WHERE discord_id='{command.author}'"))
       row = result.fetchone()
       if row is None:
         await message_handler.send_message_private(message, user, 'Você não foi encontrado no banco de dados.. :(')
