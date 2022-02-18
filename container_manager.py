@@ -3,7 +3,7 @@ from config import dockerClient, docker
 
 def create_container(path, servername, port, environment):
     try:
-        dockerClient.containers.run(image="itzg/minecraft-server:java8", name=servername, ports={f'{port}/tcp': port},                                    
+        dockerClient.containers.run(image="itzg/minecraft-server:java8",tty=True,stdin_open=True, name=servername, ports={f'{port}/tcp': port},                                    
                                      environment=environment, volumes={path: {'bind': '/data', 'mode': 'rw'}},
                                     detach=True)
         return {"status":True}
