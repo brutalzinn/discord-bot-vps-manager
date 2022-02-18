@@ -1,16 +1,16 @@
 from models.commands.command_model import command_model
 import discord
 
-async def send_message_private(message, user, resposta = ''):
+async def send_message_private(message_channel, user, message = ''):
 
-    if isinstance(message.channel, discord.channel.DMChannel) and message.author != user:
-        await message.channel.send(resposta)
+    if isinstance(message_channel.channel, discord.channel.DMChannel) and message_channel.author != user:
+        await message_channel.channel.send(message)
 
-async def send_message_normal(message, user, resposta = ''):
-        await message.channel.send(resposta)
+async def send_message_normal(message_channel, user, message = ''):
+        await message_channel.channel.send(message)
 
 
-async def send_ask_question(client, check, timeout, message_channel, user, ask):
+async def send_ask_question(client, timeout, message_channel, user, ask):
     '''
     Send a ask question to discord bot. Originally created to be used with Boberto bot.
     @input:
@@ -23,7 +23,7 @@ async def send_ask_question(client, check, timeout, message_channel, user, ask):
     @output: user response
     '''
     await send_message_private(message_channel, user, ask)
-    wait_reply = await client.wait_for('message', check=check,timeout=timeout)
+    wait_reply = await client.wait_for('message', check=lambda message: message.author != user)
     return wait_reply.content
 
 def isPrivate(message, user):

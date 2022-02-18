@@ -62,7 +62,7 @@ async def start(command : command_model, message, user, client):
 
 
 async def create(command : command_model, message, user, client):
-    environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "FORGEVERSION": "36.1.32", "ONLINE_MODE": "FALSE"}
+    environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "FORGEVERSION": "36.1.32", "ONLINE_MODE": "FALSE", "USE_AIKAR_FLAGS":"TRUE"}
     new_args = command.args[2:]
     print(new_args)
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
@@ -87,7 +87,8 @@ async def create(command : command_model, message, user, client):
 
     environment['FORGEVERSION'] = versaoforge
     environment['VERSION'] = versao
-    environment['MEMORY'] = f'{memoria}G'
+    environment['INIT_MEMORY'] = f'4G'
+    environment['MAX_MEMORY'] = f'{memoria}G'
     resultado = create_container(server_path,nome,porta,environment)
     print('chamando docker create..')
     if resultado['status']:

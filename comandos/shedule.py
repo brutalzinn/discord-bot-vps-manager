@@ -21,31 +21,30 @@ async def job(command : command_model, message, user, client):
     if not message_handler.isPrivate(message, user):
       await message_handler.send_message_normal(message, user, 'Esse comando só pode ser executado em mensagem privada.') 
 
-    def private(m):
-        return message.author != user
+    new_args = command.args[1:]
+    msg_modo = new_args[command.command_args.get_arg_unique('nome').index]   
 
-
-    msg_modo = await message_handler.send_ask_question(client, private, 10, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
+  #  msg_modo = await message_handler.send_ask_question(client, private, 30, message, user, 'digite criar/editar/listar ou deletar para gerenciamento de jobs')
     if msg_modo == 'criar':
         await message_handler.send_message_private(message, user, f'Criando job no modo: {msg_modo}')
 
-        msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
+        msg_name = await message_handler.send_ask_question(client, 30, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
 
-        msg_desc = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma descrição para o job ser criado.')
+        msg_desc = await message_handler.send_ask_question(client, 30, message, user, 'Digite uma descrição para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')
 
-        msg_server = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um container para o job ser criado.')
+        msg_server = await message_handler.send_ask_question(client, 30, message, user, 'Digite um container para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Container: {msg_server}')
 
-        msg_expression = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma expressão cron para o job ser criado.')
+        msg_expression = await message_handler.send_ask_question(client, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
 
-        msg_command = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um comando o job ser criado.')
+        msg_command = await message_handler.send_ask_question(client, 30, message, user, 'Digite um comando o job ser criado.')
         await message_handler.send_message_private(message, user,f'Comando: {msg_command}')
         commands = msg_command.split(',')
 
-        msg_enabled = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um enabled o job ser criado.')
+        msg_enabled = await message_handler.send_ask_question(client, 30, message, user, 'Digite um enabled o job ser criado.')
         await message_handler.send_message_private(message, user,f'Status cron: {msg_enabled}')
 
         with config.engine.connect() as conn:
@@ -62,7 +61,9 @@ async def job(command : command_model, message, user, client):
         with config.engine.connect() as conn:
             result = conn.execute(config.text(f"select id, name, description, server, expression, enabled from jobs"))
             rows = result.fetchall()
- 
+            if len(rows) == 0:
+                await message_handler.send_message_private(message, user, 'Nenhum job registrado :(')
+                return
             for user in rows:
                 s.append('   '.join([str(item).center(0, ' ') for item in user]))
 
@@ -76,7 +77,7 @@ async def job(command : command_model, message, user, client):
 
     elif msg_modo == 'editar':
         await message_handler.send_message_private(message, user,f'Editando job no modo: {msg_modo}')
-        id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
+        id = await message_handler.send_ask_question(client, 30, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
             return
@@ -90,34 +91,34 @@ async def job(command : command_model, message, user, client):
 
         update = []
 
-        msg_name = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um nome para o job ser criado.')
+        msg_name = await message_handler.send_ask_question(client, 30, message, user, 'Digite um nome para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Nome: {msg_name}')
         if not msg_name.startswith('x'):
             update.append(f"name='{msg_name}'")
 
-        msg_desc = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma descrição para o job ser criado.')
+        msg_desc = await message_handler.send_ask_question(client, 30, message, user, 'Digite uma descrição para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Descrição: {msg_desc}')        
         if not msg_desc.startswith('x'):
             update.append(f"description='{msg_desc}'")
             
-        msg_server = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um container para o job ser criado.')
+        msg_server = await message_handler.send_ask_question(client, 30, message, user, 'Digite um container para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Container: {msg_server}')
         if not msg_server.startswith('x'):
             update.append(f"server='{msg_server}'")
 
-        msg_expression = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite uma expressão cron para o job ser criado.')
+        msg_expression = await message_handler.send_ask_question(client, 30, message, user, 'Digite uma expressão cron para o job ser criado.')
         await message_handler.send_message_private(message, user,f'Expressão cron: {msg_expression}')
         if not msg_expression.startswith('x'):
             update.append(f"expression='{msg_expression}'")
 
-        msg_command = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite um comando o job ser criado.')
+        msg_command = await message_handler.send_ask_question(client, 30, message, user, 'Digite um comando o job ser criado.')
         await message_handler.send_message_private(message, user,f'Comando: {msg_command}')
         if not msg_command.startswith('x'):
             commands = msg_command.split(',')
             update.append(f"command='{json.dumps(commands)}'")
         
 
-        msg_enabled = await message_handler.send_ask_question(client, private, 30, message, user, 'Digite 1 ou 0 para ativar/desativar o job')
+        msg_enabled = await message_handler.send_ask_question(client, 30, message, user, 'Digite 1 ou 0 para ativar/desativar o job')
         await message_handler.send_message_private(message, user,f'Você escolheu: {msg_enabled}')       
         if not msg_enabled.startswith('x'):
             update.append(f"enabled='{msg_enabled}'")
@@ -138,7 +139,7 @@ async def job(command : command_model, message, user, client):
     elif msg_modo == 'deletar':
         await message_handler.send_message_private(message, user,f'Deletando job no modo: {msg_modo}')
 
-        id = await message_handler.send_ask_question(client, private, 10, message, user, 'Digite o id do job.')
+        id = await message_handler.send_ask_question(client, 30, message, user, 'Digite o id do job.')
         if id.isdigit() is False:
             await message_handler.send_message_private(message, user, 'É necessário que o id seja um número.')
             return
@@ -150,5 +151,8 @@ async def job(command : command_model, message, user, client):
             cronjob.UpdateJobs()
 
 def register(commands : command_register):
-    command_model('job', method=job, descricao="criar/editar/listar/deletar/atualizar job", register=commands)
+
+    args_default = command_args_register()  
+    args_default.addArg(command_args(unique_id='nome', name='nome da ação',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
+    command_model('job', method=job, descricao="criar/editar/listar/deletar/atualizar job", register=commands,command_args=args_default, private=True)
   
