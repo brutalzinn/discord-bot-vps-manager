@@ -62,14 +62,19 @@ async def start(command : command_model, message, user, client):
 
 
 async def create(command : command_model, message, user, client):
-    environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "FORGEVERSION": "36.1.32", "ONLINE_MODE": "FALSE", "USE_AIKAR_FLAGS":"TRUE", "EXEC_DIRECTLY":"TRUE"}
+    environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "ONLINE_MODE": "FALSE", "USE_AIKAR_FLAGS":"TRUE", "EXEC_DIRECTLY":"TRUE"}
     new_args = command.args[2:]
     print(new_args)
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
     porta = new_args[command.command_args.get_arg_unique('porta').index]     
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
-    versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]     
-    memoria = new_args[command.command_args.get_arg_unique('memoria').index]  
+    memoria = new_args[command.command_args.get_arg_unique('memoria').index]
+
+    if len(new_args) == 5:
+        versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]
+        environment['FORGEVERSION'] = versaoforge
+        environment['TYPE'] = "FORGE"
+
     if int(memoria) > 7:
         await message_handler.send_message_normal(message,  user, f'Memória limite atingida. Use menos de 6G')
         return
@@ -85,7 +90,7 @@ async def create(command : command_model, message, user, client):
         os.mkdir(server_path)
         await message_handler.send_message_normal(message,  user, f'Preparando servidor {nome}')
 
-    environment['FORGEVERSION'] = versaoforge
+    
     environment['VERSION'] = versao
     environment['INIT_MEMORY'] = f'4G'
     environment['MAX_MEMORY'] = f'{memoria}G'
@@ -119,8 +124,9 @@ def register(commands : command_register):
   args_create.addArg(command_args(unique_id='nome', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='porta', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='versao', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
-  args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='memoria', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
+  args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
+
   command_model(optional_alias='minecraft', alias='create',descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)
 
   
