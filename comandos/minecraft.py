@@ -62,15 +62,19 @@ async def start(command : command_model, message, user, client):
 
 
 async def create(command : command_model, message, user, client):
-    environment = {"EULA": "TRUE", "TYPE": "FORGE", "VERSION": "1.16.5", "ONLINE_MODE": "FALSE", "USE_AIKAR_FLAGS":"TRUE", "EXEC_DIRECTLY":"TRUE"}
+    environment = {"EULA": "TRUE", "ONLINE_MODE": "FALSE", "USE_AIKAR_FLAGS":"TRUE", "EXEC_DIRECTLY":"TRUE"}
     new_args = command.args[2:]
+    versaojava = "latest"
     print(new_args)
     nome = new_args[command.command_args.get_arg_unique('nome').index]     
     porta = new_args[command.command_args.get_arg_unique('porta').index]     
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
     memoria = new_args[command.command_args.get_arg_unique('memoria').index]
-
     if len(new_args) == 5:
+        versaojava = new_args[command.command_args.get_arg_unique('versaojava').index]
+        
+
+    if len(new_args) == 6:
         versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]
         environment['FORGEVERSION'] = versaoforge
         environment['TYPE'] = "FORGE"
@@ -94,7 +98,7 @@ async def create(command : command_model, message, user, client):
     environment['VERSION'] = versao
     environment['INIT_MEMORY'] = f'4G'
     environment['MAX_MEMORY'] = f'{memoria}G'
-    resultado = create_container(server_path,nome,porta,environment)
+    resultado = create_container(server_path, versaojava, nome,porta,environment)
     print('chamando docker create..')
     if resultado['status']:
         await message_handler.send_message_normal(message,  user, f'Servidor criado.. {nome}')
@@ -125,6 +129,7 @@ def register(commands : command_register):
   args_create.addArg(command_args(unique_id='porta', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='versao', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='memoria', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
+  args_create.addArg(command_args(unique_id='versaojava', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
   args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
 
   command_model(optional_alias='minecraft', alias='create',descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)

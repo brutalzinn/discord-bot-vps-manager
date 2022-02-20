@@ -1,9 +1,9 @@
 from sys import flags
 from config import dockerClient, docker
 
-def create_container(path, servername, port, environment):
+def create_container(path, java_version, servername, port, environment):
     try:
-        dockerClient.containers.run(image="itzg/minecraft-server:java8",tty=True,stdin_open=True, name=servername, ports={f'{port}/tcp': port},                                    
+        dockerClient.containers.run(image=f"itzg/minecraft-server:{java_version}",tty=True,stdin_open=True, name=servername, ports={f'{port}/tcp': port},                                    
                                      environment=environment, volumes={path: {'bind': '/data', 'mode': 'rw'}},
                                     detach=True)
         return {"status":True}
@@ -13,7 +13,7 @@ def create_container(path, servername, port, environment):
     except docker.errors.ImageNotFound as err:
         print("Puxando imagem itzg/minecraft-server")
         print(err)
-        dockerClient.images.pull("itzg/minecraft-server")
+        dockerClient.images.pull(f"itzg/minecraft-server:{java_version}")
         return {"status":False,"mensagem":"Imagem itzg/minecraft-server não encontrada. A imagem foi instalada e pronta para ser usada. \n execute esse comando novamente."}
 
 def restart_container(servername):
@@ -72,7 +72,7 @@ def get_container_data(name):
 
 def list_container():
     list = ''
-    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server:java8"})
+    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
     if len(containerList) == 0:
         list = 'Nenhum servidor criado.'
     for item in containerList:
