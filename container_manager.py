@@ -4,7 +4,7 @@ from config import dockerClient, docker
 def create_container(path, java_version, servername, port, environment):
     try:
         dockerClient.containers.run(image=f"itzg/minecraft-server:{java_version}",tty=True,stdin_open=True, name=servername, ports={f'{port}/tcp': port},                                    
-                                     environment=environment, volumes={path: {'bind': '/data', 'mode': 'rw'}},
+                                     environment=environment,labels={"servidor": "minecraft"}, volumes={path: {'bind': '/data', 'mode': 'rw'}},
                                     detach=True)
         return {"status":True}
     except Exception as err:
@@ -49,7 +49,7 @@ def stop_container(servername):
         return str(err)
     
 def get_container(name):
-    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server:java8"})
+    containerList = dockerClient.containers.list(all=True, filters={"label": {"servidor": "minecraft"}})
     if len(containerList) == 0:
         return None
     for item in containerList:
@@ -72,7 +72,7 @@ def get_container_data(name):
 
 def list_container():
     list = ''
-    containerList = dockerClient.containers.list(all=True, filters={"ancestor": "itzg/minecraft-server"})
+    containerList = dockerClient.containers.list(all=True, filters={"label": {"servidor": "minecraft"}})
     if len(containerList) == 0:
         list = 'Nenhum servidor criado.'
     for item in containerList:
