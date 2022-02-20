@@ -49,7 +49,7 @@ def stop_container(servername):
         return str(err)
     
 def get_container(name):
-    containerList = dockerClient.containers.list(all=True, filters={"label": {"servidor": "minecraft"}})
+    containerList = dockerClient.containers.list(all=True, filters={"label": "servidor=minecraft"})
     if len(containerList) == 0:
         return None
     for item in containerList:
