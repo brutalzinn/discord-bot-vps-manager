@@ -5,6 +5,9 @@ class command_args_register:
     def addArg(self, command_args):
         self.allArgs.append(command_args)
 
+    def getArgsCount(self):
+        return len(self.allArgs)
+
     def getArgs(self):
         return self.allArgs
 

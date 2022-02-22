@@ -117,12 +117,12 @@ def register(commands : command_register):
   args_default = command_args_register()  
   args_default.addArg(command_args(unique_id='nome', name='nome do servidor',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   
-  command_model(obrigatory_alias='minecraft', alias='status',descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands, command_args=args_default)
-  command_model(obrigatory_alias='minecraft', alias='list', descricao="Exibir uma lista de servidores de minecraft", method=list, register=commands)
-  command_model(obrigatory_alias='minecraft', alias='stop', descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", method=stop, register=commands, command_args=args_default) 
-  command_model(obrigatory_alias='minecraft', alias='start',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands, command_args=args_default)
-  command_model(obrigatory_alias='minecraft', alias='remove',descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=remove, register=commands, command_args=args_default)
-  command_model(obrigatory_alias='minecraft', alias='console',descricao="abrir um console \n uso: minecraft console <nome>", method=console, register=commands, command_args=args_default)
+  command_model(alias=['minecraft', 'status'],descricao="Exibir status do servidor de minecraft \n uso: minecraft status <nome>", method=status, register=commands, command_args=args_default)
+  command_model(alias=['minecraft', 'list'], descricao="Exibir uma lista de servidores de minecraft", method=list, register=commands)
+  command_model(alias=['minecraft', 'stop'], descricao="Parar um servidor de minecraft \n uso: minecraft stop <nome>", method=stop, register=commands, command_args=args_default) 
+  command_model(alias=['minecraft', 'start'],descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=start, register=commands, command_args=args_default)
+  command_model(alias=['minecraft', 'remove'],descricao="Iniciar um servidor de minecraft \n uso: minecraft start <nome>", method=remove, register=commands, command_args=args_default)
+  command_model(alias=['minecraft', 'console'],descricao="abrir um console \n uso: minecraft console <nome>", method=console, register=commands, command_args=args_default)
 
   
   args_create = command_args_register()
@@ -133,6 +133,6 @@ def register(commands : command_register):
   args_create.addArg(command_args(unique_id='versaojava', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
   args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
 
-  command_model(obrigatory_alias='minecraft', alias='create',descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)
+  command_model(alias=['minecraft', 'create'],descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)
 
   

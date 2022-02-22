@@ -13,6 +13,7 @@ class command_model:
                  private = False, descricao = ''):
 
         self.command_args = command_args
+        self.max_arg = command_args.getArgsCount() if command_args != False else 0
         self.alias = alias if type(alias) is list else [alias]
         self.method = method
         self.nivel = nivel
@@ -21,7 +22,7 @@ class command_model:
         self.private = private
         self.obrigatory_alias = obrigatory_alias
         self.min_arg = min_arg
-        self.max_arg = 10#len(args.getArgs())
+       #len(args.getArgs())
         register.addCommand(self)
         self.register = register
 

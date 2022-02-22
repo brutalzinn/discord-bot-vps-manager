@@ -154,5 +154,5 @@ def register(commands : command_register):
 
     args_default = command_args_register()  
     args_default.addArg(command_args(unique_id='nome', name='nome da ação',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
-    command_model('job', method=job, descricao="criar/editar/listar/deletar/atualizar job", register=commands,command_args=args_default, private=True)
+    command_model(['job'], method=job, descricao="criar/editar/listar/deletar/atualizar job", register=commands,command_args=args_default, private=True)
   

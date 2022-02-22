@@ -22,6 +22,6 @@ async def mem(command : command_model, message, user, client):
 
   
 def register(commands : command_register):
-  command_model('cpu',method=cpu, descricao="Exibir uso de cpu do servidor", register=commands)
-  command_model('ram', method=mem, descricao="Exibir uso de memória do servidor", register=commands)
+  command_model(['cpu'],method=cpu, descricao="Exibir uso de cpu do servidor", register=commands)
+  command_model(['ram'], method=mem, descricao="Exibir uso de memória do servidor", register=commands)
   
