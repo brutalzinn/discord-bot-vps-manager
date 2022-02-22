@@ -61,8 +61,15 @@ async def key_gen(command : command_model, message, user, client):
     jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_API_SECRET'))    
     await message_handler.send_message_private(message,  user, jwt.gerar_jwt(payload, 1440))
 
+
+async def downloads(command : command_model, message, user, client):
+    message = "Baixe o launcher em https://github.com/brutalzinn/boberto-minecraft-launcher/releases"
+    await message_handler.send_message_private(message,  user, message)
+
 def register(commands : command_register):
     args_register = command_args_register()
     args_register.addArg(command_args(unique_id='nome_comando', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.'))
+   
     command_model('ajuda', method=ajuda, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register)
+    command_model('download', method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
     command_model('login', method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register, private=True)
