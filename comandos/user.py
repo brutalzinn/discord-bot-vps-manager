@@ -63,8 +63,13 @@ async def key_gen(command : command_model, message, user, client):
 
 
 async def downloads(command : command_model, message, user, client):
-    message = "Baixe o launcher em https://github.com/brutalzinn/boberto-minecraft-launcher/releases"
-    await message_handler.send_message_private(message,  user, message)
+    response = "Baixe o launcher em https://github.com/brutalzinn/boberto-minecraft-launcher/releases"
+    await message_handler.send_message_private(message,  user, response)
+
+async def teste(command : command_model, message, user, client):
+    new_args = command.args[1:]
+    response = f"Pong! {new_args}"
+    await message_handler.send_message_private(message,  user, response)
 
 def register(commands : command_register):
     args_register = command_args_register()
@@ -73,3 +78,6 @@ def register(commands : command_register):
     command_model('ajuda', method=ajuda, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register)
     command_model('download', method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
     command_model('login', method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register, private=True)
+   ## teste
+   
+    command_model(['teste', 'test'], method=teste, descricao="Exibir todos os comandos e opções de ajuda", register=commands)

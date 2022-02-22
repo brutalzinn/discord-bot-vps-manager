@@ -4,7 +4,7 @@ from models.commands.command_args_register import command_args_register
 import config
 class command_model:
     def __init__(self, 
-                alias :str,
+                alias,
                  min_arg :int = 0, method = False,
                  optional_alias: str = False,
                  register: command_register = False,
@@ -13,7 +13,7 @@ class command_model:
                  private = False, descricao = ''):
 
         self.command_args = command_args
-        self.alias = alias
+        self.alias = alias if type(alias) is list else [alias]
         self.method = method
         self.nivel = nivel
         self.descricao = descricao + '\n'
