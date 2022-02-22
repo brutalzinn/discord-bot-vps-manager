@@ -64,7 +64,7 @@ async def key_gen(command : command_model, message, user, client):
 
 async def downloads(command : command_model, message, user, client):
     response = "Baixe o launcher em https://github.com/brutalzinn/boberto-minecraft-launcher/releases"
-    await message_handler.send_message_private(message,  user, response)
+    await message_handler.send_message_normal(message,  user, response)
 
 async def teste(command : command_model, message, user, client):
     new_args = command.args[1:]

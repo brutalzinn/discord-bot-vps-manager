@@ -6,7 +6,7 @@ class command_model:
     def __init__(self, 
                 alias,
                  min_arg :int = 0, method = False,
-                 optional_alias: str = False,
+                 obrigatory_alias: str = False,
                  register: command_register = False,
                  command_args: command_args_register = False,
                  nivel = 0,
@@ -19,7 +19,7 @@ class command_model:
         self.descricao = descricao + '\n'
         self.author = None
         self.private = private
-        self.optional_alias = optional_alias
+        self.obrigatory_alias = obrigatory_alias
         self.min_arg = min_arg
         self.max_arg = 10#len(args.getArgs())
         register.addCommand(self)
