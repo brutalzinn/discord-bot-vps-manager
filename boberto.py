@@ -42,7 +42,7 @@ client = Boberto()
 # except:
 #     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 #     pass
-#Thread(target=Start).start()
+Thread(target=Start).start()
 #thread.join()
 try:
    
