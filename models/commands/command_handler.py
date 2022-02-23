@@ -13,7 +13,7 @@ class command_handler:
             s1+=i
         for i in all_args:
             s2+=i
-        return s1==s2
+        return s2 in s1
 
     def checkCommand(self, args, author):
         try:

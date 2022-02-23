@@ -5,15 +5,16 @@ import config
 class command_model:
     def __init__(self, 
                 alias,
-                 min_arg :int = 0, method = False,
+                 min_arg :int = 0, 
+                 method = False,
                  obrigatory_alias: str = False,
                  register: command_register = False,
                  command_args: command_args_register = False,
                  nivel = 0,
                  private = False, descricao = ''):
 
-        self.command_args = command_args
         self.max_arg = command_args.getArgsCount() if command_args != False else 0
+        self.min_arg = min_arg
         self.alias = alias if type(alias) is list else [alias]
         self.method = method
         self.nivel = nivel
@@ -21,8 +22,8 @@ class command_model:
         self.author = None
         self.private = private
         self.obrigatory_alias = obrigatory_alias
-        self.min_arg = min_arg
        #len(args.getArgs())
+        self.command_args = command_args
         register.addCommand(self)
         self.register = register
 

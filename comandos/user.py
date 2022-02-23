@@ -86,7 +86,7 @@ def register(commands : command_register):
    
     command_model(['ajuda'], method=ajuda, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register)
     command_model(['baix', 'baixar'], method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
-    command_model('login', method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands, private=True)
+    command_model('login', method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
    ## teste
    
     command_model(['teste', 'test'], method=teste, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
