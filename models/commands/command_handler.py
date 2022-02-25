@@ -8,7 +8,17 @@ class command_handler:
     def solve(self, command: command_model, args):
         s1=''
         s2=''
-        all_args = args[:-command.max_arg] if command.max_arg > 0 else args
+        all_args = []
+        if command.command_args != False:
+            args_optional = command.command_args.getOptionalArgsLen()
+            if args_optional > 0:
+            print(args_optional)
+
+            all_args = args[:-command.max_arg]
+        else:
+            all_args = args
+
+    
         for i in command.alias:
             s1+=i
         for i in all_args:

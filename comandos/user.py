@@ -82,7 +82,7 @@ async def teste(command : command_model, message, user, client):
 
 def register(commands : command_register):
     args_register = command_args_register()
-    args_register.addArg(command_args(unique_id='nome_comando', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.'))
+    args_register.addArg(command_args(unique_id='nome_comando', name='nome do comando',required=False, type_var='str',help='Exibe uma ajuda sobre um comando específico.'))
    
     command_model(['ajuda'], method=ajuda, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register)
     command_model(['baix', 'baixar'], method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)

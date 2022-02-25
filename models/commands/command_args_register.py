@@ -11,6 +11,14 @@ class command_args_register:
     def getArgs(self):
         return self.allArgs
 
+    def getOptionalArgsLen(self):
+        args = []
+        for idx, arg in enumerate(self.allArgs):
+            if arg.required == False:
+                arg.index = idx
+                args.append(arg)
+        return args
+
     def get_arg_unique(self, unique_id):
         for idx, arg in enumerate(self.allArgs):
             if arg.unique_id == unique_id:
