@@ -11,6 +11,8 @@ import requests
 from sqlalchemy import event, text,create_engine
 from dotenv import load_dotenv
 import logging
+from threading import Thread
+from cronjob import Start
 logging.basicConfig(filename='debug.log', level=logging.DEBUG)
 load_dotenv()
 discordToken = os.getenv('DISCORD_TOKEN')
@@ -41,6 +43,12 @@ def discord_notification(message):
     if 'PRODUCTION' in enviroment:
         myobj = {'content': message}
         requests.post(discordUrl, data = myobj)
+
+def start_jobs():
+    if 'PRODUCTION' in enviroment:
+        Thread(target=Start).start()
+        discord_notification("Jobs iniciados em thread separada..")
+
 
 
 
