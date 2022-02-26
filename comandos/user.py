@@ -84,9 +84,8 @@ def register(commands : command_register):
     args_register = command_args_register()
     args_register.addArg(command_args(unique_id='nome_comando', name='nome do comando',required=False, type_var='str',help='Exibe uma ajuda sobre um comando específico.'))
    
+    command_model(['baixar'], method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
+    command_model(['login'], method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
+    command_model(['teste'], method=teste, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
     command_model(['ajuda'], method=ajuda, descricao="Exibir todos os comandos e opções de ajuda", register=commands, command_args=args_register)
-    command_model(['baix', 'baixar'], method=downloads, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
-    command_model('login', method=key_gen, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
-   ## teste
-   
-    command_model(['teste', 'test'], method=teste, descricao="Exibir todos os comandos e opções de ajuda", register=commands)
+    

@@ -8,22 +8,24 @@ class command_handler:
     def solve(self, command: command_model, args):
         s1=''
         s2=''
-        all_args = []
-        if command.command_args != False:
-            args_optional = command.command_args.getOptionalArgsLen()
-            if args_optional > 0:
-            print(args_optional)
+       
+        # if command.command_args != False:
+        #     args_optional = command.command_args.getOptionalArgsLen()
+        #     if args_optional > 0:
+        #         all_args = args[:-args_optional]
+        #     else:
+        #         all_args = args[:-command.max_arg]
+        # else:
+        #     all_args = args
+        print(f"args {args}")
+        encontrado = False
+        for idx, arg in enumerate(command.alias):
+            if command.alias[idx] == args[idx]:
+                encontrado = True
+            else:
+                encontrado = False
 
-            all_args = args[:-command.max_arg]
-        else:
-            all_args = args
-
-    
-        for i in command.alias:
-            s1+=i
-        for i in all_args:
-            s2+=i
-        return s2 in s1
+        return encontrado
 
     def checkCommand(self, args, author):
         try:

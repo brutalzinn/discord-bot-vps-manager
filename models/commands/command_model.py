@@ -15,7 +15,7 @@ class command_model:
 
         self.max_arg = command_args.getArgsCount() if command_args != False else 0
         self.min_arg = min_arg
-        self.alias = alias if type(alias) is list else [alias]
+        self.alias = alias
         self.method = method
         self.nivel = nivel
         self.descricao = descricao + '\n'

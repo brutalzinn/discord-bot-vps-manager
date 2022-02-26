@@ -34,5 +34,5 @@ async def edit(command : command_model, message, user, client):
 
     
 def register(commands : command_register):
-  command_model('edit',method=edit, descricao="Abrir editor de arquivos", register=commands, private=True,nivel=3)
+  command_model(['edit'],method=edit, descricao="Abrir editor de arquivos", register=commands, private=True,nivel=3)
   

@@ -42,10 +42,10 @@ client = Boberto()
 # except:
 #     config.discord_notification(f'A API de boberto parou de funcionar.{lastExec}!')
 #     pass
-Thread(target=Start).start()
+#Thread(target=Start).start()
 #thread.join()
 try:
-   
+    print(f'Boberto foi finalmente iniciado em {lastExec}!')
     config.discord_notification(f'Boberto foi finalmente iniciado em {lastExec}!')
     client.run(config.discordToken)
 except:
