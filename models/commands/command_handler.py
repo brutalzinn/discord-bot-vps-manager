@@ -6,13 +6,13 @@ class command_handler:
         self.commands = command_reg.getCommands()
 
     def solve(self, command: command_model, args):
-        encontrado = False
+        found = False
         for idx, arg in enumerate(command.alias):
             if len(args) >= len(command.alias) and command.alias[idx] == args[idx]:
-                encontrado = True
+                found = True
             else:
-                encontrado = False
-        return encontrado
+                found = False
+        return found
 
     def checkCommand(self, args, author):
  
