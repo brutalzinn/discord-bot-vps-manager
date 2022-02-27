@@ -10,6 +10,8 @@ class command_handler:
         for idx, arg in enumerate(command.alias):
             if len(args) >= len(command.alias) and command.alias[idx] == args[idx]:
                 encontrado = True
+            else:
+                encontrado = False
         return encontrado
 
     def checkCommand(self, args, author):
