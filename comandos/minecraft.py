@@ -70,15 +70,15 @@ async def create(command : command_model, message, user, client):
     porta = new_args[command.command_args.get_arg_unique('porta').index]     
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
     memoria = new_args[command.command_args.get_arg_unique('memoria').index]
-    if len(new_args) == 5:
-        versaojava = new_args[command.command_args.get_arg_unique('versaojava').index]
-        
 
-    if len(new_args) == 6:
+    if len(new_args) == 5:
         versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]
         environment['FORGEVERSION'] = versaoforge
         environment['TYPE'] = "FORGE"
         versaojava = "java8"
+
+    if len(new_args) == 6:
+        versaojava = new_args[command.command_args.get_arg_unique('versaojava').index]
 
     if int(memoria) > 7:
         await message_handler.send_message_normal(message,  user, f'Memória limite atingida. Use menos de 6G')
