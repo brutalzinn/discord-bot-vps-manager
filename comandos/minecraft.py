@@ -70,15 +70,17 @@ async def create(command : command_model, message, user, client):
     porta = new_args[command.command_args.get_arg_unique('porta').index]     
     versao = new_args[command.command_args.get_arg_unique('versao').index]     
     memoria = new_args[command.command_args.get_arg_unique('memoria').index]
+    tipo = new_args[command.command_args.get_arg_unique('tipo').index]
 
-    if len(new_args) == 5:
-        versaoforge = new_args[command.command_args.get_arg_unique('versaoforge').index]
+    if tipo == "forge":
+        versaoforge = new_args[command.command_args.get_arg_unique('versaojavaouforge').index]
         environment['FORGEVERSION'] = versaoforge
         environment['TYPE'] = "FORGE"
         versaojava = "java8"
+    else:
+        versaojava = new_args[command.command_args.get_arg_unique('versaojavaouforge').index]
 
-    if len(new_args) == 6:
-        versaojava = new_args[command.command_args.get_arg_unique('versaojava').index]
+        
 
     if int(memoria) > 7:
         await message_handler.send_message_normal(message,  user, f'Memória limite atingida. Use menos de 6G')
@@ -130,8 +132,8 @@ def register(commands : command_register):
   args_create.addArg(command_args(unique_id='porta', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='versao', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
   args_create.addArg(command_args(unique_id='memoria', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=True))
-  args_create.addArg(command_args(unique_id='versaojava', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
-  args_create.addArg(command_args(unique_id='versaoforge', name='nome do comando',type_var='str',help='Exibe uma ajuda sobre um comando específico.',required=False))
+  args_create.addArg(command_args(unique_id='tipo', name='nome do comando',type_var='str',help='Configura o tipo do servidor.', required=True))
+  args_create.addArg(command_args(unique_id='versaojavaouforge', name='nome do comando',type_var='str',help='Versão do forge',required=False))
 
   command_model(alias=['minecraft', 'create'],descricao="Criar um servidor de minecraft \n uso: minecraft start <nome>", method=create, register=commands, command_args=args_create)
 
