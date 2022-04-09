@@ -12,20 +12,20 @@ services:
       - ./web:/var/www/html
       - ./web/config/php.ini:/usr/local/etc/php/php.ini
 
-  boberto-database:
-    container_name: boberto-database
-    image: postgres
-    restart: always
-    networks:
-      - default 
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: boberto
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  # boberto-database:
+  #   container_name: boberto-database
+  #   image: postgres
+  #   restart: always
+  #   networks:
+  #     - default 
+  #   environment:
+  #     POSTGRES_USER: root
+  #     POSTGRES_PASSWORD: root
+  #     POSTGRES_DB: boberto
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   # redis-compose:
   #   image: redis
