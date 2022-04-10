@@ -1,3 +1,4 @@
+redis
 discord.py
 docker
 mcstatus
@@ -11,4 +12,3 @@ flask
 werkzeug
 patool
 pyunpack
-redis
