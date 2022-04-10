@@ -66,7 +66,7 @@ async def key_gen(command : command_model, message, user, client):
 
     payload = {"discord_id": discord_id, "nivel":nivel,"whitelist":whitelist,"email":email, "session_id":random_session}
     jwt = jwt_handler.Gerador_JWT(os.getenv('JWT_API_SECRET'))    
-    await message_handler.send_message_private(message,  user, jwt.gerar_jwt(payload, 1440))
+    await message_handler.send_message_private(message,  user, jwt.gerar_jwt(payload))
 
 
 async def downloads(command : command_model, message, user, client):
