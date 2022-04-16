@@ -6,6 +6,7 @@ from container_manager import list_container, start_container, stop_container, c
 from mcstatus import MinecraftServer
 import message_handler
 import os
+from pathlib import Path
 
 
 async def status(command : command_model, message, user, client):
@@ -87,19 +88,20 @@ async def create(command : command_model, message, user, client):
     await message_handler.send_message_normal(message,  user, f'Criando servidor {nome} ..')
 
 
-    arquivos =  os.path.abspath(os.path.join(os.getenv('PROJECT_ROOT'), 'web','data','servidores'))
-    # if not os.path.isdir(arquivos):
-    #     os.mkdir(arquivos)
+    root_directory = Path(__file__).parent.parent
+    arquivos = os.path.join(root_directory,'web','data','servidores')
+    if not os.path.isdir(arquivos):
+        os.mkdir(arquivos)
     server_path = os.path.join(arquivos, nome)
     if not os.path.isdir(server_path):
         os.mkdir(server_path)
         await message_handler.send_message_normal(message,  user, f'Preparando servidor {nome}')
 
-    
+    docker_volume =  os.path.abspath(os.path.join(os.getenv('PROJECT_ROOT'), 'web','data','servidores', nome))
     environment['VERSION'] = versao
-    # environment['INIT_MEMORY'] = f'4G'
+    environment['INIT_MEMORY'] = f'4G'
     environment['MAX_MEMORY'] = f'{memoria}G'
-    resultado = create_container(server_path, versaojava, nome,porta,environment)
+    resultado = create_container(docker_volume, versaojava, nome,porta,environment)
     print('chamando docker create..')
     if resultado['status']:
         await message_handler.send_message_normal(message,  user, f'Servidor criado.. {nome}')
