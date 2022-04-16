@@ -88,8 +88,8 @@ async def create(command : command_model, message, user, client):
 
 
     arquivos =  os.path.abspath(os.path.join(os.getenv('PROJECT_ROOT'), 'web','data','servidores'))
-    if not os.path.isdir(arquivos):
-        os.mkdir(arquivos)
+    # if not os.path.isdir(arquivos):
+    #     os.mkdir(arquivos)
     server_path = os.path.join(arquivos, nome)
     if not os.path.isdir(server_path):
         os.mkdir(server_path)
