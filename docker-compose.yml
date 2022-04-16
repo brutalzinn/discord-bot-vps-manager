@@ -1,7 +1,7 @@
 version: "3"
 services:
   boberto-web:
-    build: .
+    build: ./web
     ports:
       - "80:80"
     restart: always
@@ -11,6 +11,18 @@ services:
     volumes:
       - ./web:/var/www/html
       - ./web/config/php.ini:/usr/local/etc/php/php.ini
+  boberto-home:
+    build: .
+    container_name: boberto
+    restart: always
+    ports:
+      - '90:90'
+    env_file:
+      - .env
+    volumes:
+      - ./:/code
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # boberto-database:
   #   container_name: boberto-database

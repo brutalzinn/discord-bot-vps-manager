@@ -68,8 +68,6 @@ jobs:
           echo "JWT_API_SECRET=$JWT_API_SECRET" >>/home/brutalzinn/discord/boberto/.env
           echo "ENVIROMENT=PRODUCTION" >>/home/brutalzinn/discord/boberto/.env
 
-
-
     - name: Disparando notificação no Discord pré deploy
       uses: appleboy/ssh-action@master
       env:
@@ -97,7 +95,6 @@ jobs:
           cd /home/brutalzinn/discord/boberto
           bash start.sh
 
-
     - name: Executando docker compose
       uses: appleboy/ssh-action@master
       with:
@@ -108,7 +105,10 @@ jobs:
         script_stop: true
         script: |
           cd /home/brutalzinn/discord/boberto
-          docker-compose up --force-recreate >> error.log 2>&1 &
+          docker-compose down >> compose.log 2>&1 &
+          docker rm -f $(docker ps -a -q) >> compose.log 2>&1 &
+          docker volume rm $(docker volume ls -q) >> compose.log 2>&1 &
+          docker-compose up -d >> compose.log 2>&1 &
 
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
