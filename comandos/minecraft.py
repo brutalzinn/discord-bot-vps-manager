@@ -99,7 +99,7 @@ async def create(command : command_model, message, user, client):
 
     
     environment['VERSION'] = versao
-    environment['INIT_MEMORY'] = f'4G'
+    # environment['INIT_MEMORY'] = f'4G'
     environment['MAX_MEMORY'] = f'{memoria}G'
     resultado = create_container(server_path, versaojava, nome,porta,environment)
     print('chamando docker create..')
