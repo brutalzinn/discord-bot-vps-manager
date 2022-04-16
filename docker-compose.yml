@@ -1,7 +1,9 @@
 version: "3"
 services:
   boberto-web:
-    build: ./web
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
     ports:
       - "80:80"
     restart: always
@@ -13,7 +15,9 @@ services:
       - ./web/config/php.ini:/usr/local/etc/php/php.ini
 
   boberto-home:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: boberto
     restart: always
     env_file:
