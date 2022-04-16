@@ -88,8 +88,7 @@ async def create(command : command_model, message, user, client):
     await message_handler.send_message_normal(message,  user, f'Criando servidor {nome} ..')
 
 
-    root_directory = Path(__file__).parent
-    arquivos = os.path.join(root_directory,'web','data','servidores')
+    arquivos = os.path.join('web','data','servidores')
     if not os.path.isdir(arquivos):
         os.mkdir(arquivos)
     server_path = os.path.join(arquivos, nome)
