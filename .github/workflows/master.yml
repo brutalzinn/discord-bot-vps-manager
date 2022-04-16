@@ -95,8 +95,6 @@ jobs:
         script: |
           cd /home/brutalzinn/discord/boberto
           docker-compose down >> compose.log 2>&1 &
-          docker rm -f $(docker ps -a -q) >> compose.log 2>&1 &
-          docker volume rm $(docker volume ls -q) >> compose.log 2>&1 &
           docker-compose up -d >> compose.log 2>&1 &
 
     - name: Disparando notificação no Discord
