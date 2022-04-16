@@ -6,6 +6,8 @@ on:
     branches:    
       # Push events on main branch
       - master
+env:
+  PROJECT_DIRECTORY: /home/brutalzinn/discord/boberto
 
 jobs:
   build:
@@ -52,21 +54,22 @@ jobs:
         envs: DISCORD_KEY, DISCORD_URL, BOBERTO_JWT, BOBERTO_DATABASE, BOBERTO_USER, BOBERTO_PASSWORD, BOBERTO_PORT, BOBERTO_HOST, URL, API_TOKEN, REDIS_PORT, REDIS_PASSWORD, API_PORT, JWT_API_SECRET
         script: |
           sudo rm -f .env
-          echo "DISCORD_TOKEN=$DISCORD_KEY" >/home/brutalzinn/discord/boberto/.env
-          echo "DISCORD_URL=$DISCORD_URL" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_HOST=$BOBERTO_HOST" >>/home/brutalzinn/discord/boberto/.env
-          echo "JWT_SECRET=$BOBERTO_JWT" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_DATABASE=$BOBERTO_DATABASE" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_USER=$BOBERTO_USER" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>/home/brutalzinn/discord/boberto/.env
-          echo "BOBERTO_PORT=$BOBERTO_PORT" >>/home/brutalzinn/discord/boberto/.env
-          echo "API_PORT=$API_PORT" >>/home/brutalzinn/discord/boberto/.env
-          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >>/home/brutalzinn/discord/boberto/.env
-          echo "REDIS_PORT=$REDIS_PORT" >>/home/brutalzinn/discord/boberto/.env
-          echo "API_TOKEN=$API_TOKEN" >>/home/brutalzinn/discord/boberto/.env
-          echo "URL=$URL" >>/home/brutalzinn/discord/boberto/.env
-          echo "JWT_API_SECRET=$JWT_API_SECRET" >>/home/brutalzinn/discord/boberto/.env
-          echo "ENVIROMENT=PRODUCTION" >>/home/brutalzinn/discord/boberto/.env
+          echo "DISCORD_TOKEN=$DISCORD_KEY" >$PROJECT_DIRECTORY/.env
+          echo "DISCORD_URL=$DISCORD_URL" >>$PROJECT_DIRECTORY/.env
+          echo "BOBERTO_HOST=$BOBERTO_HOST" >>$PROJECT_DIRECTORY/.env
+          echo "JWT_SECRET=$BOBERTO_JWT" >>$PROJECT_DIRECTORY/.env
+          echo "BOBERTO_DATABASE=$BOBERTO_DATABASE" >>$PROJECT_DIRECTORY/.env
+          echo "BOBERTO_USER=$BOBERTO_USER" >>$PROJECT_DIRECTORY/.env
+          echo "BOBERTO_PASSWORD=$BOBERTO_PASSWORD" >>$PROJECT_DIRECTORY/.env
+          echo "BOBERTO_PORT=$BOBERTO_PORT" >>$PROJECT_DIRECTORY/.env
+          echo "API_PORT=$API_PORT" >>$PROJECT_DIRECTORY/.env
+          echo "REDIS_PASSWORD=$REDIS_PASSWORD" >>$PROJECT_DIRECTORY/.env
+          echo "REDIS_PORT=$REDIS_PORT" >>$PROJECT_DIRECTORY/.env
+          echo "API_TOKEN=$API_TOKEN" >>$PROJECT_DIRECTORY/.env
+          echo "URL=$URL" >>$PROJECT_DIRECTORY/.env
+          echo "JWT_API_SECRET=$JWT_API_SECRET" >>$PROJECT_DIRECTORY/.env
+          echo "ENVIROMENT=PRODUCTION" >>$PROJECT_DIRECTORY/.env
+          echo "PROJECT_ROOT=$PROJECT_DIRECTORY" >>$PROJECT_DIRECTORY/.env
 
     - name: Disparando notificação no Discord pré deploy
       uses: appleboy/ssh-action@master
@@ -93,9 +96,9 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script_stop: true
         script: |
-          cd /home/brutalzinn/discord/boberto
+          cd $PROJECT_DIRECTORY
           docker-compose down > compose.log 2>&1 &
-          docker-compose up --build -d >> compose.log 2>&1 &
+          docker-compose up --force-recreate >> compose.log 2>&1 &
 
     - name: Disparando notificação no Discord
       uses: appleboy/ssh-action@master
