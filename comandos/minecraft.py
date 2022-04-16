@@ -6,7 +6,6 @@ from container_manager import list_container, start_container, stop_container, c
 from mcstatus import MinecraftServer
 import message_handler
 import os
-from pathlib import Path
 
 
 async def status(command : command_model, message, user, client):
@@ -88,7 +87,7 @@ async def create(command : command_model, message, user, client):
     await message_handler.send_message_normal(message,  user, f'Criando servidor {nome} ..')
 
 
-    arquivos = os.path.join('web','data','servidores')
+    arquivos =  os.path.abspath(os.path.join('web','data','servidores'))
     if not os.path.isdir(arquivos):
         os.mkdir(arquivos)
     server_path = os.path.join(arquivos, nome)
