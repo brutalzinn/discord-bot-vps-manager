@@ -2,8 +2,10 @@ from sys import flags
 from config import dockerClient, docker
 
 def create_container(path, java_version, servername, port, environment):
+    #tty=True,stdin_open=True
+    print(f"Criando em {path}")
     try:
-        dockerClient.containers.run(image=f"itzg/minecraft-server:{java_version}",labels={"servidor": "minecraft"},tty=True,stdin_open=True, name=servername, ports={f'{port}/tcp': port},                                    
+        dockerClient.containers.run(image=f"itzg/minecraft-server:{java_version}",labels={"servidor": "minecraft"}, name=servername, ports={f'{port}/tcp': port},                                    
                                      environment=environment, volumes={path: {'bind': '/data', 'mode': 'rw'}},
                                     detach=True)
         return {"status":True}
